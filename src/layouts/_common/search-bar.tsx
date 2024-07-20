@@ -4,13 +4,12 @@ import parse from 'autosuggest-highlight/parse';
 import Color from 'color';
 import { CSSProperties, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useBoolean, useEvent, useKeyPressEvent } from 'react-use';
+import { useBoolean, useKeyPressEvent } from 'react-use';
 import styled from 'styled-components';
 
 import { IconButton, SvgIcon } from '@/components/icon';
 import Scrollbar from '@/components/scrollbar';
 import { useFlattenedRoutes, useRouter } from '@/router/hooks';
-import ProTag from '@/theme/antd/components/tag';
 import { useThemeToken } from '@/theme/hooks';
 
 export default function SearchBar() {
@@ -42,14 +41,6 @@ export default function SearchBar() {
     setSearchResult(result);
     setSelectedItemIndex(0);
   }, [searchQuery, t, flattenedRoutes]);
-
-  const handleMetaK = (event: KeyboardEvent) => {
-    if (event.metaKey && event.key === 'k') {
-      // https://developer.mozilla.org/zh-CN/docs/Web/API/KeyboardEvent/metaKey
-      handleOpen();
-    }
-  };
-  useEvent('keydown', handleMetaK);
 
   useKeyPressEvent('ArrowUp', (event) => {
     if (!search) return;
@@ -128,10 +119,6 @@ export default function SearchBar() {
         <IconButton className="h-8 rounded-xl bg-hover py-2 text-xs font-bold" onClick={handleOpen}>
           <div className="flex items-center justify-center gap-2">
             <SvgIcon icon="ic-search" size="20" />
-            <span className="flex h-6 items-center justify-center rounded-md bg-[#fff] px-1.5 font-bold text-gray-800">
-              {' '}
-              ⌘K{' '}
-            </span>
           </div>
         </IconButton>
       </div>
@@ -155,7 +142,7 @@ export default function SearchBar() {
             ref={inputRef}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search..."
+            placeholder="검색..."
             variant="borderless"
             autoFocus
             prefix={<SvgIcon icon="ic-search" size="20" />}
@@ -166,23 +153,7 @@ export default function SearchBar() {
             }
           />
         }
-        footer={
-          <div className="flex flex-wrap">
-            <div className="flex">
-              <ProTag color="cyan">↑</ProTag>
-              <ProTag color="cyan">↓</ProTag>
-              <span>to navigate</span>
-            </div>
-            <div className="flex">
-              <ProTag color="cyan">↵</ProTag>
-              <span>to select</span>
-            </div>
-            <div className="flex">
-              <ProTag color="cyan">ESC</ProTag>
-              <span>to close</span>
-            </div>
-          </div>
-        }
+        footer={<div className="flex flex-wrap" />}
       >
         {searchResult.length === 0 ? (
           <Empty />

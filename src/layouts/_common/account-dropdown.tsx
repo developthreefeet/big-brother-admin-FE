@@ -2,6 +2,7 @@ import { Divider, MenuProps } from 'antd';
 import Dropdown, { DropdownProps } from 'antd/es/dropdown/dropdown';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { FaUserLarge } from 'react-icons/fa6';
 import { NavLink } from 'react-router-dom';
 
 import { IconButton } from '@/components/icon';
@@ -10,14 +11,12 @@ import { useRouter } from '@/router/hooks';
 import { useUserInfo, useUserActions } from '@/store/userStore';
 import { useThemeToken } from '@/theme/hooks';
 
-const { VITE_APP_HOMEPAGE: HOMEPAGE } = import.meta.env;
-
 /**
  * Account Dropdown
  */
 export default function AccountDropdown() {
   const { replace } = useRouter();
-  const { username, email, avatar } = useUserInfo();
+  const { username, email } = useUserInfo();
   const { clearUserInfoAndToken } = useUserActions();
   const { backToLogin } = useLoginStateContext();
   const { t } = useTranslation();
@@ -58,25 +57,16 @@ export default function AccountDropdown() {
 
   const items: MenuProps['items'] = [
     {
-      label: (
-        <NavLink to="https://docs-admin.slashspaces.com/" target="_blank">
-          {t('sys.docs')}
-        </NavLink>
-      ),
-      key: '0',
-    },
-    { label: <NavLink to={HOMEPAGE}>{t('sys.menu.dashboard')}</NavLink>, key: '1' },
-    {
-      label: <NavLink to="/management/user/profile">{t('sys.menu.user.profile')}</NavLink>,
+      label: <NavLink to="/management/user/profile">{t('프로필')}</NavLink>,
       key: '2',
     },
     {
-      label: <NavLink to="/management/user/account">{t('sys.menu.user.account')}</NavLink>,
+      label: <NavLink to="/management/user/account">{t('계정관리')}</NavLink>,
       key: '3',
     },
     { type: 'divider' },
     {
-      label: <button className="font-bold text-warning">{t('sys.login.logout')}</button>,
+      label: <button className="font-bold text-warning">{t('로그아웃')}</button>,
       key: '4',
       onClick: logout,
     },
@@ -85,7 +75,7 @@ export default function AccountDropdown() {
   return (
     <Dropdown menu={{ items }} trigger={['click']} dropdownRender={dropdownRender}>
       <IconButton className="h-10 w-10 transform-none px-0 hover:scale-105">
-        <img className="h-8 w-8 rounded-full" src={avatar} alt="" />
+        <FaUserLarge />
       </IconButton>
     </Dropdown>
   );
