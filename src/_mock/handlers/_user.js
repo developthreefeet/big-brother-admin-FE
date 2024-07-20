@@ -13,7 +13,7 @@ const signIn = http.post(`/api${UserApi.SignIn}`, async ({ request }) => {
   if (!user || user.password !== password) {
     return HttpResponse.json({
       status: 10001,
-      message: 'Incorrect username or password.',
+      message: '이메일이나 비밀번호가 맞지 않습니다.',
     });
   }
 
