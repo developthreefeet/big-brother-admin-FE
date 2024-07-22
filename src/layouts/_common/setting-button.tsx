@@ -1,10 +1,5 @@
-import {
-  CloseOutlined,
-  LeftOutlined,
-  QuestionCircleOutlined,
-  RightOutlined,
-} from '@ant-design/icons';
-import { Button, Card, Drawer, Switch, Tooltip } from 'antd';
+import { CloseOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
+import { Button, Card, Drawer } from 'antd';
 import Color from 'color';
 import { m } from 'framer-motion';
 import { CSSProperties, useState } from 'react';
@@ -26,12 +21,10 @@ import { ThemeColorPresets, ThemeLayout, ThemeMode } from '#/enum';
  */
 export default function SettingButton() {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const { colorPrimary, colorBgBase, colorTextSecondary, colorTextTertiary, colorBgContainer } =
-    useThemeToken();
+  const { colorPrimary, colorBgBase, colorTextSecondary, colorBgContainer } = useThemeToken();
 
   const settings = useSettings();
-  const { themeMode, themeColorPresets, themeLayout, themeStretch, breadCrumb, multiTab } =
-    settings;
+  const { themeMode, themeColorPresets, themeLayout, themeStretch } = settings;
   const { setSettings } = useSettingActions();
 
   const setThemeMode = (themeMode: ThemeMode) => {
@@ -59,20 +52,6 @@ export default function SettingButton() {
     setSettings({
       ...settings,
       themeStretch,
-    });
-  };
-
-  const setBreadCrumn = (checked: boolean) => {
-    setSettings({
-      ...settings,
-      breadCrumb: checked,
-    });
-  };
-
-  const setMultiTab = (checked: boolean) => {
-    setSettings({
-      ...settings,
-      multiTab: checked,
     });
   };
 
@@ -122,7 +101,7 @@ export default function SettingButton() {
       </div>
       <Drawer
         placement="right"
-        title="Settings"
+        title="환경설정"
         onClose={() => setDrawerOpen(false)}
         open={drawerOpen}
         closable={false}
@@ -147,12 +126,12 @@ export default function SettingButton() {
                     color={colorPrimary}
                     className="!m-0"
                   />
-                  <span className="ml-2">Exit FullScreen</span>
+                  <span className="ml-2">전체화면</span>
                 </>
               ) : (
                 <>
                   <SvgIcon icon="ic-settings-fullscreen" className="!m-0" />
-                  <span className="ml-2 text-gray">FullScreen</span>
+                  <span className="ml-2 text-gray">전체화면 해제</span>
                 </>
               )}
             </div>
@@ -163,7 +142,7 @@ export default function SettingButton() {
           {/* theme mode */}
           <div>
             <div className="mb-3 text-base font-semibold" style={{ color: colorTextSecondary }}>
-              Mode
+              모드
             </div>
             <div className="flex flex-row gap-4">
               <Card
@@ -192,7 +171,7 @@ export default function SettingButton() {
           {/* theme layout */}
           <div>
             <div className="mb-3 text-base font-semibold" style={{ color: colorTextSecondary }}>
-              Layout
+              레이아웃
             </div>
             <div className="grid grid-cols-3 gap-4">
               <Card
@@ -307,10 +286,7 @@ export default function SettingButton() {
           {/* theme stretch */}
           <div>
             <div className=" mb-3 text-base font-semibold" style={{ color: colorTextSecondary }}>
-              <span className="mr-2">Stretch</span>
-              <Tooltip title="Only available at large resolutions > 1600px (xl)">
-                <QuestionCircleOutlined />
-              </Tooltip>
+              <span className="mr-2">너비</span>
             </div>
 
             <Card
@@ -356,7 +332,7 @@ export default function SettingButton() {
           {/* theme presets */}
           <div>
             <div className="mb-3 text-base font-semibold" style={{ color: colorTextSecondary }}>
-              Presets
+              테마 색상
             </div>
             <div className="grid grid-cols-3 gap-x-4 gap-y-3">
               {Object.entries(colorPrimarys).map(([preset, color]) => (
@@ -371,37 +347,6 @@ export default function SettingButton() {
                   </div>
                 </Card>
               ))}
-            </div>
-          </div>
-
-          {/* Page config */}
-          <div>
-            <div className="mb-3 text-base font-semibold" style={{ color: colorTextSecondary }}>
-              Page
-            </div>
-            <div className="flex flex-col gap-2">
-              <div
-                className="flex items-center justify-between"
-                style={{ color: colorTextTertiary }}
-              >
-                <div>BreadCrumb</div>
-                <Switch
-                  size="small"
-                  checked={breadCrumb}
-                  onChange={(checked) => setBreadCrumn(checked)}
-                />
-              </div>
-              <div
-                className="flex items-center justify-between"
-                style={{ color: colorTextTertiary }}
-              >
-                <div>Multi Tab</div>
-                <Switch
-                  size="small"
-                  checked={multiTab}
-                  onChange={(checked) => setMultiTab(checked)}
-                />
-              </div>
             </div>
           </div>
         </div>
