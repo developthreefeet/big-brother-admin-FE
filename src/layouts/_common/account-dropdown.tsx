@@ -57,7 +57,7 @@ export default function AccountDropdown() {
 
   const items: MenuProps['items'] = [
     {
-      label: <NavLink to="/management/user/profile">{t('프로필')}</NavLink>,
+      label: <NavLink to="/user/profile">{t('프로필')}</NavLink>,
       key: '2',
     },
     { type: 'divider' },
