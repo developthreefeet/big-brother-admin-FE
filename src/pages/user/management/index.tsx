@@ -1,25 +1,26 @@
-import { Button, Card, Popconfirm } from 'antd';
+import { Button, Card } from 'antd';
 import Table, { ColumnsType } from 'antd/es/table';
+import { useState } from 'react';
 
 import { USER_LIST } from '@/_mock/assets';
 import { IconButton, Iconify } from '@/components/icon';
-import { usePathname, useRouter } from '@/router/hooks';
 import ProTag from '@/theme/antd/components/tag';
 import { useThemeToken } from '@/theme/hooks';
 
+import UserManagementModal from './user-management-modal';
+
 import type { Role, UserInfo } from '#/entity';
-import { BasicStatus } from '#/enum';
 
 const USERS: UserInfo[] = USER_LIST;
 
 export default function RolePage() {
   const { colorTextSecondary } = useThemeToken();
-  const { push } = useRouter();
-  const pathname = usePathname();
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const columns: ColumnsType<UserInfo> = [
     {
-      title: 'Name',
+      title: '이름',
       dataIndex: 'name',
       width: 300,
       render: (_, record) => {
@@ -37,45 +38,27 @@ export default function RolePage() {
       },
     },
     {
-      title: 'Role',
+      title: '역할',
       dataIndex: 'role',
       align: 'center',
       width: 120,
       render: (role: Role) => <ProTag color="cyan">{role.name}</ProTag>,
     },
     {
-      title: 'Status',
-      dataIndex: 'status',
-      align: 'center',
-      width: 120,
-      render: (status) => (
-        <ProTag color={status === BasicStatus.DISABLE ? 'error' : 'success'}>
-          {status === BasicStatus.DISABLE ? 'Disable' : 'Enable'}
-        </ProTag>
-      ),
-    },
-    {
-      title: 'Action',
+      title: '',
       key: 'operation',
       align: 'center',
       width: 100,
-      render: (_, record) => (
+      render: () => (
         <div className="flex w-full justify-center text-gray">
-          <IconButton
-            onClick={() => {
-              push(`${pathname}/${record.id}`);
-            }}
-          >
-            <Iconify icon="mdi:card-account-details" size={18} />
+          <IconButton onClick={() => setIsDeleteModalOpen(true)}>
+            <Iconify icon="mingcute:delete-2-fill" size={18} className="text-error" />
           </IconButton>
-          <IconButton onClick={() => {}}>
-            <Iconify icon="solar:pen-bold-duotone" size={18} />
-          </IconButton>
-          <Popconfirm title="Delete the User" okText="Yes" cancelText="No" placement="left">
-            <IconButton>
-              <Iconify icon="mingcute:delete-2-fill" size={18} className="text-error" />
-            </IconButton>
-          </Popconfirm>
+          <UserManagementModal
+            isModalOpen={isDeleteModalOpen}
+            setIsModalOpen={setIsDeleteModalOpen}
+            variant="delete"
+          />
         </div>
       ),
     },
@@ -83,11 +66,18 @@ export default function RolePage() {
 
   return (
     <Card
-      title="User List"
+      title="사용자 목록"
       extra={
-        <Button type="primary" onClick={() => {}}>
-          New
-        </Button>
+        <>
+          <Button type="primary" onClick={() => setIsAddModalOpen(true)}>
+            추가하기
+          </Button>
+          <UserManagementModal
+            isModalOpen={isAddModalOpen}
+            setIsModalOpen={setIsAddModalOpen}
+            variant="add"
+          />
+        </>
       }
     >
       <Table

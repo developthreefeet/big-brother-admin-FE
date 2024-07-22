@@ -110,8 +110,8 @@ const TRANSACTION_PERMISSION = {
 const USER_MANAGEMENT_PERMISSION = {
   id: '7',
   parentId: '',
-  label: '사용자 관리',
-  name: '사용자 관리',
+  label: '계정 관리',
+  name: '계정 관리',
   icon: 'solar:user-bold-duotone',
   type: PermissionType.CATALOGUE,
   route: 'user',
