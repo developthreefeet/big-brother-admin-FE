@@ -8,7 +8,6 @@ import { useSettings } from '@/store/settingStore';
 import { useResponsive, useThemeToken } from '@/theme/hooks';
 
 import AccountDropdown from '../_common/account-dropdown';
-import BreadCrumb from '../_common/bread-crumb';
 import SearchBar from '../_common/search-bar';
 import SettingButton from '../_common/setting-button';
 
@@ -23,7 +22,7 @@ type Props = {
 };
 export default function Header({ className = '', offsetTop = false }: Props) {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const { themeLayout, breadCrumb } = useSettings();
+  const { themeLayout } = useSettings();
   const { colorBgElevated, colorBorder } = useThemeToken();
   const { screenMap } = useResponsive();
 
@@ -66,7 +65,6 @@ export default function Header({ className = '', offsetTop = false }: Props) {
             ) : (
               <Logo />
             )}
-            <div className="ml-4 hidden md:block">{breadCrumb ? <BreadCrumb /> : null}</div>
           </div>
 
           <div className="flex">
