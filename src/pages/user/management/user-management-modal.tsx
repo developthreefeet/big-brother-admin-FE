@@ -17,7 +17,7 @@ function UserManagementModal({ isModalOpen, setIsModalOpen, variant }: UserManag
 
   return (
     <Modal
-      title={`사용자 ${variant}` === 'add' ? '추가' : '삭제'}
+      title={`${variant}` === 'add' ? '사용자 추가' : '사용자 삭제'}
       open={isModalOpen}
       onOk={handleOk}
       onCancel={handleCancel}
