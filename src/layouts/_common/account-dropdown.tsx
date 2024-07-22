@@ -60,14 +60,10 @@ export default function AccountDropdown() {
       label: <NavLink to="/management/user/profile">{t('프로필')}</NavLink>,
       key: '2',
     },
-    {
-      label: <NavLink to="/management/user/account">{t('계정관리')}</NavLink>,
-      key: '3',
-    },
     { type: 'divider' },
     {
       label: <button className="font-bold text-warning">{t('로그아웃')}</button>,
-      key: '4',
+      key: '3',
       onClick: logout,
     },
   ];
