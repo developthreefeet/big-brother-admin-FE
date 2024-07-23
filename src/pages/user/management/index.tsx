@@ -26,7 +26,6 @@ export default function RolePage() {
       render: (_, record) => {
         return (
           <div className="flex">
-            <img alt="" src={record.avatar} className="h-10 w-10 rounded-full" />
             <div className="ml-2 flex flex-col">
               <span className="text-sm">{record.username}</span>
               <span style={{ color: colorTextSecondary }} className="text-xs">
