@@ -2,9 +2,9 @@ import { isEmpty } from 'ramda';
 import { Suspense, lazy, useMemo } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 
-import { PERMISSION_LIST } from '@/_mock/assets';
 import { Iconify } from '@/components/icon';
 import { CircleLoading } from '@/components/loading';
+import { useUserPermission } from '@/store/userStore';
 import ProTag from '@/theme/antd/components/tag';
 import { flattenTrees } from '@/utils/tree';
 
@@ -37,7 +37,7 @@ export function usePermissionRoutes() {
   //   return getRoutesFromModules();
   // }, []);
 
-  const permissions: Permission[] | undefined = PERMISSION_LIST;
+  const permissions = useUserPermission();
 
   return useMemo(() => {
     const flattenedPermissions = flattenTrees(permissions!);
