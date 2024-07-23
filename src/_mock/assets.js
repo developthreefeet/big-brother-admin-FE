@@ -63,6 +63,16 @@ const NOTICE_PERMISSION = {
       route: 'upload',
       component: '/notice/notice-upload/index.tsx',
     },
+    {
+      id: '0157880245365453',
+      parentId: '1',
+      label: '공지사항 본문',
+      name: '공지사항 본문',
+      type: PermissionType.MENU,
+      route: ':id',
+      component: '/notice/notice-detail/index.tsx',
+      hide:true
+    },
   ]
 };
 
@@ -93,6 +103,16 @@ const EVENT_PERMISSION = {
       type: PermissionType.MENU,
       route: 'upload',
       component: '/event/event-upload/index.tsx',
+    },
+    {
+      id: '015788024536523',
+      parentId: '2',
+      label: '행사 본문',
+      name: '행사 본문',
+      type: PermissionType.MENU,
+      route: ':id',
+      component: '/event/event-detail/index.tsx',
+      hide:true
     },
   ]
 };
@@ -125,6 +145,16 @@ const RULE_PERMISSION = {
       route: 'upload',
       component: '/rule/rule-upload/index.tsx',
     },
+    {
+      id: '0157880245365453',
+      parentId: '3',
+      label: '학칙/회칙 본문',
+      name: '학칙/회칙 본문',
+      type: PermissionType.MENU,
+      route: ':id',
+      component: '/rule/rule-detail/index.tsx',
+      hide:true
+    },
   ]
 };
 
@@ -155,6 +185,16 @@ const PROCEEDING_PERMISSION = {
       type: PermissionType.MENU,
       route: 'upload',
       component: '/proceeding/proceeding-upload/index.tsx',
+    },
+    {
+      id: '01578802453623423',
+      parentId: '4',
+      label: '회의록 본문',
+      name: '회의록 본문',
+      type: PermissionType.MENU,
+      route: ':id',
+      component: '/proceeding/proceeding-detail/index.tsx',
+      hide:true
     },
   ]
 };
@@ -187,6 +227,16 @@ const FAQ_PERMISSION = {
       route: 'upload',
       component: '/faq/faq-upload/index.tsx',
     },
+    {
+      id: '015788024532342453',
+      parentId: '5',
+      label: 'FAQ 본문',
+      name: 'FAQ 본문',
+      type: PermissionType.MENU,
+      route: ':id',
+      component: '/faq/faq-detail/index.tsx',
+      hide:true
+    },
   ]
 };
 
@@ -217,6 +267,16 @@ const TRANSACTION_PERMISSION = {
       type: PermissionType.MENU,
       route: 'upload',
       component: '/transaction/transaction-upload/index.tsx',
+    },
+    {
+      id: '0157880245365477',
+      parentId: '6',
+      label: '입/출금 내역 본문',
+      name: '입/출금 내역 본문',
+      type: PermissionType.MENU,
+      route: ':id',
+      component: '/transaction/transaction-detail/index.tsx',
+      hide:true
     },
   ]
 };
