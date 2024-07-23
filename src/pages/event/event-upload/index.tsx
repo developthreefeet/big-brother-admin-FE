@@ -1,5 +1,11 @@
+import UploadContent from '@/components/upload-content';
+
 const index = () => {
-  return <div>upload페이지</div>;
+  return (
+    <div>
+      <UploadContent title="행사 업로드" />
+    </div>
+  );
 };
 
 export default index;
