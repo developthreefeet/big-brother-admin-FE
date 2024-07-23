@@ -7,17 +7,20 @@ function Proceeding() {
       key: '1',
       title: '회의록 제목',
       upload_date: '2024/07/23',
+      id: '144',
     },
     {
       key: '2',
       title: '회의록 제목2',
       upload_date: '2024/07/23',
+      id: '1542',
     },
 
     {
       key: '3',
       title: '회의록 제목3',
       upload_date: '2024/07/23',
+      id: '1234',
     },
   ];
   return <ListTable data={data} route="/proceeding/upload" title="회의록 목록" />;
