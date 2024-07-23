@@ -11,6 +11,7 @@ export default function ProfileTab() {
     { icon: <Iconify icon="fa-solid:user" size={18} />, label: '이름', val: username },
     { icon: <Iconify icon="eos-icons:role-binding" size={18} />, label: '역할', val: 'Admin' },
     { icon: <Iconify icon="ic:baseline-email" size={18} />, label: 'Email', val: email },
+    { icon: <Iconify icon="eos-icons:admin" size={18} />, label: '소속', val: 'ICT융합대학' },
   ];
 
   return (
