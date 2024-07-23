@@ -6,22 +6,6 @@ import { DataType, ListTableProps } from './types';
 
 import type { TableColumnsType } from 'antd';
 
-const columns: TableColumnsType<DataType> = [
-  {
-    title: '제목',
-    dataIndex: 'title',
-    render: (text: string) => (
-      <a href="/" style={{ color: 'black' }}>
-        {text}
-      </a>
-    ),
-  },
-  {
-    title: '게시일',
-    dataIndex: 'upload_date',
-  },
-];
-
 const rowSelection = {
   onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
     console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
@@ -36,6 +20,29 @@ function ListTable({ data, route, title }: ListTableProps) {
   const [tableData, setTableData] = useState<DataType[]>(data);
 
   const navigate = useNavigate();
+
+  const { hash } = window.location;
+
+  const columns: TableColumnsType<DataType> = [
+    {
+      title: '제목',
+      dataIndex: 'title',
+      render: (text: string, record: DataType) => {
+        const baseUrl = `#/${hash.split('/')[1]}`;
+        const recordUrl = `${baseUrl}/${record.id}`;
+
+        return (
+          <a href={recordUrl} style={{ color: 'black', textDecoration: 'none' }}>
+            {text}
+          </a>
+        );
+      },
+    },
+    {
+      title: '게시일',
+      dataIndex: 'upload_date',
+    },
+  ];
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
     setSelectedRowKeys(newSelectedRowKeys);
