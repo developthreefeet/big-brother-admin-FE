@@ -6,7 +6,7 @@ import { CircleLoading } from '@/components/loading';
 
 import { AppRouteObject } from '#/router';
 
-const ProfilePage = lazy(() => import('@/pages/management/user/profile'));
+const ProfilePage = lazy(() => import('@/pages/user/profile'));
 const AccountPage = lazy(() => import('@/pages/management/user/account'));
 
 const OrganizationPage = lazy(() => import('@/pages/management/system/organization'));

@@ -33,7 +33,7 @@ export default function Editor({ id = 'slash-quill', sample = false, ...other }:
         modules={modules}
         formats={formats}
         {...other}
-        placeholder="Write something awesome..."
+        placeholder="새 글을 작성하세요..."
       />
     </StyledEditor>
   );

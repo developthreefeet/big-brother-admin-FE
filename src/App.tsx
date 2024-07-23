@@ -13,10 +13,9 @@ function App() {
       <AntdApp>
         <MotionLazy>
           <Helmet>
-            <title>Slash Admin</title>
+            <title>Big Brother Admin</title>
             <link rel="icon" href={Logo} />
           </Helmet>
-
           <Router />
         </MotionLazy>
       </AntdApp>
