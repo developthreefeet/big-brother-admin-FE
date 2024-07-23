@@ -41,10 +41,29 @@ const NOTICE_PERMISSION = {
   label: '공지사항',
   name: '공지사항',
   icon: 'solar:bell-bold-duotone',
-  type: PermissionType.MENU,
+  type: PermissionType.CATALOGUE,
   route: 'notice',
   order: 1,
-  component:'/notice/index.tsx'
+  children:[
+    {
+      id: '0157880245365433',
+      parentId: '1',
+      label: '공지사항 관리',
+      name: '공지사항 관리',
+      type: PermissionType.MENU,
+      route: 'management',
+      component: '/notice/index.tsx',
+    },
+    {
+      id: '0157880245365434',
+      parentId: '1',
+      label: '새 공지사항 업로드',
+      name: '새 공지사항 업로드',
+      type: PermissionType.MENU,
+      route: 'upload',
+      component: '/notice/notice-upload/index.tsx',
+    },
+  ]
 };
 
 const EVENT_PERMISSION = {
@@ -53,10 +72,29 @@ const EVENT_PERMISSION = {
   label: '행사',
   name: '행사',
   icon: 'solar:file-text-bold-duotone',
-  type: PermissionType.MENU,
+  type: PermissionType.CATALOGUE,
   route: 'event',
   order: 2,
-  component:'/event/index.tsx'
+  children:[
+    {
+      id: '0157880245365435',
+      parentId: '2',
+      label: '행사 관리',
+      name: '행사 관리',
+      type: PermissionType.MENU,
+      route: 'management',
+      component: '/event/index.tsx',
+    },
+    {
+      id: '0157880245365436',
+      parentId: '2',
+      label: '새 행사 업로드',
+      name: '새 행사 업로드',
+      type: PermissionType.MENU,
+      route: 'upload',
+      component: '/event/event-upload/index.tsx',
+    },
+  ]
 };
 
 const RULE_PERMISSION = {
@@ -65,10 +103,29 @@ const RULE_PERMISSION = {
   label: '학칙/회칙',
   name: '학칙/회칙',
   icon: 'solar:book-bookmark-bold-duotone',
-  type: PermissionType.MENU,
+  type: PermissionType.CATALOGUE,
   route: 'rule',
   order: 3,
-  component:'/rule/index.tsx'
+  children:[
+    {
+      id: '0157880245365437',
+      parentId: '3',
+      label: '학칙/회칙 관리',
+      name: '학칙/회칙 관리',
+      type: PermissionType.MENU,
+      route: 'management',
+      component: '/rule/index.tsx',
+    },
+    {
+      id: '0157880245365438',
+      parentId: '3',
+      label: '새 학칙/회칙 업로드',
+      name: '새 학칙/회칙 업로드',
+      type: PermissionType.MENU,
+      route: 'upload',
+      component: '/rule/rule-upload/index.tsx',
+    },
+  ]
 };
 
 const PROCEEDING_PERMISSION = {
@@ -77,10 +134,29 @@ const PROCEEDING_PERMISSION = {
   label: '회의록',
   name: '회의록',
   icon: 'solar:clipboard-list-line-duotone',
-  type: PermissionType.MENU,
+  type: PermissionType.CATALOGUE,
   route: 'proceeding',
   order: 4,
-  component:'/proceeding/index.tsx'
+  children:[
+    {
+      id: '0157880245365439',
+      parentId: '4',
+      label: '회의록 관리',
+      name: '회의록 관리',
+      type: PermissionType.MENU,
+      route: 'management',
+      component: '/proceeding/index.tsx',
+    },
+    {
+      id: '0157880245365440',
+      parentId: '4',
+      label: '새 회의록 업로드',
+      name: '새 회의록 업로드',
+      type: PermissionType.MENU,
+      route: 'upload',
+      component: '/proceeding/proceeding-upload/index.tsx',
+    },
+  ]
 };
 
 const FAQ_PERMISSION = {
@@ -89,10 +165,29 @@ const FAQ_PERMISSION = {
   label: 'FAQ',
   name: 'FAQ',
   icon: 'solar:chat-round-call-line-duotone',
-  type: PermissionType.MENU,
+  type: PermissionType.CATALOGUE,
   route: 'faq',
   order: 5,
-  component:'/faq/index.tsx'
+  children:[
+    {
+      id: '0157880245365441',
+      parentId: '5',
+      label: 'FAQ 관리',
+      name: 'FAQ 관리',
+      type: PermissionType.MENU,
+      route: 'management',
+      component: '/faq/index.tsx',
+    },
+    {
+      id: '0157880245365442',
+      parentId: '5',
+      label: '새 FAQ 업로드',
+      name: '새 FAQ 업로드',
+      type: PermissionType.MENU,
+      route: 'upload',
+      component: '/faq/faq-upload/index.tsx',
+    },
+  ]
 };
 
 const TRANSACTION_PERMISSION = {
@@ -101,17 +196,36 @@ const TRANSACTION_PERMISSION = {
   label: '입/출금 내역',
   name: '입/출금 내역',
   icon: 'solar:dollar-minimalistic-bold-duotone',
-  type: PermissionType.MENU,
+  type: PermissionType.CATALOGUE,
   route: 'transaction',
   order: 6,
-  component:'/transaction/index.tsx'
+  children:[
+    {
+      id: '0157880245365443',
+      parentId: '6',
+      label: '입/출금 내역 관리',
+      name: '입/출금 내역 관리',
+      type: PermissionType.MENU,
+      route: 'management',
+      component: '/transaction/index.tsx',
+    },
+    {
+      id: '0157880245365444',
+      parentId: '6',
+      label: '새 입/출금 내역 업로드',
+      name: '새 입/출금 내역 업로드',
+      type: PermissionType.MENU,
+      route: 'upload',
+      component: '/transaction/transaction-upload/index.tsx',
+    },
+  ]
 };
 
 const USER_MANAGEMENT_PERMISSION = {
   id: '7',
   parentId: '',
-  label: '계정 관리',
-  name: '계정 관리',
+  label: '계정',
+  name: '계정',
   icon: 'solar:user-bold-duotone',
   type: PermissionType.CATALOGUE,
   route: 'user',
@@ -127,7 +241,7 @@ const USER_MANAGEMENT_PERMISSION = {
       component:'/user/profile/index.tsx',
     },
     {
-      id:'11',
+      id:'12',
       parentId:'7',
       label:'사용자 관리',
       name:'사용자 관리',

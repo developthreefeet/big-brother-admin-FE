@@ -1,5 +1,5 @@
-const index = () => {
-  return <div>index</div>;
-};
+function NoticeUpload() {
+  return <div>notice upload page</div>;
+}
 
-export default index;
+export default NoticeUpload;
