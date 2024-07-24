@@ -1,4 +1,5 @@
 import { DataType } from '../list-table/types';
+import Preference from '../preference';
 
 import PdfViewer from './PdfViewer';
 
@@ -14,6 +15,7 @@ function FileDetail({ data }: { data: DataType }) {
       </p>
       <hr />
       <PdfViewer pdf="/static/test.pdf" />
+      <Preference />
     </div>
   );
 }
