@@ -36,16 +36,23 @@ function UserManagementModal({ isModalOpen, setIsModalOpen, variant }: UserManag
               <Form.Item
                 label="사용자 이름"
                 name="name"
-                rules={[{ required: true, message: '이름을 넣어주세요!' }]}
+                rules={[{ required: true, message: '이름을 입력해주세요!' }]}
               >
                 <Input />
               </Form.Item>
               <Form.Item
                 label="사용자 이메일"
                 name="email"
-                rules={[{ required: true, message: '이메일을 넣어주세요!' }]}
+                rules={[{ required: true, message: '이메일을 입력해주세요!' }]}
               >
                 <Input />
+              </Form.Item>
+              <Form.Item
+                label="사용자 비밀번호"
+                name="userPassword"
+                rules={[{ required: true, message: '사용자 비밀번호를 입력해주세요!' }]}
+              >
+                <Input.Password />
               </Form.Item>
             </>
           )}
@@ -53,7 +60,7 @@ function UserManagementModal({ isModalOpen, setIsModalOpen, variant }: UserManag
           <Form.Item
             label="관리자 비밀번호"
             name="password"
-            rules={[{ required: true, message: '관리자 비밀번호를 넣어주세요!' }]}
+            rules={[{ required: true, message: '관리자 비밀번호를 입력해주세요!' }]}
           >
             <Input.Password />
           </Form.Item>
