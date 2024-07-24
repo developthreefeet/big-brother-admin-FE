@@ -2,6 +2,8 @@ import { Divider, Table, Button } from 'antd';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { returnPathname } from '@/utils/return-pathname';
+
 import { DataType, ListTableProps } from './types';
 
 import type { TableColumnsType } from 'antd';
@@ -21,14 +23,12 @@ function ListTable({ data, route, title }: ListTableProps) {
 
   const navigate = useNavigate();
 
-  const { hash } = window.location;
-
   const columns: TableColumnsType<DataType> = [
     {
       title: '제목',
       dataIndex: 'title',
       render: (text: string, record: DataType) => {
-        const baseUrl = `#/${hash.split('/')[1]}`;
+        const baseUrl = returnPathname();
         const recordUrl = `${baseUrl}/${record.id}`;
 
         return (
