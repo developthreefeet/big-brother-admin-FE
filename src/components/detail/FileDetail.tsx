@@ -1,3 +1,4 @@
+import CommonBackToListButton from '../back-to-list-button/CommonBackToListButton';
 import CommentList from '../comment-list';
 import { DataType } from '../list-table/types';
 import Preference from '../preference';
@@ -18,6 +19,9 @@ function FileDetail({ data }: { data: DataType }) {
       <PdfViewer pdf="/static/test.pdf" />
       <Preference />
       <CommentList />
+      <div className="flex justify-end pt-10">
+        <CommonBackToListButton />
+      </div>
     </div>
   );
 }

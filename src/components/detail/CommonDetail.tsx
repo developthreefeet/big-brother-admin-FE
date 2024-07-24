@@ -1,5 +1,6 @@
 import { Button } from 'antd';
 
+import CommonBackToListButton from '../back-to-list-button/CommonBackToListButton';
 import CommentList from '../comment-list';
 import { DataType } from '../list-table/types';
 import Preference from '../preference';
@@ -24,6 +25,9 @@ function CommonDetail({ data }: { data: DataType }) {
       </div>
       <Preference />
       <CommentList />
+      <div className="flex justify-end pt-10">
+        <CommonBackToListButton />
+      </div>
     </div>
   );
 }
