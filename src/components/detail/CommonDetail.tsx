@@ -1,6 +1,7 @@
 import { Button } from 'antd';
 
 import { DataType } from '../list-table/types';
+import Preference from '../preference';
 
 function CommonDetail({ data }: { data: DataType }) {
   return (
@@ -20,6 +21,7 @@ function CommonDetail({ data }: { data: DataType }) {
       <div className="rounded-sm border-2 border-gray-200 p-8">
         <p>{data.content}</p>
       </div>
+      <Preference />
     </div>
   );
 }
