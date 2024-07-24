@@ -1,3 +1,4 @@
+import CommentList from '../comment-list';
 import { DataType } from '../list-table/types';
 import Preference from '../preference';
 
@@ -16,6 +17,7 @@ function FileDetail({ data }: { data: DataType }) {
       <hr />
       <PdfViewer pdf="/static/test.pdf" />
       <Preference />
+      <CommentList />
     </div>
   );
 }

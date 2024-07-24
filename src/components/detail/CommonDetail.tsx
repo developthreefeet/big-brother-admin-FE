@@ -1,5 +1,6 @@
 import { Button } from 'antd';
 
+import CommentList from '../comment-list';
 import { DataType } from '../list-table/types';
 import Preference from '../preference';
 
@@ -22,6 +23,7 @@ function CommonDetail({ data }: { data: DataType }) {
         <p>{data.content}</p>
       </div>
       <Preference />
+      <CommentList />
     </div>
   );
 }
