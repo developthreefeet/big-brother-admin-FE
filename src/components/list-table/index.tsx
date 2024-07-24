@@ -2,10 +2,12 @@ import { Divider, Table, Button } from 'antd';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useSettings } from '@/store/settingStore';
 import { returnPathname } from '@/utils/return-pathname';
 
 import { DataType, ListTableProps } from './types';
 
+import { ThemeMode } from '#/enum';
 import type { TableColumnsType } from 'antd';
 
 const rowSelection = {
@@ -23,6 +25,8 @@ function ListTable({ data, route, title }: ListTableProps) {
 
   const navigate = useNavigate();
 
+  const { themeMode } = useSettings();
+
   const columns: TableColumnsType<DataType> = [
     {
       title: '제목',
@@ -32,7 +36,13 @@ function ListTable({ data, route, title }: ListTableProps) {
         const recordUrl = `${baseUrl}/${record.id}`;
 
         return (
-          <a href={recordUrl} style={{ color: 'black', textDecoration: 'none' }}>
+          <a
+            href={recordUrl}
+            style={{
+              color: themeMode === ThemeMode.Light ? 'black' : 'white',
+              textDecoration: 'none',
+            }}
+          >
             {text}
           </a>
         );
