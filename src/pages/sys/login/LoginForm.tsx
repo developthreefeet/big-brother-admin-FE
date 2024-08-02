@@ -11,7 +11,7 @@ function LoginForm() {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
 
-  const { loginState, setLoginState } = useLoginStateContext();
+  const { loginState } = useLoginStateContext();
   const signIn = useSignIn();
 
   if (loginState !== LoginStateEnum.LOGIN) return null;
