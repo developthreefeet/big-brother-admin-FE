@@ -23,6 +23,7 @@ function UserManagementModal({ isModalOpen, setIsModalOpen, variant }: UserManag
           return;
         }
         form.resetFields();
+        setIsFormValid(false);
         console.log(values); // 성공 시 계정 새로 만들어주는 함수 추가 구현 필요 (현재는 user mock 데이터 사용중)
         setIsModalOpen(false);
       })
