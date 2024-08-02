@@ -61,7 +61,6 @@ function AddUserModal({ isModalOpen, setIsModalOpen }: AddUserModalProps) {
       <div className="my-10">
         <Form
           form={form}
-          name="basic"
           wrapperCol={{ span: 14 }}
           initialValues={{ remember: true }}
           autoComplete="off"
@@ -106,7 +105,6 @@ function AddUserModal({ isModalOpen, setIsModalOpen }: AddUserModalProps) {
           >
             <Input.Password />
           </Form.Item>
-
           <Form.Item
             label="관리자 비밀번호"
             name="adminPassword"
