@@ -11,7 +11,7 @@ function LoginForm() {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
 
-  const { loginState, setLoginState } = useLoginStateContext();
+  const { loginState } = useLoginStateContext();
   const signIn = useSignIn();
 
   if (loginState !== LoginStateEnum.LOGIN) return null;
@@ -26,7 +26,7 @@ function LoginForm() {
   };
   return (
     <>
-      <div className="mb-4 text-2xl font-bold xl:text-3xl">{t('로그인')}</div>
+      <div className="mb-4 text-xl font-bold xl:text-xl">{t('로그인')}</div>
       <Form name="login" size="large" onFinish={handleFinish}>
         <Form.Item name="email" rules={[{ required: true, message: t('이메일을 입력해주세요.') }]}>
           <Input type="email" placeholder={t('이메일')} />
