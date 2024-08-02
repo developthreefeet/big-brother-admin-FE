@@ -7,7 +7,8 @@ import { IconButton, Iconify } from '@/components/icon';
 import ProTag from '@/theme/antd/components/tag';
 import { useThemeToken } from '@/theme/hooks';
 
-import UserManagementModal from './user-management-modal';
+import AddUserModal from './add-user-modal';
+import DeleteUserModal from './delete-user-modal';
 
 import type { Role, UserInfo } from '#/entity';
 
@@ -53,11 +54,7 @@ export default function RolePage() {
           <IconButton onClick={() => setIsDeleteModalOpen(true)}>
             <Iconify icon="mingcute:delete-2-fill" size={18} className="text-error" />
           </IconButton>
-          <UserManagementModal
-            isModalOpen={isDeleteModalOpen}
-            setIsModalOpen={setIsDeleteModalOpen}
-            variant="delete"
-          />
+          <DeleteUserModal isModalOpen={isDeleteModalOpen} setIsModalOpen={setIsDeleteModalOpen} />
         </div>
       ),
     },
@@ -71,11 +68,7 @@ export default function RolePage() {
           <Button type="primary" onClick={() => setIsAddModalOpen(true)}>
             추가하기
           </Button>
-          <UserManagementModal
-            isModalOpen={isAddModalOpen}
-            setIsModalOpen={setIsAddModalOpen}
-            variant="add"
-          />
+          <AddUserModal isModalOpen={isAddModalOpen} setIsModalOpen={setIsAddModalOpen} />
         </>
       }
     >
