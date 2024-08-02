@@ -1,5 +1,5 @@
 import { Form, Input, message, Modal } from 'antd';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 
 interface AddUserModalProps {
   isModalOpen: boolean;
@@ -39,18 +39,14 @@ function AddUserModal({ isModalOpen, setIsModalOpen }: AddUserModalProps) {
     setIsModalOpen(false);
   };
 
-  const handleFormChange = useCallback(() => {
+  const handleFormChange = () => {
     const fieldsError = form.getFieldsError(['name', 'email', 'userPassword']);
     const fieldsValue = form.getFieldsValue(['name', 'email', 'userPassword', 'adminPassword']);
     const hasErrors = fieldsError.some(({ errors }) => errors.length > 0);
     const allFieldsFilled = Object.values(fieldsValue).every((value) => value);
 
     setIsFormValid(!hasErrors && allFieldsFilled);
-  }, [form]);
-
-  useEffect(() => {
-    handleFormChange();
-  }, [handleFormChange]);
+  };
 
   return (
     <Modal
