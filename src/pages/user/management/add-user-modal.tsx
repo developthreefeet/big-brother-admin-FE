@@ -1,10 +1,27 @@
-import { Form, Input, message, Modal } from 'antd';
+import { Form, Input, message, Modal, Select } from 'antd';
 import React, { useState } from 'react';
 
 interface AddUserModalProps {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+const { Option } = Select;
+
+const colleges = [
+  { value: '경영대학', label: '경영대학' },
+  { value: 'ICT융합대학', label: 'ICT융합대학' },
+];
+
+const departments = [
+  { value: '융합소프트웨어학부', label: '융합소프트웨어학부' },
+  { value: '법학과', label: '법학과' },
+];
+
+const roles = [
+  { value: 'president', label: 'President' },
+  { value: 'manager', label: 'Manager' },
+];
 
 function AddUserModal({ isModalOpen, setIsModalOpen }: AddUserModalProps) {
   const [isFormValid, setIsFormValid] = useState(false);
@@ -16,13 +33,10 @@ function AddUserModal({ isModalOpen, setIsModalOpen }: AddUserModalProps) {
       .then((values) => {
         const { adminPassword } = values;
         if (adminPassword !== 'admin1234@') {
-          // 현재 관리자 비밀번호 하드코딩
-          // 로그인한 관리자의 비밀번호 가져오는 함수 추가 구현 필요
           message.error('관리자 비밀번호가 일치하지 않습니다.');
           return;
         }
 
-        // 성공 시 계정 새로 만들어주는 함수 추가 구현 필요 (현재는 user mock 데이터 사용중)
         console.log(values);
 
         form.resetFields();
@@ -41,7 +55,15 @@ function AddUserModal({ isModalOpen, setIsModalOpen }: AddUserModalProps) {
 
   const handleFormChange = () => {
     const fieldsError = form.getFieldsError(['name', 'email', 'userPassword']);
-    const fieldsValue = form.getFieldsValue(['name', 'email', 'userPassword', 'adminPassword']);
+    const fieldsValue = form.getFieldsValue([
+      'name',
+      'email',
+      'userPassword',
+      'adminPassword',
+      'college',
+      'department',
+      'role',
+    ]);
     const hasErrors = fieldsError.some(({ errors }) => errors.length > 0);
     const allFieldsFilled = Object.values(fieldsValue).every((value) => value);
 
@@ -93,6 +115,45 @@ function AddUserModal({ isModalOpen, setIsModalOpen }: AddUserModalProps) {
             <Input />
           </Form.Item>
           <Form.Item
+            label="사용자 소속 대학"
+            name="college"
+            rules={[{ required: true, message: '소속 대학을 선택해주세요!' }]}
+          >
+            <Select placeholder="소속 대학을 선택하세요">
+              {colleges.map((college) => (
+                <Option key={college.value} value={college.value}>
+                  {college.label}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="사용자 소속 학과"
+            name="department"
+            rules={[{ required: true, message: '소속 학과를 선택해주세요!' }]}
+          >
+            <Select placeholder="소속 학과를 선택하세요">
+              {departments.map((department) => (
+                <Option key={department.value} value={department.value}>
+                  {department.label}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            label="사용자 역할"
+            name="role"
+            rules={[{ required: true, message: '사용자 역할을 선택해주세요!' }]}
+          >
+            <Select placeholder="사용자 역할을 선택하세요">
+              {roles.map((role) => (
+                <Option key={role.value} value={role.value}>
+                  {role.label}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
             label="사용자 비밀번호"
             name="userPassword"
             rules={[
@@ -105,10 +166,12 @@ function AddUserModal({ isModalOpen, setIsModalOpen }: AddUserModalProps) {
           >
             <Input.Password />
           </Form.Item>
+          <hr />
           <Form.Item
             label="관리자 비밀번호"
             name="adminPassword"
             rules={[{ required: true, message: '관리자 비밀번호를 입력해주세요!' }]}
+            style={{ marginTop: '20px' }}
           >
             <Input.Password />
           </Form.Item>
