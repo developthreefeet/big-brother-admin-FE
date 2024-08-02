@@ -1,5 +1,5 @@
 import { Form, Input, message, Modal } from 'antd';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 interface DeleteUserModalProps {
   isModalOpen: boolean;
@@ -21,7 +21,7 @@ function DeleteUserModal({ isModalOpen, setIsModalOpen }: DeleteUserModalProps) 
           message.error('관리자 비밀번호가 일치하지 않습니다.');
           return;
         }
-        console.log('선택한 유저 삭제됨'); // 성공 시 계정 삭제하는 함수 추가 구현 필요
+        message.success('성공적으로 삭제되었습니다.'); // 성공 시 계정 삭제하는 함수 추가 구현 필요
 
         form.resetFields();
         setIsFormValid(false);
@@ -38,15 +38,10 @@ function DeleteUserModal({ isModalOpen, setIsModalOpen }: DeleteUserModalProps) 
   };
 
   const handleFormChange = useCallback(() => {
-    const fieldError = form.getFieldError('adminPassword');
     const isAdminPasswordFilled = form.getFieldValue('adminPassword') !== '';
 
-    setIsFormValid(!fieldError && isAdminPasswordFilled);
+    setIsFormValid(isAdminPasswordFilled);
   }, [form]);
-
-  useEffect(() => {
-    handleFormChange();
-  }, [handleFormChange]);
 
   return (
     <Modal
