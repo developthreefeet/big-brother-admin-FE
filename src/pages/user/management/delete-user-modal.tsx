@@ -1,5 +1,5 @@
 import { Form, Input, message, Modal } from 'antd';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 interface DeleteUserModalProps {
   isModalOpen: boolean;
@@ -37,11 +37,11 @@ function DeleteUserModal({ isModalOpen, setIsModalOpen }: DeleteUserModalProps) 
     setIsModalOpen(false);
   };
 
-  const handleFormChange = useCallback(() => {
+  const handleFormChange = () => {
     const isAdminPasswordFilled = form.getFieldValue('adminPassword') !== '';
 
     setIsFormValid(isAdminPasswordFilled);
-  }, [form]);
+  };
 
   return (
     <Modal
