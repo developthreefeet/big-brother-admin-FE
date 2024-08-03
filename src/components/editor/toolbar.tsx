@@ -89,19 +89,7 @@ export default function Toolbar({ id, isSimple, ...other }: EditorToolbarProps) 
         )}
 
         <div className="ql-formats">
-          <button type="button" className="ql-direction" value="rtl" />
-          <select className="ql-align" />
-        </div>
-
-        <div className="ql-formats">
-          <button type="button" className="ql-link" />
           <button type="button" className="ql-image" />
-          <button type="button" className="ql-video" />
-        </div>
-
-        <div className="ql-formats">
-          {!isSimple && <button type="button" className="ql-formula" />}
-          <button type="button" className="ql-clean" />
         </div>
       </div>
     </StyledToolbar>
