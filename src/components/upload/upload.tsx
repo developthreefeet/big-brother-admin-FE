@@ -43,7 +43,7 @@ export function Upload({ thumbnail = false, ...other }: Props) {
           </p>
           <Typography>
             <Title level={5} className="mt-4">
-              파일을 드래그하거나 선택하세요.
+              파일을 드래그하거나 이곳을 클릭하세요.
             </Title>
             <Text type="secondary">
               파일을 드래그하거나,
