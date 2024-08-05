@@ -7,13 +7,20 @@ function UploadContent({ title }: { title: string }) {
   const [editorValue, setEditorValue] = useState('');
   const [inputValue, setInputValue] = useState('');
 
-  const isButtonDisabled = inputValue.trim() === '' || editorValue.trim() === '';
+  const stripHtmlTags = (html: string) => {
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    return tmp.textContent || tmp.innerText || '';
+  };
+
+  const isValid = inputValue.length > 0 && stripHtmlTags(editorValue).trim().length > 0;
 
   const handleButtonClick = () => {
-    if (!isButtonDisabled) {
-      // upload api자리
+    if (isValid) {
+      // upload api 자리
       console.log('Title:', inputValue);
       console.log('Content:', editorValue);
+      console.log(typeof editorValue);
     }
   };
 
@@ -28,7 +35,7 @@ function UploadContent({ title }: { title: string }) {
         />
         <Editor value={editorValue} onChange={setEditorValue} />
       </div>
-      <Button className="mx-auto w-52" disabled={isButtonDisabled} onClick={handleButtonClick}>
+      <Button className="mx-auto w-52" disabled={!isValid} onClick={handleButtonClick}>
         작성 완료
       </Button>
     </div>
