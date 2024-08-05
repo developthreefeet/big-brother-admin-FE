@@ -1,40 +1,27 @@
 /* eslint-disable import/order */
 import '@/utils/highlight';
-import ReactQuill, { ReactQuillProps } from 'react-quill';
-import Toolbar, { formats } from './toolbar';
+import ReactQuill, { ReactQuillProps } from 'react-quill-new';
 import { useSettings } from '@/store/settingStore';
 import { useThemeToken } from '@/theme/hooks';
 import { StyledEditor } from './styles';
 
-interface Props extends ReactQuillProps {
-  sample?: boolean;
-}
-export default function Editor({ id = 'slash-quill', sample = false, ...other }: Props) {
+export default function Editor({ ...other }: ReactQuillProps) {
   const token = useThemeToken();
   const { themeMode } = useSettings();
+
   const modules = {
     toolbar: {
-      container: `#${id}`,
-    },
-    history: {
-      delay: 500,
-      maxStack: 100,
-      userOnly: true,
-    },
-    syntax: true,
-    clipboard: {
-      matchVisual: false,
+      container: [
+        [{ header: [1, 2, 3, 4] }],
+        [{ list: 'ordered' }, { list: 'bullet' }],
+        ['bold', 'italic', 'underline', 'strike'],
+      ],
     },
   };
+
   return (
     <StyledEditor $token={token} $thememode={themeMode}>
-      <Toolbar id={id} isSimple={sample} />
-      <ReactQuill
-        modules={modules}
-        formats={formats}
-        {...other}
-        placeholder="새 글을 작성하세요..."
-      />
+      <ReactQuill {...other} modules={modules} placeholder="새 글을 작성하세요..." />
     </StyledEditor>
   );
 }

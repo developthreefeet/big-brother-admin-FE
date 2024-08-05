@@ -1,9 +1,9 @@
-import UploadFile from '@/components/upload-file';
+import UploadFileComponent from '@/components/upload-file';
 
 const index = () => {
   return (
     <div>
-      <UploadFile title="입/출금 내역 업로드" />
+      <UploadFileComponent title="입/출금 내역 업로드" />
     </div>
   );
 };

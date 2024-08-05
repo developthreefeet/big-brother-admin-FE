@@ -1,9 +1,9 @@
-import UploadFile from '@/components/upload-file';
+import UploadFileComponent from '@/components/upload-file';
 
 const index = () => {
   return (
     <div>
-      <UploadFile title="학칙/회칙 업로드" />
+      <UploadFileComponent title="학칙/회칙 업로드" />
     </div>
   );
 };
