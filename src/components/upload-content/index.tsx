@@ -17,7 +17,7 @@ function UploadContent({ title }: { title: string }) {
 
   const handleButtonClick = () => {
     if (isValid) {
-      // upload api 자리
+      // upload api 들어갈 자리
       console.log('Title:', inputValue);
       console.log('Content:', editorValue);
       console.log(typeof editorValue);
