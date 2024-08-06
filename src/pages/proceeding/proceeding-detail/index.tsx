@@ -1,12 +1,16 @@
 import FileDetail from '@/components/detail/FileDetail';
+import useDataMatch from '@/router/hooks/use-data-match';
+
+import { proceedingData } from '..';
 
 const index = () => {
-  const data = {
-    key: '1',
-    id: '32',
-    title: '회의록 제목',
-    upload_date: '2024/07/23',
-  };
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const data = useDataMatch(proceedingData);
+
+  if (!data) {
+    return null;
+  }
+
   return <FileDetail data={data} />;
 };
 
