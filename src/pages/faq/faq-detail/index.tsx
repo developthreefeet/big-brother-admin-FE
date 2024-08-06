@@ -1,18 +1,27 @@
-import CommonDetail from '@/components/detail/CommonDetail';
-import { DataType } from '@/components/list-table/types';
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import FileDetail from '@/components/detail/FileDetail';
+import useDataMatch from '@/router/hooks/use-data-match';
+
+import { faqData } from '..';
 
 const index = () => {
-  const data: DataType = {
-    key: '1',
-    id: '32',
-    title: 'FAQ제목',
-    upload_date: '2024/07/23',
-    edit_date: '2024/07/24',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias eius consequuntur, autem illum adipisci saepe, dicta nobis maxime neque animi velit unde. Totam reprehenderit nobis ipsa consequatur! Quibusdam, quasi hic?',
-  };
+  const navigate = useNavigate();
+  const data = useDataMatch(faqData);
 
-  return <CommonDetail data={data} />;
+  useEffect(() => {
+    if (!data) {
+      navigate('/404');
+    }
+  }, [data, navigate]);
+
+  if (!data) {
+    return null;
+  }
+
+  return <FileDetail data={data} />;
 };
 
 export default index;
