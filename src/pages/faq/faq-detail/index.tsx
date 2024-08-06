@@ -1,6 +1,4 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import FileDetail from '@/components/detail/FileDetail';
 import useDataMatch from '@/router/hooks/use-data-match';
@@ -8,14 +6,7 @@ import useDataMatch from '@/router/hooks/use-data-match';
 import { faqData } from '..';
 
 const index = () => {
-  const navigate = useNavigate();
   const data = useDataMatch(faqData);
-
-  useEffect(() => {
-    if (!data) {
-      navigate('/404');
-    }
-  }, [data, navigate]);
 
   if (!data) {
     return null;
