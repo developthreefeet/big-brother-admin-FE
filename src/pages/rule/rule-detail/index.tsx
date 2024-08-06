@@ -1,17 +1,28 @@
-import FileDetail from '@/components/detail/FileDetail';
+/* eslint-disable react-hooks/rules-of-hooks */
+
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import CommonDetail from '@/components/detail/CommonDetail';
 import useDataMatch from '@/router/hooks/use-data-match';
 
 import { ruleData } from '..';
 
 const index = () => {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const navigate = useNavigate();
   const data = useDataMatch(ruleData);
+
+  useEffect(() => {
+    if (!data) {
+      navigate('/404');
+    }
+  }, [data, navigate]);
 
   if (!data) {
     return null;
   }
 
-  return <FileDetail data={data} />;
+  return <CommonDetail data={data} />;
 };
 
 export default index;
