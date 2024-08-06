@@ -268,16 +268,6 @@ const TRANSACTION_PERMISSION = {
       route: 'upload',
       component: '/transaction/transaction-upload/index.tsx',
     },
-    {
-      id: '0157880245365477',
-      parentId: '6',
-      label: '입/출금 내역 본문',
-      name: '입/출금 내역 본문',
-      type: PermissionType.MENU,
-      route: ':id',
-      component: '/transaction/transaction-detail/index.tsx',
-      hide:true
-    },
   ]
 };
 
