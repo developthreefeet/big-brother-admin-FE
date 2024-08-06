@@ -1,16 +1,15 @@
 import CommonDetail from '@/components/detail/CommonDetail';
-import { DataType } from '@/components/list-table/types';
+import useDataMatch from '@/router/hooks/use-data-match';
+
+import { noticeData } from '..';
 
 const index = () => {
-  const data: DataType = {
-    key: '1',
-    id: '32',
-    title: '공지제목',
-    upload_date: '2024/07/23',
-    edit_date: '2024/07/24',
-    content:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias eius consequuntur, autem illum adipisci saepe, dicta nobis maxime neque animi velit unde. Totam reprehenderit nobis ipsa consequatur! Quibusdam, quasi hic?',
-  };
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const data = useDataMatch(noticeData);
+
+  if (!data) {
+    return null;
+  }
 
   return <CommonDetail data={data} />;
 };
