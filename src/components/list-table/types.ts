@@ -20,7 +20,7 @@ export interface TransactionDataType {
 }
 
 export interface ListTableProps {
-  data: DataType[] | TransactionDataType[];
+  data: DataType[];
   title: string;
   route: string;
 }
