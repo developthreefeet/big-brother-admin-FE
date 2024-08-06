@@ -17,6 +17,7 @@ export interface TransactionDataType {
   withdraw: string;
   balance: string;
   trans_date: string;
+  trans: string;
 }
 
 export interface ListTableProps {
