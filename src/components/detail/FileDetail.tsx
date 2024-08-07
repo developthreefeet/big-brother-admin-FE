@@ -1,5 +1,6 @@
 import CommonBackToListButton from '../back-to-list-button/CommonBackToListButton';
 import IconBackToListButton from '../back-to-list-button/IconBackToListButton';
+import EditButton from '../edit-button';
 import { DataType } from '../list-table/types';
 import Preference from '../preference';
 
@@ -11,8 +12,8 @@ function FileDetail({ data }: { data: DataType }) {
       <IconBackToListButton />
       <div className="flex justify-between">
         <h2 className="text-2xl font-bold">{data.title}</h2>
+        {!data.public && <EditButton />}
       </div>
-
       <p>
         <strong>게시일</strong> {data.upload_date}
       </p>

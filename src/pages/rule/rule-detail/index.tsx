@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
-import CommonDetail from '@/components/detail/CommonDetail';
+import FileDetail from '@/components/detail/FileDetail';
 import useDataMatch from '@/router/hooks/use-data-match';
 
 import { ruleData } from '..';
@@ -12,7 +12,7 @@ const index = () => {
     return null;
   }
 
-  return <CommonDetail data={data} />;
+  return <FileDetail data={data} />;
 };
 
 export default index;

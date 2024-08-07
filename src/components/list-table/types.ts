@@ -6,6 +6,7 @@ export interface DataType {
   upload_date: string;
   content?: string;
   edit_date?: string;
+  public?: boolean;
 }
 
 export interface TransactionDataType {
