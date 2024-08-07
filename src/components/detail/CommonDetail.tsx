@@ -1,8 +1,6 @@
-import { Button } from 'antd';
-
 import CommonBackToListButton from '../back-to-list-button/CommonBackToListButton';
 import IconBackToListButton from '../back-to-list-button/IconBackToListButton';
-import CommentList from '../comment-list';
+import EditButton from '../edit-button';
 import { DataType } from '../list-table/types';
 import Preference from '../preference';
 
@@ -12,7 +10,7 @@ function CommonDetail({ data }: { data: DataType }) {
       <IconBackToListButton />
       <div className="flex justify-between">
         <h2 className="text-2xl font-bold">{data.title}</h2>
-        <Button>수정하기</Button>
+        <EditButton />
       </div>
       <div className="flex space-x-5">
         <p>
@@ -26,7 +24,6 @@ function CommonDetail({ data }: { data: DataType }) {
         <p>{data.content}</p>
       </div>
       <Preference />
-      <CommentList />
       <div className="flex justify-end pt-10">
         <CommonBackToListButton />
       </div>

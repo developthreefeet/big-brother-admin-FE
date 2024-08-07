@@ -42,7 +42,7 @@ function UploadFileComponent({ title }: { title: string }) {
         }}
       >
         <Form.Item name="title">
-          <Input placeholder="제목을 입력해주세요." />
+          <Input maxLength={50} showCount placeholder="제목을 입력해주세요." />
         </Form.Item>
         <Form.Item name="file">
           <Upload
