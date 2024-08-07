@@ -57,6 +57,8 @@ function UploadContent({ title, data }: UploadContentProps) {
           placeholder="제목을 입력해주세요."
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
+          maxLength={50}
+          showCount
         />
         <Editor value={editorValue} onChange={setEditorValue} />
       </div>
