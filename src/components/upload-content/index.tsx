@@ -1,11 +1,29 @@
 import { Button, Input } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { IoIosArrowBack } from 'react-icons/io';
+
+import editStore from '@/store/editStore';
 
 import Editor from '../editor';
+import { DataType } from '../list-table/types';
 
-function UploadContent({ title }: { title: string }) {
+interface UploadContentProps {
+  title: string;
+  data?: DataType;
+}
+
+function UploadContent({ title, data }: UploadContentProps) {
   const [editorValue, setEditorValue] = useState('');
   const [inputValue, setInputValue] = useState('');
+
+  const { isEditing, stopEditing } = editStore();
+
+  useEffect(() => {
+    if (data) {
+      setInputValue(data.title);
+      setEditorValue(data.content as string);
+    }
+  }, [data]);
 
   const stripHtmlTags = (html: string) => {
     const tmp = document.createElement('div');
@@ -17,15 +35,22 @@ function UploadContent({ title }: { title: string }) {
 
   const handleButtonClick = () => {
     if (isValid) {
-      // upload api 들어갈 자리
       console.log('Title:', inputValue);
       console.log('Content:', editorValue);
-      console.log(typeof editorValue);
+      if (isEditing) {
+        // 수정 api
+        stopEditing();
+      } // else upload api
     }
   };
 
   return (
-    <div className="flex flex-col space-y-5 pt-10">
+    <div className="flex flex-col space-y-5 p-10">
+      {isEditing && (
+        <Button type="text" className="w-20" onClick={stopEditing} icon={<IoIosArrowBack />}>
+          뒤로가기
+        </Button>
+      )}
       <h1 className="mb-5 text-2xl font-bold">{title}</h1>
       <div className="flex flex-col space-y-5">
         <Input
@@ -36,7 +61,7 @@ function UploadContent({ title }: { title: string }) {
         <Editor value={editorValue} onChange={setEditorValue} />
       </div>
       <Button className="mx-auto w-52" disabled={!isValid} onClick={handleButtonClick}>
-        작성 완료
+        {isEditing ? '수정 완료' : '작성 완료'}
       </Button>
     </div>
   );
