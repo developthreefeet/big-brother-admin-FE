@@ -1,13 +1,16 @@
-import { Button, Form, Input, message } from 'antd';
+import { Button, Checkbox, Form, Input, message } from 'antd';
 import { UploadFile } from 'antd/es/upload/interface';
 import { useState, useEffect } from 'react';
 
 import { Upload } from '@/components/upload';
+import { usePathname } from '@/router/hooks';
 
 function UploadFileComponent({ title }: { title: string }) {
   const [form] = Form.useForm();
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const pathname = usePathname();
+  const isProceedingUploadPage = pathname.includes('proceeding');
 
   const beforeUpload = (file: File) => {
     const isPdf = file.type === 'application/pdf';
@@ -24,6 +27,7 @@ function UploadFileComponent({ title }: { title: string }) {
     const values = form.getFieldsValue();
     console.log('Title:', values.title);
     console.log('File List:', fileList);
+    console.log('public 여부: ', values.public);
   };
 
   useEffect(() => {
@@ -44,6 +48,11 @@ function UploadFileComponent({ title }: { title: string }) {
         <Form.Item name="title">
           <Input maxLength={50} showCount placeholder="제목을 입력해주세요." />
         </Form.Item>
+        {isProceedingUploadPage && (
+          <Form.Item name="public" valuePropName="checked" initialValue={false}>
+            <Checkbox>공개</Checkbox>
+          </Form.Item>
+        )}
         <Form.Item name="file">
           <Upload
             maxCount={1}
