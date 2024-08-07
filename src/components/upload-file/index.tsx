@@ -1,16 +1,38 @@
-import { Button, Checkbox, Form, Input, message } from 'antd';
+import { Button, Checkbox, Input, message } from 'antd';
 import { UploadFile } from 'antd/es/upload/interface';
 import { useState, useEffect } from 'react';
 
 import { Upload } from '@/components/upload';
 import { usePathname } from '@/router/hooks';
+import editStore from '@/store/editStore';
 
-function UploadFileComponent({ title }: { title: string }) {
-  const [form] = Form.useForm();
+import { DataType } from '../list-table/types';
+
+interface UploadFileComponentProps {
+  title: string;
+  data?: DataType;
+}
+
+function UploadFileComponent({ title, data }: UploadFileComponentProps) {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [inputValue, setInputValue] = useState('');
+  const [isPublic, setIsPublic] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const pathname = usePathname();
   const isProceedingUploadPage = pathname.includes('proceeding');
+
+  const { isEditing, stopEditing } = editStore();
+
+  useEffect(() => {
+    if (data) {
+      setInputValue(data.title);
+      // 파일은 추후 추가해야 함 (현재는 정적 asset 사용 중)
+    }
+  }, [data]);
+
+  useEffect(() => {
+    setIsButtonDisabled(!(inputValue && fileList.length > 0));
+  }, [inputValue, fileList]);
 
   const beforeUpload = (file: File) => {
     const isPdf = file.type === 'application/pdf';
@@ -23,49 +45,42 @@ function UploadFileComponent({ title }: { title: string }) {
   const handleFileChange = ({ fileList }: { fileList: UploadFile[] }) => setFileList(fileList);
 
   const handleSubmit = () => {
-    // 업로드 api자리
-    const values = form.getFieldsValue();
-    console.log('Title:', values.title);
+    console.log('Title:', inputValue);
     console.log('File List:', fileList);
-    console.log('public 여부: ', values.public);
+    console.log('Public:', isPublic);
+
+    if (isEditing) {
+      stopEditing();
+    }
   };
 
-  useEffect(() => {
-    const values = form.getFieldsValue();
-    setIsButtonDisabled(!(values.title && fileList.length > 0));
-  }, [fileList, form]);
-
   return (
-    <div className="flex flex-col pt-10">
+    <div className="flex flex-col p-10">
       <h1 className="mb-5 text-2xl font-bold">{title}</h1>
-      <Form
-        form={form}
-        onValuesChange={() => {
-          const values = form.getFieldsValue();
-          setIsButtonDisabled(!(values.title && fileList.length > 0));
-        }}
-      >
-        <Form.Item name="title">
-          <Input maxLength={50} showCount placeholder="제목을 입력해주세요." />
-        </Form.Item>
+      <div className="flex flex-col space-y-5">
+        <Input
+          maxLength={50}
+          showCount
+          placeholder="제목을 입력해주세요."
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
         {isProceedingUploadPage && (
-          <Form.Item name="public" valuePropName="checked" initialValue={false}>
-            <Checkbox>공개</Checkbox>
-          </Form.Item>
+          <Checkbox checked={isPublic} onChange={(e) => setIsPublic(e.target.checked)}>
+            공개
+          </Checkbox>
         )}
-        <Form.Item name="file">
-          <Upload
-            maxCount={1}
-            name="single"
-            beforeUpload={beforeUpload}
-            onChange={handleFileChange}
-            fileList={fileList}
-          />
-        </Form.Item>
-      </Form>
+        <Upload
+          maxCount={1}
+          name="single"
+          beforeUpload={beforeUpload}
+          onChange={handleFileChange}
+          fileList={fileList}
+        />
+      </div>
       <div className="flex justify-center">
         <Button type="primary" className="w-52" disabled={isButtonDisabled} onClick={handleSubmit}>
-          작성 완료
+          {isEditing ? '수정 완료' : '작성 완료'}
         </Button>
       </div>
     </div>
