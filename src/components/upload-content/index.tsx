@@ -25,11 +25,6 @@ function UploadContent({ title, data }: UploadContentProps) {
     }
   }, [data]);
 
-  useEffect(() => {
-    console.log(editorValue);
-    console.log(inputValue);
-  }, [editorValue, inputValue]);
-
   const stripHtmlTags = (html: string) => {
     const tmp = document.createElement('div');
     tmp.innerHTML = html;
