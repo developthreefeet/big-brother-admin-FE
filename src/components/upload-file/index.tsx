@@ -1,6 +1,7 @@
 import { Button, Checkbox, Input, message } from 'antd';
 import { UploadFile } from 'antd/es/upload/interface';
 import { useState, useEffect } from 'react';
+import { IoIosArrowBack } from 'react-icons/io';
 
 import { Upload } from '@/components/upload';
 import { usePathname } from '@/router/hooks';
@@ -55,7 +56,12 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
   };
 
   return (
-    <div className="flex flex-col p-10">
+    <div className="flex flex-col space-y-5 p-10">
+      {isEditing && (
+        <Button type="text" className="w-20" onClick={stopEditing} icon={<IoIosArrowBack />}>
+          뒤로가기
+        </Button>
+      )}
       <h1 className="mb-5 text-2xl font-bold">{title}</h1>
       <div className="flex flex-col space-y-5">
         <Input
