@@ -2,6 +2,7 @@ import { Divider, Table, Button } from 'antd';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { usePathname } from '@/router/hooks';
 import { useSettings } from '@/store/settingStore';
 import { returnPathname } from '@/utils/return-pathname';
 
@@ -26,6 +27,9 @@ function ListTable({ data, route, title }: ListTableProps) {
   const navigate = useNavigate();
 
   const { themeMode } = useSettings();
+
+  const pathname = usePathname();
+  const isProceedingUploadPage = pathname.includes('proceeding');
 
   const columns: TableColumnsType<DataType> = [
     {
@@ -52,6 +56,15 @@ function ListTable({ data, route, title }: ListTableProps) {
       title: '게시일',
       dataIndex: 'upload_date',
     },
+    ...(isProceedingUploadPage
+      ? [
+          {
+            title: '공개여부',
+            dataIndex: 'public',
+            render: (value: boolean) => (value ? '공개' : '비공개'),
+          },
+        ]
+      : []),
   ];
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {

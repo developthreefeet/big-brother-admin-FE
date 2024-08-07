@@ -7,12 +7,14 @@ export const proceedingData: DataType[] = [
     title: '회의록 제목',
     upload_date: '2024/07/23',
     id: '144',
+    public: true,
   },
   {
     key: '2',
     title: '회의록 제목2',
     upload_date: '2024/07/23',
     id: '1542',
+    public: false,
   },
 
   {
@@ -20,6 +22,7 @@ export const proceedingData: DataType[] = [
     title: '회의록 제목3',
     upload_date: '2024/07/23',
     id: '1234',
+    public: true,
   },
 ];
 
