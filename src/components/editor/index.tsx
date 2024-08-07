@@ -1,11 +1,10 @@
 /* eslint-disable import/order */
-import '@/utils/highlight';
 import ReactQuill from 'react-quill-new';
 import { useSettings } from '@/store/settingStore';
 import { useThemeToken } from '@/theme/hooks';
 import { StyledEditor } from './styles';
 
-export default function Editor({ ...other }: ReactQuill) {
+export default function Editor({ ...other }) {
   const token = useThemeToken();
   const { themeMode } = useSettings();
 
