@@ -1,7 +1,10 @@
 import { Button } from 'antd';
 
+import editStore from '@/store/editStore';
+
 function EditButton() {
-  return <Button>수정하기</Button>;
+  const { toggleEditing } = editStore();
+  return <Button onClick={toggleEditing}>수정하기</Button>;
 }
 
 export default EditButton;
