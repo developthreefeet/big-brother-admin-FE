@@ -75,8 +75,24 @@ function Transaction() {
     fontWeight: 'bolder',
   };
 
+  const calculateTotals = () => {
+    let totalDeposit = 0;
+    let totalWithdraw = 0;
+
+    transactionData.forEach((item) => {
+      if (item.deposit) {
+        totalDeposit += parseInt(item.deposit, 10);
+      }
+      if (item.withdraw) {
+        totalWithdraw += parseInt(item.withdraw, 10);
+      }
+    });
+
+    return { totalDeposit, totalWithdraw };
+  };
+
   return (
-    <div className="flex flex-col space-y-8">
+    <div className="flex flex-col space-y-8 p-10">
       <div className="flex flex-col space-y-1 pt-10">
         <h1 className="mb-5 text-2xl font-bold">입/출금 내역</h1>
         <div className="max-w-md">
@@ -88,6 +104,11 @@ function Transaction() {
             ))}
           </Carousel>
         </div>
+      </div>
+      <div className="flex flex-col justify-center space-y-2">
+        <p className="text-lg font-semibold">총 입/출금 내역</p>
+        <p className="text-lg">- {calculateTotals().totalWithdraw.toLocaleString()}원</p>
+        <p className="text-lg">+ {calculateTotals().totalDeposit.toLocaleString()}원</p>
       </div>
       <div>
         {transactionData.map((item, index) => (
