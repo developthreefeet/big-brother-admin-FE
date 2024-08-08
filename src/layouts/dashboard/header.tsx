@@ -8,6 +8,7 @@ import { useSettings } from '@/store/settingStore';
 import { useResponsive, useThemeToken } from '@/theme/hooks';
 
 import AccountDropdown from '../_common/account-dropdown';
+import OrganizationDropDown from '../_common/organization-dropdown';
 import SearchBar from '../_common/search-bar';
 import SettingButton from '../_common/setting-button';
 
@@ -67,10 +68,15 @@ export default function Header({ className = '', offsetTop = false }: Props) {
             )}
           </div>
 
-          <div className="flex">
-            <SearchBar />
-            <SettingButton />
-            <AccountDropdown />
+          <div className="flex items-center justify-center space-x-8">
+            <div>
+              <OrganizationDropDown />
+            </div>
+            <div className="flex">
+              <SearchBar />
+              <SettingButton />
+              <AccountDropdown />
+            </div>
           </div>
         </div>
       </header>

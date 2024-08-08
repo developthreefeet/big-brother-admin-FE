@@ -126,12 +126,12 @@ export default function SettingButton() {
                     color={colorPrimary}
                     className="!m-0"
                   />
-                  <span className="ml-2">전체화면</span>
+                  <span className="ml-2">전체화면 해제</span>
                 </>
               ) : (
                 <>
                   <SvgIcon icon="ic-settings-fullscreen" className="!m-0" />
-                  <span className="ml-2 text-gray">전체화면 해제</span>
+                  <span className="ml-2 text-gray">전체화면</span>
                 </>
               )}
             </div>
