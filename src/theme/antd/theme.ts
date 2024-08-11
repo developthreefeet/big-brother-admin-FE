@@ -1,6 +1,6 @@
 import { ThemeConfig } from 'antd';
 
-import { ThemeColorPresets } from '#/enum';
+import { ThemeColorPresetsEnumType } from '#/enum';
 /**
  * Antd theme editor: https://ant.design/theme-editor-cn
  */
@@ -33,7 +33,7 @@ const customComponentConfig: ThemeConfig['components'] = {
 };
 
 const colorPrimarys: {
-  [k in ThemeColorPresets]: string;
+  [k in ThemeColorPresetsEnumType]: string;
 } = {
   default: '#00a76f',
   cyan: '#078DEE',

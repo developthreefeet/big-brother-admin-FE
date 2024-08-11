@@ -12,7 +12,7 @@ import Main from './main';
 import Nav from './nav';
 import NavHorizontal from './nav-horizontal';
 
-import { ThemeLayout, ThemeMode } from '#/enum';
+import { ThemeLayout, ThemeMode, ThemeModeEnumType } from '#/enum';
 
 function DashboardLayout() {
   const { colorBgElevated, colorTextBase } = useThemeToken();
@@ -71,7 +71,7 @@ function DashboardLayout() {
 }
 export default DashboardLayout;
 
-const StyleWrapper = styled.div<{ $themeMode?: ThemeMode }>`
+const StyleWrapper = styled.div<{ $themeMode?: ThemeModeEnumType }>`
   /* 设置滚动条的整体样式 */
   ::-webkit-scrollbar {
     width: 8px; /* 设置滚动条宽度 */

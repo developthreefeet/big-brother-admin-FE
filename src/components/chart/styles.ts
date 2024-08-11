@@ -2,9 +2,9 @@ import { GlobalToken } from 'antd';
 import Color from 'color';
 import styled from 'styled-components';
 
-import { ThemeMode } from '#/enum';
+import { ThemeMode, ThemeModeEnumType } from '#/enum';
 
-export const StyledApexChart = styled.div<{ $thememode: ThemeMode; $theme: GlobalToken }>`
+export const StyledApexChart = styled.div<{ $thememode: ThemeModeEnumType; $theme: GlobalToken }>`
   .apexcharts-canvas {
     /* TOOLTIP */
     .apexcharts-tooltip {

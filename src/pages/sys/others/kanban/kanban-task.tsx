@@ -13,7 +13,7 @@ import { useThemeToken } from '@/theme/hooks';
 
 import TaskDetail from './task-detail';
 
-import { ThemeMode } from '#/enum';
+import { ThemeMode, ThemeModeEnumType } from '#/enum';
 
 type Props = {
   index: number;
@@ -149,7 +149,7 @@ function TaskPrioritySvg({ taskPriority }: TaskPrioritySvgProps) {
       break;
   }
 }
-const Container = styled.div<{ $isDragging: boolean; $themeMode: ThemeMode }>`
+const Container = styled.div<{ $isDragging: boolean; $themeMode: ThemeModeEnumType }>`
   width: 248px;
   border-radius: 12px;
   padding: 16px;
