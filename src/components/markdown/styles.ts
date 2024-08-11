@@ -5,7 +5,7 @@ import { GlobalToken } from 'antd';
  */
 import styled from 'styled-components';
 
-import { ThemeMode } from '#/enum';
+import { ThemeMode, ThemeModeEnumType } from '#/enum';
 
 type KeyofToken = keyof GlobalToken;
 const getHeadingStyle = (level: 1 | 2 | 3 | 4 | 5, token: GlobalToken) => {
@@ -20,7 +20,7 @@ const getHeadingStyle = (level: 1 | 2 | 3 | 4 | 5, token: GlobalToken) => {
     lineHeight: token[lineHeightHeading],
   };
 };
-const StyledMarkdown = styled.div<{ $token: GlobalToken; $thememode: ThemeMode }>`
+const StyledMarkdown = styled.div<{ $token: GlobalToken; $thememode: ThemeModeEnumType }>`
   display: grid;
   // Text
   h1 {

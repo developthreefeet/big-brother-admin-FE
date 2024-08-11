@@ -14,7 +14,13 @@ import { useSettingActions, useSettings } from '@/store/settingStore';
 import { colorPrimarys } from '@/theme/antd/theme';
 import { useThemeToken } from '@/theme/hooks';
 
-import { ThemeColorPresets, ThemeLayout, ThemeMode } from '#/enum';
+import {
+  ThemeColorPresetsEnumType,
+  ThemeLayout,
+  ThemeMode,
+  ThemeModeEnumType,
+  ThemeLayoutEnumType,
+} from '#/enum';
 
 /**
  * App Setting
@@ -27,21 +33,21 @@ export default function SettingButton() {
   const { themeMode, themeColorPresets, themeLayout, themeStretch } = settings;
   const { setSettings } = useSettingActions();
 
-  const setThemeMode = (themeMode: ThemeMode) => {
+  const setThemeMode = (themeMode: ThemeModeEnumType) => {
     setSettings({
       ...settings,
       themeMode,
     });
   };
 
-  const setThemeColorPresets = (themeColorPresets: ThemeColorPresets) => {
+  const setThemeColorPresets = (themeColorPresets: ThemeColorPresetsEnumType) => {
     setSettings({
       ...settings,
       themeColorPresets,
     });
   };
 
-  const setThemeLayout = (themeLayout: ThemeLayout) => {
+  const setThemeLayout = (themeLayout: ThemeLayoutEnumType) => {
     setSettings({
       ...settings,
       themeLayout,
@@ -72,7 +78,7 @@ export default function SettingButton() {
     }
   };
 
-  const layoutBackground = (layout: ThemeLayout) =>
+  const layoutBackground = (layout: ThemeLayoutEnumType) =>
     themeLayout === layout
       ? `linear-gradient(135deg, ${colorBgBase} 0%, ${colorPrimary} 100%)`
       : '#919eab';
@@ -340,7 +346,7 @@ export default function SettingButton() {
                   key={preset}
                   className="flex h-14 w-full cursor-pointer items-center justify-center"
                   style={{ backgroundColor: themeColorPresets === preset ? `${color}14` : '' }}
-                  onClick={() => setThemeColorPresets(preset as ThemeColorPresets)}
+                  onClick={() => setThemeColorPresets(preset as ThemeColorPresetsEnumType)}
                 >
                   <div style={{ color }}>
                     <MdCircle style={{ fontSize: themeColorPresets === preset ? 24 : 12 }} />

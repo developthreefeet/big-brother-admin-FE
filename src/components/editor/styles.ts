@@ -1,7 +1,7 @@
 import { GlobalToken } from 'antd';
 import styled from 'styled-components';
 
-import { ThemeMode } from '#/enum';
+import { ThemeModeEnumType } from '#/enum';
 
 type KeyofToken = keyof GlobalToken;
 const getHeadingStyle = (level: 1 | 2 | 3 | 4 | 5, token: GlobalToken) => {
@@ -17,7 +17,7 @@ const getHeadingStyle = (level: 1 | 2 | 3 | 4 | 5, token: GlobalToken) => {
   };
 };
 
-const StyledEditor = styled.div<{ $token: GlobalToken; $thememode: ThemeMode }>`
+const StyledEditor = styled.div<{ $token: GlobalToken; $thememode: ThemeModeEnumType }>`
   h1 {
     ${(props) => getHeadingStyle(1, props.$token)};
   }
@@ -67,7 +67,7 @@ const StyledEditor = styled.div<{ $token: GlobalToken; $thememode: ThemeMode }>`
   }
 `;
 
-const StyledToolbar = styled.div<{ $token: GlobalToken; $thememode: ThemeMode }>`
+const StyledToolbar = styled.div<{ $token: GlobalToken; $thememode: ThemeModeEnumType }>`
   & .ql-snow.ql-toolbar button:hover .ql-fill,
   .ql-snow .ql-toolbar button:hover .ql-fill,
   .ql-snow.ql-toolbar button:focus .ql-fill,

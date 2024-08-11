@@ -2,12 +2,20 @@ import { create } from 'zustand';
 
 import { getItem, removeItem, setItem } from '@/utils/storage';
 
-import { StorageEnum, ThemeColorPresets, ThemeLayout, ThemeMode } from '#/enum';
+import {
+  StorageEnum,
+  ThemeColorPresets,
+  ThemeColorPresetsEnumType,
+  ThemeLayout,
+  ThemeLayoutEnumType,
+  ThemeMode,
+  ThemeModeEnumType,
+} from '#/enum';
 
 type SettingsType = {
-  themeColorPresets: ThemeColorPresets;
-  themeMode: ThemeMode;
-  themeLayout: ThemeLayout;
+  themeColorPresets: ThemeColorPresetsEnumType;
+  themeMode: ThemeModeEnumType;
+  themeLayout: ThemeLayoutEnumType;
   themeStretch: boolean;
   breadCrumb: boolean;
   multiTab: boolean;

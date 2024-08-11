@@ -1,58 +1,78 @@
-export enum BasicStatus {
-  DISABLE,
-  ENABLE,
-}
+import { ValueOf } from '@/lib/types';
 
-export enum ResultEnum {
-  SUCCESS = 0,
-  ERROR = -1,
-  TIMEOUT = 401,
-}
+export const BasicStatus = {
+  DISABLE: 'DISABLE',
+  ENABLE: 'ENABLE',
+} as const;
 
-export enum StorageEnum {
-  User = 'user',
-  Token = 'token',
-  Settings = 'settings',
-  I18N = 'i18nextLng',
-}
+export type BasicStatusEnumType = ValueOf<typeof BasicStatus>;
 
-export enum ThemeMode {
-  Light = 'light',
-  Dark = 'dark',
-}
+export const ResultEnum = {
+  SUCCESS: 0,
+  ERROR: -1,
+  TIMEOUT: 401,
+} as const;
 
-export enum ThemeLayout {
-  Vertical = 'vertical',
-  Horizontal = 'horizontal',
-  Mini = 'mini',
-}
+export type ResultEnumType = ValueOf<typeof ResultEnum>;
 
-export enum ThemeColorPresets {
-  Default = 'default',
-  Cyan = 'cyan',
-  Purple = 'purple',
-  Blue = 'blue',
-  Orange = 'orange',
-  Red = 'red',
-}
+export const StorageEnum = {
+  User: 'user',
+  Token: 'token',
+  Settings: 'settings',
+  I18N: 'i18nextLng',
+} as const;
 
-export enum LocalEnum {
-  en_US = 'en_US',
-  zh_CN = 'zh_CN',
-}
+export type StorageEnumType = ValueOf<typeof StorageEnum>;
 
-export enum MultiTabOperation {
-  FULLSCREEN = 'fullscreen',
-  REFRESH = 'refresh',
-  CLOSE = 'close',
-  CLOSEOTHERS = 'closeOthers',
-  CLOSEALL = 'closeAll',
-  CLOSELEFT = 'closeLeft',
-  CLOSERIGHT = 'closeRight',
-}
+export const ThemeMode = {
+  Light: 'light',
+  Dark: 'dark',
+} as const;
 
-export enum PermissionType {
-  CATALOGUE,
-  MENU,
-  BUTTON,
-}
+export type ThemeModeEnumType = ValueOf<typeof ThemeMode>;
+
+export const ThemeLayout = {
+  Vertical: 'vertical',
+  Horizontal: 'horizontal',
+  Mini: 'mini',
+} as const;
+
+export type ThemeLayoutEnumType = ValueOf<typeof ThemeLayout>;
+
+export const ThemeColorPresets = {
+  Default: 'default',
+  Cyan: 'cyan',
+  Purple: 'purple',
+  Blue: 'blue',
+  Orange: 'orange',
+  Red: 'red',
+} as const;
+
+export type ThemeColorPresetsEnumType = ValueOf<typeof ThemeColorPresets>;
+
+export const LocalEnum = {
+  en_US: 'en_US',
+  zh_CN: 'zh_CN',
+} as const;
+
+export type LocalEnumType = ValueOf<typeof LocalEnum>;
+
+export const MultiTabOperation = {
+  FULLSCREEN: 'fullscreen',
+  REFRESH: 'refresh',
+  CLOSE: 'close',
+  CLOSEOTHERS: 'closeOthers',
+  CLOSEALL: 'closeAll',
+  CLOSELEFT: 'closeLeft',
+  CLOSERIGHT: 'closeRight',
+} as const;
+
+export type MultiTabOperationEnumType = ValueOf<typeof MultiTabOperation>;
+
+export const PermissionType = {
+  CATALOGUE: 'CATALOGUE',
+  MENU: 'MENU',
+  BUTTON: 'BUTTON',
+} as const;
+
+export type PermissionTypeEnumType = ValueOf<typeof PermissionType>;

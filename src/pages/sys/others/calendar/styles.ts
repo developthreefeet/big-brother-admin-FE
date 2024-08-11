@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
-import { ThemeMode } from '#/enum';
+import { ThemeMode, ThemeModeEnumType } from '#/enum';
 
-export const StyledCalendar = styled.div<{ $themeMode: ThemeMode }>`
+export const StyledCalendar = styled.div<{ $themeMode: ThemeModeEnumType }>`
   width: 100%;
   height: 100%;
   overflow: auto;
