@@ -29,6 +29,7 @@ export const useProceedingStore = create<ProceedingState>()(
           edit_date: '2024-08-24',
           content: '',
           file: '/static/proceeding-1.pdf',
+          public: true,
         },
         {
           key: '2',
@@ -37,7 +38,8 @@ export const useProceedingStore = create<ProceedingState>()(
           upload_date: '2024-07-23',
           edit_date: '2024-07-24',
           content: '',
-          file: '',
+          file: '/static/proceeding-1.pdf',
+          public: false,
         },
       ],
       addProceeding: (proceeding) =>
