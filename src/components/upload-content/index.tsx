@@ -43,6 +43,14 @@ function UploadContent({ title, data }: UploadContentProps) {
 
   const isValid = inputValue.length > 0 && stripHtmlTags(editorValue).trim().length > 0;
 
+  const today = new Date();
+
+  const year = today.getFullYear();
+  const month = `0${today.getMonth() + 1}`.slice(-2);
+  const day = `0${today.getDate()}`.slice(-2);
+
+  const dateString = `${year}-${month}-${day}`;
+
   const handleButtonClick = () => {
     if (isValid) {
       if (isEditing) {
@@ -50,21 +58,21 @@ function UploadContent({ title, data }: UploadContentProps) {
           updateNotice(data!.id!, {
             title: inputValue,
             content: editorValue,
-            edit_date: new Date().toISOString().split('T')[0],
+            edit_date: dateString,
           });
         }
         if (pathname.includes('event')) {
           updateEvent(data!.id!, {
             title: inputValue,
             content: editorValue,
-            edit_date: new Date().toISOString().split('T')[0],
+            edit_date: dateString,
           });
         }
         if (pathname.includes('faq')) {
           updateFaq(data!.id!, {
             title: inputValue,
             content: editorValue,
-            edit_date: new Date().toISOString().split('T')[0],
+            edit_date: dateString,
           });
         }
         stopEditing();
@@ -77,8 +85,8 @@ function UploadContent({ title, data }: UploadContentProps) {
           key: `${Date.now()}`,
           id: `${Date.now()}`,
           title: inputValue,
-          upload_date: new Date().toISOString().split('T')[0],
-          edit_date: new Date().toISOString().split('T')[0],
+          upload_date: dateString,
+          edit_date: dateString,
           content: editorValue,
         };
         if (pathname.includes('notice')) addNotice(newData as Notice);

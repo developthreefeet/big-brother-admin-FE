@@ -173,7 +173,7 @@ function Transaction() {
     let totalDeposit = 0;
     let totalWithdraw = 0;
 
-    const data = transactionData[selectedMonth] || [];
+    const data = transactionData[selectedMonth] || transactionData['8월'];
     data.forEach((item) => {
       if (item.deposit) {
         totalDeposit += parseInt(item.deposit, 10);
@@ -186,7 +186,7 @@ function Transaction() {
     return { totalDeposit, totalWithdraw };
   };
 
-  const currentMonthData = transactionData[selectedMonth] || [];
+  const currentMonthData = transactionData[selectedMonth] || transactionData['8월'];
 
   return (
     <div className="flex flex-col space-y-8 p-10">

@@ -28,6 +28,13 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
   const { addProceeding, updateProceeding } = useProceedingStore();
   const { addRule, updateRule } = useRuleStore();
 
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = `0${today.getMonth() + 1}`.slice(-2);
+  const day = `0${today.getDate()}`.slice(-2);
+
+  const dateString = `${year}-${month}-${day}`;
+
   useEffect(() => {
     if (data) {
       setInputValue(data.title);
@@ -54,15 +61,14 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
   const handleFileChange = ({ fileList }: { fileList: UploadFile[] }) => setFileList(fileList);
 
   const handleSubmit = () => {
-    const fileUrl = '/static/test.pdf'; // Update file URL as per the requirement
+    const fileUrl = '/static/test.pdf';
 
-    // Data to be used for both add and update
     const proceedingData = {
-      key: new Date().getTime().toString(), // Unique key
-      id: data ? data.id : new Date().getTime().toString(), // Use existing ID if editing
+      key: new Date().getTime().toString(),
+      id: data ? data.id : new Date().getTime().toString(),
       title: inputValue,
-      upload_date: new Date().toISOString().split('T')[0],
-      edit_date: new Date().toISOString().split('T')[0],
+      upload_date: dateString,
+      edit_date: dateString,
       content: '',
       file: fileUrl,
       public: isPublic,
@@ -70,9 +76,9 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
 
     if (isEditing) {
       if (isProceedingUploadPage) {
-        updateProceeding(data?.id as string, proceedingData); // Use the data ID if editing
+        updateProceeding(data?.id as string, proceedingData);
       } else {
-        updateRule(data?.id as string, proceedingData); // Use the data ID if editing
+        updateRule(data?.id as string, proceedingData);
       }
       notification.success({ message: '수정이 완료되었습니다.' });
     } else if (isProceedingUploadPage) {
