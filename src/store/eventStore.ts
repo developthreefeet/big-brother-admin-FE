@@ -64,7 +64,7 @@ export const useEventStore = create<EventState>()(
         })),
     }),
     {
-      name: 'notice-storage',
+      name: 'event-storage',
     },
   ),
 );
