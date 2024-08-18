@@ -2,7 +2,9 @@ import { Button, Input, notification } from 'antd';
 import { useEffect, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 
+import { usePathname } from '@/router/hooks';
 import editStore from '@/store/editStore';
+import { Event, useEventStore } from '@/store/eventStore';
 import { Notice, useNoticeStore } from '@/store/noticeStore';
 
 import Editor from '../editor';
@@ -19,7 +21,10 @@ function UploadContent({ title, data }: UploadContentProps) {
 
   const { isEditing, stopEditing } = editStore();
 
-  const { addNotice, updateNotice, notices } = useNoticeStore();
+  const { addNotice, updateNotice } = useNoticeStore();
+  const { addEvent, updateEvent } = useEventStore();
+
+  const pathname = usePathname();
 
   useEffect(() => {
     if (data) {
@@ -39,18 +44,30 @@ function UploadContent({ title, data }: UploadContentProps) {
   const handleButtonClick = () => {
     if (isValid) {
       if (isEditing) {
-        updateNotice(data!.id!, {
-          title: inputValue,
-          content: editorValue,
-          edit_date: new Date().toISOString().split('T')[0],
-        });
+        if (pathname.includes('notice')) {
+          updateNotice(data!.id!, {
+            title: inputValue,
+            content: editorValue,
+            edit_date: new Date().toISOString().split('T')[0],
+          });
+        }
+        if (pathname.includes('event')) {
+          updateEvent(data!.id!, {
+            title: inputValue,
+            content: editorValue,
+            edit_date: new Date().toISOString().split('T')[0],
+          });
+        }
+        if (pathname.includes('faq')) {
+          // faq store 관리
+        }
         stopEditing();
         notification.success({
           message: '수정 완료',
-          description: '공지사항이 성공적으로 수정되었습니다.',
+          description: '성공적으로 수정되었습니다.',
         });
       } else {
-        const newNotice: DataType = {
+        const newData: DataType = {
           key: `${Date.now()}`,
           id: `${Date.now()}`,
           title: inputValue,
@@ -58,12 +75,13 @@ function UploadContent({ title, data }: UploadContentProps) {
           edit_date: new Date().toISOString().split('T')[0],
           content: editorValue,
         };
-        addNotice(newNotice as Notice);
+        if (pathname.includes('notice')) addNotice(newData as Notice);
+        if (pathname.includes('event')) addEvent(newData as Event);
+
         notification.success({
           message: '업로드 완료',
-          description: '공지사항이 성공적으로 업로드되었습니다.',
+          description: '성공적으로 업로드되었습니다.',
         });
-        console.log(notices);
       }
 
       setInputValue('');
