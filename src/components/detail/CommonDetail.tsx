@@ -2,7 +2,6 @@ import CommonBackToListButton from '../back-to-list-button/CommonBackToListButto
 import IconBackToListButton from '../back-to-list-button/IconBackToListButton';
 import EditButton from '../edit-button';
 import { DataType } from '../list-table/types';
-import Preference from '../preference';
 
 function CommonDetail({ data }: { data: DataType }) {
   return (
@@ -23,7 +22,6 @@ function CommonDetail({ data }: { data: DataType }) {
       <div className="rounded-sm border-2 border-gray-200 p-8">
         <p>{data.content}</p>
       </div>
-      <Preference />
       <div className="flex justify-end pt-10">
         <CommonBackToListButton />
       </div>

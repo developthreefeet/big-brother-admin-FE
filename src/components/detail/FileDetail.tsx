@@ -2,7 +2,6 @@ import CommonBackToListButton from '../back-to-list-button/CommonBackToListButto
 import IconBackToListButton from '../back-to-list-button/IconBackToListButton';
 import EditButton from '../edit-button';
 import { DataType } from '../list-table/types';
-import Preference from '../preference';
 
 import PdfViewer from './PdfViewer';
 
@@ -19,7 +18,6 @@ function FileDetail({ data }: { data: DataType }) {
       </p>
       <hr />
       <PdfViewer pdf="/static/test.pdf" />
-      <Preference />
       <div className="flex justify-end pt-10">
         <CommonBackToListButton />
       </div>
