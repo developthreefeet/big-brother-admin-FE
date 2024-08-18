@@ -7,11 +7,11 @@ import FileDetail from '@/components/detail/FileDetail';
 import UploadFileComponent from '@/components/upload-file';
 import useDataMatch from '@/router/hooks/use-data-match';
 import useEditStore from '@/store/editStore';
-
-import { proceedingData } from '..';
+import { useProceedingStore } from '@/store/proceedingStore';
 
 const index = () => {
-  const data = useDataMatch(proceedingData);
+  const { proceedings } = useProceedingStore();
+  const data = useDataMatch(proceedings);
   const { isEditing, resetEditing } = useEditStore();
   const location = useLocation();
 

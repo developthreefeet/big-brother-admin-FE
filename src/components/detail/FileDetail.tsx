@@ -17,7 +17,7 @@ function FileDetail({ data }: { data: DataType }) {
         <strong>게시일</strong> {data.upload_date}
       </p>
       <hr />
-      <PdfViewer pdf="/static/test.pdf" />
+      <PdfViewer pdf={data.file as string} />
       <div className="flex justify-end pt-10">
         <CommonBackToListButton />
       </div>
