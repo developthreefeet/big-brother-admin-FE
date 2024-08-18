@@ -58,9 +58,7 @@ export const useFaqStore = create<FaqState>()(
       addFaq: (faq) => set((state) => ({ faqs: [...state.faqs, faq] })),
       updateFaq: (id, updatedFaq) =>
         set((state) => ({
-          faqs: state.faqs.map((notice) =>
-            notice.id === id ? { ...notice, ...updatedFaq } : notice,
-          ),
+          faqs: state.faqs.map((faq) => (faq.id === id ? { ...faq, ...updatedFaq } : faq)),
         })),
     }),
     {

@@ -58,8 +58,8 @@ export const useEventStore = create<EventState>()(
       addEvent: (event) => set((state) => ({ events: [...state.events, event] })),
       updateEvent: (id, updatedEvent) =>
         set((state) => ({
-          events: state.events.map((notice) =>
-            notice.id === id ? { ...notice, ...updatedEvent } : notice,
+          events: state.events.map((event) =>
+            event.id === id ? { ...event, ...updatedEvent } : event,
           ),
         })),
     }),

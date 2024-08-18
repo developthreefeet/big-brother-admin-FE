@@ -7,6 +7,7 @@ export interface DataType {
   content: string;
   edit_date: string;
   public?: boolean;
+  file?: string;
 }
 
 export interface TransactionDataType {
