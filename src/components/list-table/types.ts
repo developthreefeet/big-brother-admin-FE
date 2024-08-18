@@ -4,8 +4,8 @@ export interface DataType {
   id: string;
   title: string;
   upload_date: string;
-  content?: string;
-  edit_date?: string;
+  content: string;
+  edit_date: string;
   public?: boolean;
 }
 

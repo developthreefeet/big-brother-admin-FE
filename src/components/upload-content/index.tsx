@@ -1,8 +1,9 @@
-import { Button, Input } from 'antd';
+import { Button, Input, notification } from 'antd';
 import { useEffect, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 
 import editStore from '@/store/editStore';
+import { Notice, useNoticeStore } from '@/store/noticeStore';
 
 import Editor from '../editor';
 import { DataType } from '../list-table/types';
@@ -18,9 +19,11 @@ function UploadContent({ title, data }: UploadContentProps) {
 
   const { isEditing, stopEditing } = editStore();
 
+  const { addNotice, updateNotice, notices } = useNoticeStore();
+
   useEffect(() => {
     if (data) {
-      setInputValue(data.title);
+      setInputValue(data.title as string);
       setEditorValue(data.content as string);
     }
   }, [data]);
@@ -35,12 +38,36 @@ function UploadContent({ title, data }: UploadContentProps) {
 
   const handleButtonClick = () => {
     if (isValid) {
-      console.log('Title:', inputValue);
-      console.log('Content:', editorValue);
       if (isEditing) {
-        // 수정 api
+        updateNotice(data!.id!, {
+          title: inputValue,
+          content: editorValue,
+          edit_date: new Date().toISOString().split('T')[0],
+        });
         stopEditing();
-      } // else upload api
+        notification.success({
+          message: '수정 완료',
+          description: '공지사항이 성공적으로 수정되었습니다.',
+        });
+      } else {
+        const newNotice: DataType = {
+          key: `${Date.now()}`,
+          id: `${Date.now()}`,
+          title: inputValue,
+          upload_date: new Date().toISOString().split('T')[0],
+          edit_date: new Date().toISOString().split('T')[0],
+          content: editorValue,
+        };
+        addNotice(newNotice as Notice);
+        notification.success({
+          message: '업로드 완료',
+          description: '공지사항이 성공적으로 업로드되었습니다.',
+        });
+        console.log(notices);
+      }
+
+      setInputValue('');
+      setEditorValue('');
     }
   };
 
