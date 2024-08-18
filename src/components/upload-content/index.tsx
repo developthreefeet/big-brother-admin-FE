@@ -5,6 +5,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { usePathname } from '@/router/hooks';
 import editStore from '@/store/editStore';
 import { Event, useEventStore } from '@/store/eventStore';
+import { FAQ, useFaqStore } from '@/store/faqStore';
 import { Notice, useNoticeStore } from '@/store/noticeStore';
 
 import Editor from '../editor';
@@ -23,6 +24,7 @@ function UploadContent({ title, data }: UploadContentProps) {
 
   const { addNotice, updateNotice } = useNoticeStore();
   const { addEvent, updateEvent } = useEventStore();
+  const { addFaq, updateFaq } = useFaqStore();
 
   const pathname = usePathname();
 
@@ -59,7 +61,11 @@ function UploadContent({ title, data }: UploadContentProps) {
           });
         }
         if (pathname.includes('faq')) {
-          // faq store 관리
+          updateFaq(data!.id!, {
+            title: inputValue,
+            content: editorValue,
+            edit_date: new Date().toISOString().split('T')[0],
+          });
         }
         stopEditing();
         notification.success({
@@ -77,7 +83,7 @@ function UploadContent({ title, data }: UploadContentProps) {
         };
         if (pathname.includes('notice')) addNotice(newData as Notice);
         if (pathname.includes('event')) addEvent(newData as Event);
-
+        if (pathname.includes('faq')) addFaq(newData as FAQ);
         notification.success({
           message: '업로드 완료',
           description: '성공적으로 업로드되었습니다.',
