@@ -1,5 +1,5 @@
 import { Divider, Table, Button } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { usePathname } from '@/router/hooks';
@@ -30,6 +30,10 @@ function ListTable({ data, route, title }: ListTableProps) {
 
   const pathname = usePathname();
   const isProceedingUploadPage = pathname.includes('proceeding');
+
+  useEffect(() => {
+    setTableData(data);
+  }, [data]);
 
   const columns: TableColumnsType<DataType> = [
     {

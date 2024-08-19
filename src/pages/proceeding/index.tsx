@@ -1,33 +1,9 @@
 import ListTable from '@/components/list-table';
-import { DataType } from '@/components/list-table/types';
-
-export const proceedingData: DataType[] = [
-  {
-    key: '1',
-    title: '회의록 제목',
-    upload_date: '2024/07/23',
-    id: '144',
-    public: true,
-  },
-  {
-    key: '2',
-    title: '회의록 제목2',
-    upload_date: '2024/07/23',
-    id: '1542',
-    public: false,
-  },
-
-  {
-    key: '3',
-    title: '회의록 제목3',
-    upload_date: '2024/07/23',
-    id: '1234',
-    public: true,
-  },
-];
+import { useProceedingStore } from '@/store/proceedingStore';
 
 function Proceeding() {
-  return <ListTable data={proceedingData} route="/proceeding/upload" title="회의록 목록" />;
+  const { proceedings } = useProceedingStore();
+  return <ListTable data={proceedings} route="/proceeding/upload" title="회의록 목록" />;
 }
 
 export default Proceeding;
