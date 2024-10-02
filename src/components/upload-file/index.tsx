@@ -1,4 +1,4 @@
-import { Button, Checkbox, Input, message } from 'antd';
+import { Button, Checkbox, Input, message, notification } from 'antd';
 import { UploadFile } from 'antd/es/upload/interface';
 import { useState, useEffect } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
@@ -6,6 +6,8 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { Upload } from '@/components/upload';
 import { usePathname } from '@/router/hooks';
 import editStore from '@/store/editStore';
+import { useProceedingStore } from '@/store/proceedingStore'; // Make sure to adjust the import path
+import { useRuleStore } from '@/store/ruleStore'; // Make sure to adjust the import path
 
 import { DataType } from '../list-table/types';
 
@@ -23,11 +25,24 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
   const isProceedingUploadPage = pathname.includes('proceeding');
 
   const { isEditing, stopEditing } = editStore();
+  const { addProceeding, updateProceeding } = useProceedingStore();
+  const { addRule, updateRule } = useRuleStore();
+
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = `0${today.getMonth() + 1}`.slice(-2);
+  const day = `0${today.getDate()}`.slice(-2);
+
+  const dateString = `${year}-${month}-${day}`;
 
   useEffect(() => {
     if (data) {
       setInputValue(data.title);
-      // 파일은 추후 추가해야 함 (현재는 정적 asset 사용 중)
+      // Update file list if data.file is not empty
+      if (data.file) {
+        setFileList([{ uid: '0', name: 'uploaded-file.pdf', status: 'done', url: data.file }]);
+      }
+      setIsPublic(data.public || false);
     }
   }, [data]);
 
@@ -46,9 +61,38 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
   const handleFileChange = ({ fileList }: { fileList: UploadFile[] }) => setFileList(fileList);
 
   const handleSubmit = () => {
-    console.log('Title:', inputValue);
-    console.log('File List:', fileList);
-    console.log('Public:', isPublic);
+    const fileUrl = '/static/test.pdf';
+
+    const proceedingData = {
+      key: new Date().getTime().toString(),
+      id: data ? data.id : new Date().getTime().toString(),
+      title: inputValue,
+      upload_date: dateString,
+      edit_date: dateString,
+      content: '',
+      file: fileUrl,
+      public: isPublic,
+    };
+
+    if (isEditing) {
+      if (isProceedingUploadPage) {
+        updateProceeding(data?.id as string, proceedingData);
+      } else {
+        updateRule(data?.id as string, proceedingData);
+      }
+      notification.success({ message: '수정이 완료되었습니다.' });
+    } else if (isProceedingUploadPage) {
+      addProceeding(proceedingData);
+      notification.success({ message: '업로드가 완료되었습니다.' });
+    } else {
+      addRule(proceedingData);
+      notification.success({ message: '업로드가 완료되었습니다.' });
+    }
+
+    // Clear input values
+    setInputValue('');
+    setFileList([]);
+    setIsPublic(false);
 
     if (isEditing) {
       stopEditing();

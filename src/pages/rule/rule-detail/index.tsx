@@ -2,11 +2,11 @@
 
 import FileDetail from '@/components/detail/FileDetail';
 import useDataMatch from '@/router/hooks/use-data-match';
-
-import { ruleData } from '..';
+import { useRuleStore } from '@/store/ruleStore';
 
 const index = () => {
-  const data = useDataMatch(ruleData);
+  const { rules } = useRuleStore();
+  const data = useDataMatch(rules);
 
   if (!data) {
     return null;

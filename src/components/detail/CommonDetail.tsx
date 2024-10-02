@@ -1,8 +1,10 @@
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
+
 import CommonBackToListButton from '../back-to-list-button/CommonBackToListButton';
 import IconBackToListButton from '../back-to-list-button/IconBackToListButton';
 import EditButton from '../edit-button';
 import { DataType } from '../list-table/types';
-import Preference from '../preference';
 
 function CommonDetail({ data }: { data: DataType }) {
   return (
@@ -21,9 +23,8 @@ function CommonDetail({ data }: { data: DataType }) {
         </p>
       </div>
       <div className="rounded-sm border-2 border-gray-200 p-8">
-        <p>{data.content}</p>
+        <ReactMarkdown rehypePlugins={[rehypeRaw]}>{data.content}</ReactMarkdown>
       </div>
-      <Preference />
       <div className="flex justify-end pt-10">
         <CommonBackToListButton />
       </div>

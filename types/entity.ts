@@ -47,7 +47,7 @@ export interface Role {
   id: string;
   name: string;
   label: string;
-  status: PermissionTypeEnumType;
+  status: BasicStatusEnumType;
   order?: number;
   desc?: string;
   permission?: Permission[];

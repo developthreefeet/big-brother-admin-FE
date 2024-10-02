@@ -1,8 +1,12 @@
-import { Button, Input } from 'antd';
+import { Button, Input, notification } from 'antd';
 import { useEffect, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 
+import { usePathname } from '@/router/hooks';
 import editStore from '@/store/editStore';
+import { Event, useEventStore } from '@/store/eventStore';
+import { FAQ, useFaqStore } from '@/store/faqStore';
+import { Notice, useNoticeStore } from '@/store/noticeStore';
 
 import Editor from '../editor';
 import { DataType } from '../list-table/types';
@@ -18,9 +22,15 @@ function UploadContent({ title, data }: UploadContentProps) {
 
   const { isEditing, stopEditing } = editStore();
 
+  const { addNotice, updateNotice } = useNoticeStore();
+  const { addEvent, updateEvent } = useEventStore();
+  const { addFaq, updateFaq } = useFaqStore();
+
+  const pathname = usePathname();
+
   useEffect(() => {
     if (data) {
-      setInputValue(data.title);
+      setInputValue(data.title as string);
       setEditorValue(data.content as string);
     }
   }, [data]);
@@ -33,14 +43,63 @@ function UploadContent({ title, data }: UploadContentProps) {
 
   const isValid = inputValue.length > 0 && stripHtmlTags(editorValue).trim().length > 0;
 
+  const today = new Date();
+
+  const year = today.getFullYear();
+  const month = `0${today.getMonth() + 1}`.slice(-2);
+  const day = `0${today.getDate()}`.slice(-2);
+
+  const dateString = `${year}-${month}-${day}`;
+
   const handleButtonClick = () => {
     if (isValid) {
-      console.log('Title:', inputValue);
-      console.log('Content:', editorValue);
       if (isEditing) {
-        // 수정 api
+        if (pathname.includes('notice')) {
+          updateNotice(data!.id!, {
+            title: inputValue,
+            content: editorValue,
+            edit_date: dateString,
+          });
+        }
+        if (pathname.includes('event')) {
+          updateEvent(data!.id!, {
+            title: inputValue,
+            content: editorValue,
+            edit_date: dateString,
+          });
+        }
+        if (pathname.includes('faq')) {
+          updateFaq(data!.id!, {
+            title: inputValue,
+            content: editorValue,
+            edit_date: dateString,
+          });
+        }
         stopEditing();
-      } // else upload api
+        notification.success({
+          message: '수정 완료',
+          description: '성공적으로 수정되었습니다.',
+        });
+      } else {
+        const newData: DataType = {
+          key: `${Date.now()}`,
+          id: `${Date.now()}`,
+          title: inputValue,
+          upload_date: dateString,
+          edit_date: dateString,
+          content: editorValue,
+        };
+        if (pathname.includes('notice')) addNotice(newData as Notice);
+        if (pathname.includes('event')) addEvent(newData as Event);
+        if (pathname.includes('faq')) addFaq(newData as FAQ);
+        notification.success({
+          message: '업로드 완료',
+          description: '성공적으로 업로드되었습니다.',
+        });
+      }
+
+      setInputValue('');
+      setEditorValue('');
     }
   };
 

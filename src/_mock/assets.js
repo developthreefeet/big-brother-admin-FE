@@ -290,7 +290,7 @@ const USER_MANAGEMENT_PERMISSION = {
       route:'profile',
       component:'/user/profile/index.tsx',
     },
-    {
+    /*{
       id:'12',
       parentId:'7',
       label:'사용자 관리',
@@ -298,7 +298,7 @@ const USER_MANAGEMENT_PERMISSION = {
       type:PermissionType.MENU,
       route:'management',
       component:'/user/management/index.tsx'
-    }
+    }*/
   ]
 };
 

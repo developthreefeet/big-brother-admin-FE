@@ -7,11 +7,11 @@ import CommonDetail from '@/components/detail/CommonDetail';
 import UploadContent from '@/components/upload-content';
 import useDataMatch from '@/router/hooks/use-data-match';
 import editStore from '@/store/editStore';
-
-import { faqData } from '..';
+import { useFaqStore } from '@/store/faqStore';
 
 const index = () => {
-  const data = useDataMatch(faqData);
+  const { faqs } = useFaqStore();
+  const data = useDataMatch(faqs);
   const { isEditing, resetEditing } = editStore();
   const location = useLocation();
 
