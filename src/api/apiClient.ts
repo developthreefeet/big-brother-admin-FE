@@ -104,7 +104,7 @@ class APIClient {
       axiosInstance
         .request<any, AxiosResponse<Result>>(config)
         .then((res: AxiosResponse<Result>) => {
-          resolve(res as unknown as Promise<T>);
+          resolve(res.data.data as unknown as Promise<T>);
         })
         .catch((e: Error | AxiosError) => {
           reject(e);
