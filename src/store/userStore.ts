@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { App } from 'antd';
+import { Cookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { create } from 'zustand';
 
@@ -52,6 +53,8 @@ export const useSignIn = () => {
   const { message } = App.useApp();
   const { setUserToken, setUserInfo } = useUserActions();
 
+  const cookies = new Cookies();
+
   const signInMutation = useMutation({
     mutationFn: userService.signin,
   });
@@ -61,6 +64,8 @@ export const useSignIn = () => {
       const res = await signInMutation.mutateAsync(data);
       const { user, accessToken, refreshToken } = res;
       setUserToken({ accessToken, refreshToken });
+      cookies.set('accessToken', accessToken, { maxAge: 60 * 60 * 24 * 30 });
+      cookies.set('refreshToken', refreshToken, { maxAge: 60 * 60 * 24 * 30 });
       setUserInfo(user);
       navigatge(HOMEPAGE, { replace: true });
     } catch (err) {
