@@ -3,7 +3,7 @@ import { t } from 'i18next';
 import { Cookies } from 'react-cookie';
 
 import { refresh } from '@/api/services/userService';
-import { deleteToken } from '@/shared/lib/utils';
+import { deleteToken } from '@/lib/utils';
 
 import { Result } from '#/api';
 
