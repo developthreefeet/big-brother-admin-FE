@@ -1,57 +1,78 @@
-import { message as Message } from 'antd';
 import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
+import { Cookies } from 'react-cookie';
 
-import { t } from '@/locales/i18n';
-import userStore from '@/store/userStore';
+import { refresh } from '@/api/services/userService';
+import { deleteToken } from '@/lib/utils';
 
 import { Result } from '#/api';
-import { ResultEnum } from '#/enum';
 
-// 创建 axios 实例
 const axiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_APP_BASE_API,
-  timeout: 50000,
+  baseURL: `${import.meta.env.VITE_APP_BASE_URL}/api/v1`,
+  timeout: 1000 * 60,
   headers: { 'Content-Type': 'application/json;charset=utf-8' },
 });
 
-// 请求拦截
+const cookies = new Cookies();
+
 axiosInstance.interceptors.request.use(
   (config) => {
-    // 在请求被发送之前做些什么
-    config.headers.Authorization = 'Bearer Token';
+    const accessToken = cookies.get('accessToken');
+    const refreshToken = cookies.get('refreshToken');
+
+    if (accessToken && config.url !== '/members/refresh') {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
+    if (config.url === '/members/refresh') {
+      config.headers.Authorization = `Bearer ${refreshToken}`;
+    }
     return config;
   },
   (error) => {
-    // 请求错误时做些什么
     return Promise.reject(error);
   },
 );
 
-// 响应拦截
 axiosInstance.interceptors.response.use(
-  (res: AxiosResponse<Result>) => {
-    if (!res.data) throw new Error(t('sys.api.apiRequestFailed'));
-
-    const { status, data, message } = res.data;
-    // 业务请求成功
-    const hasSuccess = data && Reflect.has(res.data, 'status') && status === ResultEnum.SUCCESS;
-    if (hasSuccess) {
-      return data;
-    }
-
-    // 业务请求错误
-    throw new Error(message || t('sys.api.apiRequestFailed'));
+  (response) => {
+    return response;
   },
-  (error: AxiosError<Result>) => {
-    const { response, message } = error || {};
+  async (error) => {
+    const statusCode = error.response?.status;
+    const errorCode = error.response?.data.responseCode;
 
-    const errMsg = response?.data?.message || message || t('sys.api.errorMessage');
-    Message.error(errMsg);
+    if (statusCode === 400) {
+      // ACCESS 토큰 만료
+      if (errorCode === 'TOKEN_001') {
+        try {
+          // Access Token 재발급
+          const refreshData = await refresh();
 
-    const status = response?.status;
-    if (status === 401) {
-      userStore.getState().actions.clearUserInfoAndToken();
+          cookies.set('accessToken', refreshData.accessToken, { path: '/' });
+          cookies.set('refreshToken', refreshData.refreshToken, { path: '/' });
+
+          // 기존 요청 재시도
+          error.config.headers.Authorization = `Bearer ${refreshData.accessToken}`;
+          return await axiosInstance.request(error.config); // 기존 요청 재시도
+        } catch (refreshError: any) {
+          // Refresh 토큰이 만료되었거나, 리프레시 실패 시
+          deleteToken();
+          // eslint-disable-next-line no-alert
+          alert('세션이 만료되었습니다. 다시 로그인해주세요.');
+          window.location.replace('/login');
+          return Promise.reject(refreshError);
+        }
+      }
+      // Refresh 토큰이 만료된 경우
+      else if (errorCode === 'TOKEN_002') {
+        deleteToken();
+        // eslint-disable-next-line no-alert
+        alert('세션이 만료되었습니다. 다시 로그인해주세요.');
+        window.location.replace('/login');
+        return Promise.reject(error);
+      }
     }
+
+    // 그 외의 오류 처리
     return Promise.reject(error);
   },
 );
@@ -78,7 +99,7 @@ class APIClient {
       axiosInstance
         .request<any, AxiosResponse<Result>>(config)
         .then((res: AxiosResponse<Result>) => {
-          resolve(res as unknown as Promise<T>);
+          resolve(res.data.data as unknown as Promise<T>);
         })
         .catch((e: Error | AxiosError) => {
           reject(e);

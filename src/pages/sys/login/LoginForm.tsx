@@ -16,10 +16,10 @@ function LoginForm() {
 
   if (loginState !== LoginStateEnum.LOGIN) return null;
 
-  const handleFinish = async ({ email, password }: SignInReq) => {
+  const handleFinish = async ({ memberEmail, memberPass }: SignInReq) => {
     setLoading(true);
     try {
-      await signIn({ email, password });
+      await signIn({ memberEmail, memberPass });
     } finally {
       setLoading(false);
     }
@@ -28,14 +28,17 @@ function LoginForm() {
     <>
       <div className="mb-4 text-xl font-bold xl:text-xl">{t('로그인')}</div>
       <Form name="login" size="large" onFinish={handleFinish}>
-        <Form.Item name="email" rules={[{ required: true, message: t('이메일을 입력해주세요.') }]}>
-          <Input type="email" placeholder={t('이메일')} />
+        <Form.Item
+          name="memberEmail"
+          rules={[{ required: true, message: t('이메일을 입력해주세요.') }]}
+        >
+          <Input type="memberEmail" placeholder={t('이메일')} />
         </Form.Item>
         <Form.Item
-          name="password"
+          name="memberPass"
           rules={[{ required: true, message: t('비밀번호를 입력해주세요.') }]}
         >
-          <Input.Password type="password" placeholder={t('비밀번호')} />
+          <Input.Password type="memberPass" placeholder={t('비밀번호')} />
         </Form.Item>
         <Form.Item>
           <Button type="primary" htmlType="submit" className="w-full" loading={loading}>

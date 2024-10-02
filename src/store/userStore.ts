@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { App } from 'antd';
+import axios from 'axios';
 import { Cookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { create } from 'zustand';
@@ -51,7 +52,7 @@ export const useUserActions = () => useUserStore((state) => state.actions);
 export const useSignIn = () => {
   const navigatge = useNavigate();
   const { message } = App.useApp();
-  const { setUserToken, setUserInfo } = useUserActions();
+  const { setUserToken /* , setUserInfo */ } = useUserActions();
 
   const cookies = new Cookies();
 
@@ -62,17 +63,35 @@ export const useSignIn = () => {
   const signIn = async (data: SignInReq) => {
     try {
       const res = await signInMutation.mutateAsync(data);
-      const { user, accessToken, refreshToken } = res;
+
+      const { /* user, */ accessToken, refreshToken } = res;
+      console.log(accessToken);
       setUserToken({ accessToken, refreshToken });
       cookies.set('accessToken', accessToken, { maxAge: 60 * 60 * 24 * 30 });
       cookies.set('refreshToken', refreshToken, { maxAge: 60 * 60 * 24 * 30 });
-      setUserInfo(user);
+      // setUserInfo(user);
       navigatge(HOMEPAGE, { replace: true });
     } catch (err) {
-      message.warning({
-        content: err.message,
-        duration: 3,
-      });
+      if (axios.isAxiosError(err) && err.response) {
+        const statusCode = err.response.status;
+        // 수정 필요
+        if (statusCode === 404 || statusCode === 500) {
+          message.warning({
+            content: '이메일이나 비밀번호가 맞지 않습니다.',
+            duration: 3,
+          });
+        } else {
+          message.warning({
+            content: err.response.data?.message || '로그인 중 오류가 발생했습니다.',
+            duration: 3,
+          });
+        }
+      } else {
+        message.warning({
+          content: '로그인 중 오류가 발생했습니다.',
+          duration: 3,
+        });
+      }
     }
   };
 
