@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
-import { t } from 'i18next';
 import { Cookies } from 'react-cookie';
 
 import { refresh } from '@/api/services/userService';
@@ -41,17 +40,13 @@ axiosInstance.interceptors.response.use(
     const statusCode = error.response?.status;
     const errorCode = error.response?.data.responseCode;
 
-    const { response, message } = error || {};
-
-    const errMsg = response?.data?.message || message || t('sys.api.errorMessage');
-    message.error(errMsg);
-
     if (statusCode === 400) {
       // ACCESS 토큰 만료
       if (errorCode === 'TOKEN_001') {
         try {
           // Access Token 재발급
           const refreshData = await refresh();
+
           cookies.set('accessToken', refreshData.accessToken, { path: '/' });
           cookies.set('refreshToken', refreshData.refreshToken, { path: '/' });
 
