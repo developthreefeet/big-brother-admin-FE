@@ -6,6 +6,7 @@ import { FaUserLarge } from 'react-icons/fa6';
 import { NavLink } from 'react-router-dom';
 
 import { IconButton } from '@/components/icon';
+import { deleteToken } from '@/lib/utils';
 import { useLoginStateContext } from '@/pages/sys/login/providers/LoginStateProvider';
 import { useRouter } from '@/router/hooks';
 import { useUserInfo, useUserActions } from '@/store/userStore';
@@ -25,6 +26,7 @@ export default function AccountDropdown() {
       // todo const logoutMutation = useMutation(userService.logout);
       // todo logoutMutation.mutateAsync();
       clearUserInfoAndToken();
+      deleteToken();
       backToLogin();
     } catch (error) {
       console.log(error);
