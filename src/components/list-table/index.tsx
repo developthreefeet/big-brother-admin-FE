@@ -58,7 +58,12 @@ function ListTable({ data, route, title }: ListTableProps) {
     },
     {
       title: '게시일',
-      dataIndex: 'upload_date',
+      dataIndex: 'createAt',
+      render: (value: string) => {
+        const date = new Date(value);
+        const formattedDate = date.toISOString().split('T')[0];
+        return formattedDate;
+      },
     },
     ...(isProceedingUploadPage
       ? [
@@ -76,7 +81,7 @@ function ListTable({ data, route, title }: ListTableProps) {
   };
 
   const handleDelete = () => {
-    const newData = tableData.filter((item) => !selectedRowKeys.includes(item.key));
+    const newData = tableData.filter((item) => !selectedRowKeys.includes(item.id));
     setTableData(newData);
     setSelectedRowKeys([]);
   };
