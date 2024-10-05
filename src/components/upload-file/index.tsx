@@ -6,14 +6,14 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { Upload } from '@/components/upload';
 import { usePathname } from '@/router/hooks';
 import editStore from '@/store/editStore';
-// Make sure to adjust the import path
-// Make sure to adjust the import path
 
-import { DataType } from '../list-table/types';
+import { DetailDataType } from '../list-table/types';
+// Make sure to adjust the import path
+// Make sure to adjust the import path
 
 interface UploadFileComponentProps {
   title: string;
-  data?: DataType;
+  data?: DetailDataType;
 }
 
 function UploadFileComponent({ title, data }: UploadFileComponentProps) {

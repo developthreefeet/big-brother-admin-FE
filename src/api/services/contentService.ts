@@ -1,4 +1,5 @@
 import {
+  GetProceedingDetailResData,
   GetProceedingResData,
   GetRuleResData,
   GetTransactionResData,
@@ -22,6 +23,9 @@ export interface GetTransactionParams {
 const getProceedings = (params: GetContentParams): Promise<GetProceedingResData> =>
   apiClient.get({ url: '/admin/meetings', params });
 
+const getProceedingDetail = (proceedingId: number): Promise<GetProceedingDetailResData> =>
+  apiClient.get({ url: `/admin/meetings/${proceedingId}` });
+
 const getRules = (params: GetContentParams): Promise<GetRuleResData> =>
   apiClient.get({ url: '/admin/rule', params });
 
@@ -30,6 +34,7 @@ const getTransactions = (params: GetTransactionParams): Promise<GetTransactionRe
 
 export default {
   getProceedings,
+  getProceedingDetail,
   getRules,
   getTransactions,
 };

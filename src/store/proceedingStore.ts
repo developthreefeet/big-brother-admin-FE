@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -21,6 +21,16 @@ export const useGetProceedings = (affiliation: string) => {
     getNextPageParam: (lastPage) => {
       if (lastPage.content.length < 7) return undefined;
       return lastPage.number + 1;
+    },
+  });
+};
+
+export const useGetProceedingDetail = (proceedingId: number) => {
+  return useQuery({
+    queryKey: ['proceedingDetail', proceedingId],
+    queryFn: async () => {
+      const data = await contentService.getProceedingDetail(proceedingId);
+      return data;
     },
   });
 };
