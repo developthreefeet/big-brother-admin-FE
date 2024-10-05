@@ -1,9 +1,11 @@
 import ListTable from '@/components/list-table';
-import { useRuleStore } from '@/store/ruleStore';
+import { RuleContent } from '@/components/list-table/types';
+import { useGetRules } from '@/store/ruleStore';
 
 function Rule() {
-  const { rules } = useRuleStore();
-  return <ListTable data={rules} route="/rule/upload" title="학칙/회칙 목록" />;
+  const { data } = useGetRules('단과대');
+  const allContent: RuleContent[] = data?.pages.flatMap((page) => page.content) ?? [];
+  return <ListTable data={allContent} route="/rule/upload" title="학칙/회칙 목록" />;
 }
 
 export default Rule;
