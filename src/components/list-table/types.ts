@@ -16,16 +16,15 @@ export type DataType = MockDataType | ProceedingContent | RuleContent;
 
 // 여기서부터 실제로 필요한 타입들
 
-export interface TransactionDataType {
-  trans_id: number;
-  corporate_number: string;
-  bank_account_number: string;
-  trans_direction: string;
-  deposit: string;
-  withdraw: string;
-  balance: string;
-  trans_date: string;
-  trans: string;
+export interface GetTransactionResData {
+  transactionId: number;
+  accountNumber: string;
+  date: string;
+  type: string;
+  amount: number;
+  balance: number;
+  description: string;
+  note: string | null;
 }
 
 export interface ListTableProps {
