@@ -5,15 +5,16 @@ import { useLocation } from 'react-router-dom';
 
 import FileDetail from '@/components/detail/FileDetail';
 import UploadFileComponent from '@/components/upload-file';
-import useDataMatch from '@/router/hooks/use-data-match';
+import { usePathname } from '@/router/hooks';
 import useEditStore from '@/store/editStore';
-import { useProceedingStore } from '@/store/proceedingStore';
+import { useGetProceedingDetail } from '@/store/proceedingStore';
 
 const index = () => {
-  const { proceedings } = useProceedingStore();
-  const data = useDataMatch(proceedings);
   const { isEditing, resetEditing } = useEditStore();
   const location = useLocation();
+
+  const id = usePathname().split('/')[2];
+  const { data } = useGetProceedingDetail(parseInt(id, 10));
 
   useEffect(() => {
     return () => resetEditing();

@@ -2,6 +2,7 @@ import { Button, Input, notification } from 'antd';
 import { useEffect, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 
+import { DataType } from '@/api/types';
 import { usePathname } from '@/router/hooks';
 import editStore from '@/store/editStore';
 import { Event, useEventStore } from '@/store/eventStore';
@@ -9,7 +10,6 @@ import { FAQ, useFaqStore } from '@/store/faqStore';
 import { Notice, useNoticeStore } from '@/store/noticeStore';
 
 import Editor from '../editor';
-import { DataType } from '../list-table/types';
 
 interface UploadContentProps {
   title: string;

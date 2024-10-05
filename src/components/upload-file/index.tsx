@@ -3,17 +3,16 @@ import { UploadFile } from 'antd/es/upload/interface';
 import { useState, useEffect } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 
+import { DetailDataType } from '@/api/types';
 import { Upload } from '@/components/upload';
 import { usePathname } from '@/router/hooks';
 import editStore from '@/store/editStore';
 // Make sure to adjust the import path
 // Make sure to adjust the import path
 
-import { DataType } from '../list-table/types';
-
 interface UploadFileComponentProps {
   title: string;
-  data?: DataType;
+  data?: DetailDataType;
 }
 
 function UploadFileComponent({ title, data }: UploadFileComponentProps) {

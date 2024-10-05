@@ -1,10 +1,11 @@
 import ReactMarkdown from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 
+import { DataType } from '@/api/types';
+
 import CommonBackToListButton from '../back-to-list-button/CommonBackToListButton';
 import IconBackToListButton from '../back-to-list-button/IconBackToListButton';
 import EditButton from '../edit-button';
-import { DataType } from '../list-table/types';
 
 function CommonDetail({ data }: { data: DataType }) {
   return (

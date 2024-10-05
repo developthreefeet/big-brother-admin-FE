@@ -1,4 +1,4 @@
-import { DataType } from '@/components/list-table/types';
+import { DataType } from '@/api/types';
 import { usePathname } from '@/router/hooks';
 
 const useDataMatch = (dataSource: DataType[]) => {

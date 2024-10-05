@@ -14,7 +14,14 @@ export interface MockDataType {
 // 임시 => 예전에 쓰던 코드랑 합치기 위함
 export type DataType = MockDataType | ProceedingContent | RuleContent;
 
+export type DetailDataType = GetProceedingDetailResData | GetRuleDetailResData;
+
 // 여기서부터 실제로 필요한 타입들
+
+interface DetailFileInfo {
+  fileName: string;
+  url: string;
+}
 
 export interface GetTransactionResData {
   transactionId: number;
@@ -81,6 +88,15 @@ export interface GetProceedingResData {
   empty: boolean;
 }
 
+export interface GetProceedingDetailResData {
+  proceedingId: number;
+  title: string;
+  createAt: string;
+  updateAt: string;
+  affiliationId: number;
+  fileInfo: DetailFileInfo[];
+}
+
 export interface RuleContent {
   createAt: string;
   updateAt: string;
@@ -118,4 +134,13 @@ export interface GetRuleResData {
   first: boolean;
   last: boolean;
   empty: boolean;
+}
+
+export interface GetRuleDetailResData {
+  ruleId: number;
+  title: string;
+  createAt: string;
+  updateAt: string;
+  affiliationId: number;
+  fileInfo: DetailFileInfo[];
 }
