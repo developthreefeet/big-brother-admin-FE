@@ -3,12 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { usePathname } from '@/router/hooks';
-import { useSettings } from '@/store/settingStore';
 import { returnPathname } from '@/utils/return-pathname';
 
 import { DataType, ListTableProps } from './types';
 
-import { ThemeMode } from '#/enum';
 import type { TableColumnsType } from 'antd';
 
 const rowSelection = {
@@ -26,8 +24,6 @@ function ListTable({ data, route, title }: ListTableProps) {
 
   const navigate = useNavigate();
 
-  const { themeMode } = useSettings();
-
   const pathname = usePathname();
   const isProceedingUploadPage = pathname.includes('proceeding');
 
@@ -39,26 +35,18 @@ function ListTable({ data, route, title }: ListTableProps) {
     {
       title: '제목',
       dataIndex: 'title',
-      render: (text: string, record: DataType) => {
-        const baseUrl = returnPathname();
-        const recordUrl = `${baseUrl}/${record.id}`;
-
-        return (
-          <a
-            href={recordUrl}
-            style={{
-              color: themeMode === ThemeMode.Light ? 'black' : 'white',
-              textDecoration: 'none',
-            }}
-          >
-            {text}
-          </a>
-        );
+      render: (text: string) => {
+        return text;
       },
     },
     {
       title: '게시일',
-      dataIndex: 'upload_date',
+      dataIndex: 'createAt',
+      render: (value: string) => {
+        const date = new Date(value);
+        const formattedDate = date.toISOString().split('T')[0];
+        return formattedDate;
+      },
     },
     ...(isProceedingUploadPage
       ? [
@@ -76,7 +64,7 @@ function ListTable({ data, route, title }: ListTableProps) {
   };
 
   const handleDelete = () => {
-    const newData = tableData.filter((item) => !selectedRowKeys.includes(item.key));
+    const newData = tableData.filter((item) => !selectedRowKeys.includes(item.id));
     setTableData(newData);
     setSelectedRowKeys([]);
   };
@@ -85,6 +73,18 @@ function ListTable({ data, route, title }: ListTableProps) {
     ...rowSelection,
     selectedRowKeys,
     onChange: onSelectChange,
+  };
+
+  const onRow = (record: DataType) => {
+    const baseUrl = returnPathname();
+    const recordUrl = `${baseUrl}/${record.id}`;
+    return {
+      onClick: () => {
+        navigate(recordUrl);
+        window.location.hash = recordUrl;
+      },
+      style: { cursor: 'pointer' },
+    };
   };
 
   const showDelete = !['회의록 목록', '입/출금 내역 목록', '학칙/회칙 목록'].includes(title);
@@ -105,6 +105,7 @@ function ListTable({ data, route, title }: ListTableProps) {
         rowSelection={showDelete ? { type: 'checkbox', ...rowSelectionWithDelete } : undefined}
         columns={columns}
         dataSource={tableData}
+        onRow={onRow}
       />
     </div>
   );

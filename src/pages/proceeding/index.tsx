@@ -1,9 +1,11 @@
 import ListTable from '@/components/list-table';
-import { useProceedingStore } from '@/store/proceedingStore';
+import { ProceedingContent } from '@/components/list-table/types';
+import { useGetProceedings } from '@/store/proceedingStore';
 
 function Proceeding() {
-  const { proceedings } = useProceedingStore();
-  return <ListTable data={proceedings} route="/proceeding/upload" title="회의록 목록" />;
+  const { data } = useGetProceedings('단과대');
+  const allContent: ProceedingContent[] = data?.pages.flatMap((page) => page.content) ?? [];
+  return <ListTable data={allContent} route="/proceeding/upload" title="회의록 목록" />;
 }
 
 export default Proceeding;
