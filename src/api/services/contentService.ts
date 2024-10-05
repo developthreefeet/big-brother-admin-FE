@@ -1,6 +1,7 @@
 import {
   GetProceedingDetailResData,
   GetProceedingResData,
+  GetRuleDetailResData,
   GetRuleResData,
   GetTransactionResData,
 } from '@/components/list-table/types';
@@ -29,6 +30,9 @@ const getProceedingDetail = (proceedingId: number): Promise<GetProceedingDetailR
 const getRules = (params: GetContentParams): Promise<GetRuleResData> =>
   apiClient.get({ url: '/admin/rule', params });
 
+const getRuleDetail = (ruleId: number): Promise<GetRuleDetailResData> =>
+  apiClient.get({ url: `/admin/rule/${ruleId}` });
+
 const getTransactions = (params: GetTransactionParams): Promise<GetTransactionResData[]> =>
   apiClient.get({ url: '/admin/transactions', params });
 
@@ -36,5 +40,6 @@ export default {
   getProceedings,
   getProceedingDetail,
   getRules,
+  getRuleDetail,
   getTransactions,
 };

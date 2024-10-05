@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 
 import FileDetail from '@/components/detail/FileDetail';
-import useDataMatch from '@/router/hooks/use-data-match';
-import { useRuleStore } from '@/store/ruleStore';
+import { usePathname } from '@/router/hooks';
+import { useGetProceedingDetail } from '@/store/proceedingStore';
 
 const index = () => {
-  const { rules } = useRuleStore();
-  const data = useDataMatch(rules);
+  const id = usePathname().split('/')[2];
+  const { data } = useGetProceedingDetail(parseInt(id, 10));
 
   if (!data) {
     return null;
