@@ -2,6 +2,7 @@ import { Divider, Table, Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { formatToISOStringDate } from '@/lib/utils';
 import { usePathname } from '@/router/hooks';
 import { returnPathname } from '@/utils/return-pathname';
 
@@ -43,9 +44,7 @@ function ListTable({ data, route, title }: ListTableProps) {
       title: '게시일',
       dataIndex: 'createAt',
       render: (value: string) => {
-        const date = new Date(value);
-        const formattedDate = date.toISOString().split('T')[0];
-        return formattedDate;
+        return formatToISOStringDate(value);
       },
     },
     ...(isProceedingUploadPage
