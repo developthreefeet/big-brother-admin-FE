@@ -1,4 +1,4 @@
-import { GetProceedingResData } from '@/components/list-table/types';
+import { GetProceedingResData, GetRuleResData } from '@/components/list-table/types';
 
 import apiClient from '../apiClient';
 
@@ -12,6 +12,10 @@ export interface GetContentParams {
 const getProceedings = (params: GetContentParams): Promise<GetProceedingResData> =>
   apiClient.get({ url: '/admin/meetings', params });
 
+const getRules = (params: GetContentParams): Promise<GetRuleResData> =>
+  apiClient.get({ url: '/admin/rule', params });
+
 export default {
   getProceedings,
+  getRules,
 };

@@ -1,5 +1,30 @@
+import { useInfiniteQuery } from '@tanstack/react-query';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+
+import contentService from '@/api/services/contentService';
+
+export const useGetRules = (affiliation: string) => {
+  return useInfiniteQuery({
+    queryKey: ['rule', affiliation],
+    queryFn: async ({ pageParam = 0 }) => {
+      const result = await contentService.getRules({
+        affiliation,
+        page: pageParam,
+        size: 7,
+        search: '',
+      });
+      return result;
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.content.length < 7) return undefined;
+      return lastPage.number + 1;
+    },
+  });
+};
+
+/// //////추후 삭제
 
 export interface Rule {
   key: string;
