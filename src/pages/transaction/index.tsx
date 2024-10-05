@@ -1,7 +1,7 @@
 import { Select } from 'antd';
 import { useState } from 'react';
 
-import { GetTransactionResData } from '@/components/list-table/types';
+import { GetTransactionResData } from '@/api/types';
 import { useGetTransaction } from '@/store/transactionStore';
 import { formatDate } from '@/utils/format-date';
 

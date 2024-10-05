@@ -3,11 +3,10 @@ import { UploadFile } from 'antd/es/upload/interface';
 import { useState, useEffect } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 
+import { DetailDataType } from '@/api/types';
 import { Upload } from '@/components/upload';
 import { usePathname } from '@/router/hooks';
 import editStore from '@/store/editStore';
-
-import { DetailDataType } from '../list-table/types';
 // Make sure to adjust the import path
 // Make sure to adjust the import path
 

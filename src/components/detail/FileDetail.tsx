@@ -1,9 +1,9 @@
+import { DetailDataType } from '@/api/types';
 import { formatToISOStringDate } from '@/lib/utils';
 import { usePathname } from '@/router/hooks';
 
 import CommonBackToListButton from '../back-to-list-button/CommonBackToListButton';
 import IconBackToListButton from '../back-to-list-button/IconBackToListButton';
-import { DetailDataType } from '../list-table/types';
 
 import PdfViewer from './PdfViewer';
 

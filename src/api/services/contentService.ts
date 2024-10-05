@@ -1,12 +1,11 @@
-import {
-  GetProceedingDetailResData,
-  GetProceedingResData,
-  GetRuleDetailResData,
-  GetRuleResData,
-  GetTransactionResData,
-} from '@/components/list-table/types';
-
 import apiClient from '../apiClient';
+import {
+  GetProceedingResData,
+  GetProceedingDetailResData,
+  GetRuleResData,
+  GetRuleDetailResData,
+  GetTransactionResData,
+} from '../types';
 
 export interface GetContentParams {
   affiliation: string;

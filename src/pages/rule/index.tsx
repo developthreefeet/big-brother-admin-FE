@@ -1,5 +1,5 @@
+import { RuleContent } from '@/api/types';
 import ListTable from '@/components/list-table';
-import { RuleContent } from '@/components/list-table/types';
 import { useGetRules } from '@/store/ruleStore';
 
 function Rule() {

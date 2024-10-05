@@ -1,5 +1,5 @@
+import { ProceedingContent } from '@/api/types';
 import ListTable from '@/components/list-table';
-import { ProceedingContent } from '@/components/list-table/types';
 import { useGetProceedings } from '@/store/proceedingStore';
 
 function Proceeding() {
