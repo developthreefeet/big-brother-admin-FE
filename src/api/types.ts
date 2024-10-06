@@ -12,9 +12,11 @@ export interface MockDataType {
 }
 
 // 임시 => 예전에 쓰던 코드랑 합치기 위함
-export type DataType = MockDataType | ProceedingContent | RuleContent;
+export type DataType = MockDataType | ProceedingContent | RuleContent | FAQContent;
 
 export type DetailDataType = GetProceedingDetailResData | GetRuleDetailResData;
+
+export type CommonDetailType = GetFAQDetailResData;
 
 // 여기서부터 실제로 필요한 타입들
 
@@ -182,4 +184,14 @@ export interface GetFAQResData {
   first: boolean;
   last: boolean;
   empty: boolean;
+}
+
+export interface GetFAQDetailResData {
+  faqId: number;
+  title: string;
+  content: string;
+  affiliationId: number;
+  fileInfo: DetailFileInfo[];
+  createAt: string;
+  updateAt: string;
 }
