@@ -7,6 +7,7 @@ import {
   GetTransactionResData,
   GetFAQResData,
   GetFAQDetailResData,
+  GetNoticeResData,
 } from '../types';
 
 export interface GetContentParams {
@@ -43,6 +44,9 @@ const getFAQs = (params: GetContentParams): Promise<GetFAQResData> =>
 const getFAQDetail = (faqId: number): Promise<GetFAQDetailResData> =>
   apiClient.get({ url: `/admin/faq/${faqId}` });
 
+const getNotices = (params: GetContentParams): Promise<GetNoticeResData> =>
+  apiClient.get({ url: '/admin/notice', params });
+
 export default {
   getProceedings,
   getProceedingDetail,
@@ -51,4 +55,5 @@ export default {
   getTransactions,
   getFAQs,
   getFAQDetail,
+  getNotices,
 };
