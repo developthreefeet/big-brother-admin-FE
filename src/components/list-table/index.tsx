@@ -100,6 +100,7 @@ function ListTable({ data, route, title }: ListTableProps) {
       </div>
       <Divider />
       <Table
+        rowKey="id"
         rowSelection={showDelete ? { type: 'checkbox', ...rowSelectionWithDelete } : undefined}
         columns={columns}
         dataSource={tableData}
