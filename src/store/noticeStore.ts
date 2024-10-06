@@ -1,5 +1,38 @@
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+
+import contentService from '@/api/services/contentService';
+
+export const useGetNotices = (affiliation: string) => {
+  return useInfiniteQuery({
+    queryKey: ['notice', affiliation],
+    queryFn: async ({ pageParam }) => {
+      const result = await contentService.getNotices({
+        affiliation,
+        page: pageParam,
+        size: 7,
+        search: '',
+      });
+      return result;
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.content.length < 7) return undefined;
+      return lastPage.number + 1;
+    },
+  });
+};
+
+export const useGetNoticeDetail = (noticeId: number) => {
+  return useQuery({
+    queryKey: ['noticeDetail', noticeId],
+    queryFn: async () => {
+      const data = await contentService.getNoticeDetail(noticeId);
+      return data;
+    },
+  });
+};
 
 export interface Notice {
   key: string;
