@@ -40,15 +40,6 @@ export interface ListTableProps {
   route: string;
 }
 
-interface ListFileInfo {
-  fileName: string;
-  url: string;
-  createAt: string;
-  updateAt: string;
-  id: number;
-  fileType: string;
-}
-
 export interface ProceedingContent {
   createAt: string;
   updateAt: string;
@@ -56,7 +47,7 @@ export interface ProceedingContent {
   title: string;
   content: string;
   affiliationId: number;
-  files?: ListFileInfo[];
+  public: boolean;
 }
 
 export interface GetProceedingResData {
@@ -89,12 +80,14 @@ export interface GetProceedingResData {
 }
 
 export interface GetProceedingDetailResData {
-  proceedingId: number;
+  meetingsId: number;
   title: string;
   createAt: string;
   updateAt: string;
   affiliationId: number;
   fileInfo: DetailFileInfo[];
+  public: boolean;
+  content: string;
 }
 
 export interface RuleContent {
@@ -102,9 +95,7 @@ export interface RuleContent {
   updateAt: string;
   id: number;
   title: string;
-  content: string;
   affiliationId: number;
-  files: ListFileInfo[];
 }
 
 export interface GetRuleResData {
