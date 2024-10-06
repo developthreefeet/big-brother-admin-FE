@@ -16,7 +16,7 @@ export type DataType = MockDataType | ProceedingContent | RuleContent | FAQConte
 
 export type DetailDataType = GetProceedingDetailResData | GetRuleDetailResData;
 
-export type CommonDetailType = GetFAQDetailResData | GetNoticeDetailResData;
+export type CommonDetailType = GetFAQDetailResData | GetNoticeDetailResData | GetEventDetailResData;
 
 // 여기서부터 실제로 필요한 타입들
 
@@ -284,4 +284,17 @@ export interface GetEventResData {
   first: boolean;
   last: boolean;
   empty: boolean;
+}
+
+export interface GetEventDetailResData {
+  eventId: number;
+  title: string;
+  content: string;
+  target: string;
+  startDateTime: string;
+  endDateTime: string;
+  createAt: string;
+  updateAt: string;
+  affiliationId: number;
+  fileInfo: DetailFileInfo[];
 }
