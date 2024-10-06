@@ -244,3 +244,44 @@ export interface GetNoticeDetailResData {
   createAt: string;
   updateAt: string;
 }
+
+export interface EventContent {
+  createAt: string;
+  updateAt: string;
+  id: number;
+  title: string;
+  content: string;
+  target: string;
+  startDateTime: string;
+  endDateTime: string;
+  affiliationId: number;
+}
+
+export interface GetEventResData {
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  content: EventContent[];
+  number: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  numberOfElements: number;
+  pageable: {
+    offset: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    paged: boolean;
+    pageNumber: number;
+    pageSize: number;
+    unpaged: boolean;
+  };
+  first: boolean;
+  last: boolean;
+  empty: boolean;
+}
