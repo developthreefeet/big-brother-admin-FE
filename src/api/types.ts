@@ -12,9 +12,11 @@ export interface MockDataType {
 }
 
 // 임시 => 예전에 쓰던 코드랑 합치기 위함
-export type DataType = MockDataType | ProceedingContent | RuleContent;
+export type DataType = MockDataType | ProceedingContent | RuleContent | FAQContent;
 
 export type DetailDataType = GetProceedingDetailResData | GetRuleDetailResData;
+
+export type CommonDetailType = GetFAQDetailResData;
 
 // 여기서부터 실제로 필요한 타입들
 
@@ -143,4 +145,53 @@ export interface GetRuleDetailResData {
   updateAt: string;
   affiliationId: number;
   fileInfo: DetailFileInfo[];
+}
+
+export interface FAQContent {
+  createAt: string;
+  updateAt: string;
+  id: number;
+  title: string;
+  content: string;
+  affiliationId: number;
+  files: ListFileInfo[];
+}
+
+export interface GetFAQResData {
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  content: FAQContent[];
+  number: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  numberOfElements: number;
+  pageable: {
+    offset: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    paged: boolean;
+    pageNumber: number;
+    pageSize: number;
+    unpaged: boolean;
+  };
+  first: boolean;
+  last: boolean;
+  empty: boolean;
+}
+
+export interface GetFAQDetailResData {
+  faqId: number;
+  title: string;
+  content: string;
+  affiliationId: number;
+  fileInfo: DetailFileInfo[];
+  createAt: string;
+  updateAt: string;
 }

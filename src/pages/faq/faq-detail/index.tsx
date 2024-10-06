@@ -5,15 +5,17 @@ import { useLocation } from 'react-router-dom';
 
 import CommonDetail from '@/components/detail/CommonDetail';
 import UploadContent from '@/components/upload-content';
-import useDataMatch from '@/router/hooks/use-data-match';
-import editStore from '@/store/editStore';
-import { useFaqStore } from '@/store/faqStore';
+import { usePathname } from '@/router/hooks';
+import useEditStore from '@/store/editStore';
+import { useGetFAQDetail } from '@/store/faqStore';
 
 const index = () => {
-  const { faqs } = useFaqStore();
-  const data = useDataMatch(faqs);
-  const { isEditing, resetEditing } = editStore();
+  const { isEditing, resetEditing } = useEditStore();
   const location = useLocation();
+
+  const id = usePathname().split('/')[2];
+  const { data } = useGetFAQDetail(parseInt(id, 10));
+  console.log(data);
 
   useEffect(() => {
     return () => resetEditing();

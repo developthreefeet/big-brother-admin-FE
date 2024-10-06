@@ -1,5 +1,40 @@
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+
+import contentService from '@/api/services/contentService';
+
+export const useGetFAQs = (affiliation: string) => {
+  return useInfiniteQuery({
+    queryKey: ['faq', affiliation],
+    queryFn: async ({ pageParam }) => {
+      const result = await contentService.getFAQs({
+        affiliation,
+        page: pageParam,
+        size: 7,
+        search: '',
+      });
+      return result;
+    },
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => {
+      if (lastPage.content.length < 7) return undefined;
+      return lastPage.number + 1;
+    },
+  });
+};
+
+export const useGetFAQDetail = (faqId: number) => {
+  return useQuery({
+    queryKey: ['faqDetail', faqId],
+    queryFn: async () => {
+      const data = await contentService.getFAQDetail(faqId);
+      return data;
+    },
+  });
+};
+
+// 아래 코드는 mock data로 사용
 
 export interface FAQ {
   key: string;
