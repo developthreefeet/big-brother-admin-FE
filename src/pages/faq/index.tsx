@@ -1,9 +1,11 @@
+import { ProceedingContent } from '@/api/types';
 import ListTable from '@/components/list-table';
-import { useFaqStore } from '@/store/faqStore';
+import { useGetFAQs } from '@/store/faqStore';
 
 function Faq() {
-  const { faqs } = useFaqStore();
-  return <ListTable data={faqs} route="/faq/upload" title="FAQ 목록" />;
+  const { data } = useGetFAQs('총학');
+  const allContent: ProceedingContent[] = data?.pages.flatMap((page) => page.content) ?? [];
+  return <ListTable data={allContent} route="/faq/upload" title="FAQ 목록" />;
 }
 
 export default Faq;

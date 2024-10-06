@@ -144,3 +144,42 @@ export interface GetRuleDetailResData {
   affiliationId: number;
   fileInfo: DetailFileInfo[];
 }
+
+export interface FAQContent {
+  createAt: string;
+  updateAt: string;
+  id: number;
+  title: string;
+  content: string;
+  affiliationId: number;
+  files: ListFileInfo[];
+}
+
+export interface GetFAQResData {
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  content: FAQContent[];
+  number: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  numberOfElements: number;
+  pageable: {
+    offset: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    paged: boolean;
+    pageNumber: number;
+    pageSize: number;
+    unpaged: boolean;
+  };
+  first: boolean;
+  last: boolean;
+  empty: boolean;
+}
