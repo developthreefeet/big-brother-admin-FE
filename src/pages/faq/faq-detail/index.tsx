@@ -15,7 +15,6 @@ const index = () => {
 
   const id = usePathname().split('/')[2];
   const { data } = useGetFAQDetail(parseInt(id, 10));
-  console.log(data);
 
   useEffect(() => {
     return () => resetEditing();
