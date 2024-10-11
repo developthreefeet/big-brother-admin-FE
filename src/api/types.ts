@@ -18,6 +18,7 @@ export type DetailDataType = GetProceedingDetailResData | GetRuleDetailResData;
 
 export type CommonDetailType = GetFAQDetailResData | GetNoticeDetailResData | GetEventDetailResData;
 
+export type PostType = NewNotice;
 // 여기서부터 실제로 필요한 타입들
 
 interface DetailFileInfo {
@@ -297,4 +298,21 @@ export interface GetEventDetailResData {
   updateAt: string;
   affiliationId: number;
   fileInfo: DetailFileInfo[];
+}
+
+export interface PostRes {
+  status: string;
+  httpStatusCode: number;
+  responseCode: string;
+  resultMsg: string;
+  data: {};
+}
+
+export interface NewNotice {
+  noticeRegisterRequest: {
+    title: string;
+    content: string;
+    affiliationId: number;
+  };
+  file?: File[];
 }
