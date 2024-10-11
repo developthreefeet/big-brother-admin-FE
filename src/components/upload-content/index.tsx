@@ -1,10 +1,11 @@
-import { Button, Input } from 'antd';
+import { Button, Input, notification } from 'antd';
 import { useEffect, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 
-import { CommonDetailType } from '@/api/types';
+import { CommonDetailType, PostType } from '@/api/types';
 import { usePathname } from '@/router/hooks';
 import editStore from '@/store/editStore';
+import { usePostNotice } from '@/store/noticeStore';
 
 import Editor from '../editor';
 
@@ -16,8 +17,11 @@ interface UploadContentProps {
 function UploadContent({ title, data }: UploadContentProps) {
   const [editorValue, setEditorValue] = useState('');
   const [inputValue, setInputValue] = useState('');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const { isEditing, stopEditing } = editStore();
+
+  const { mutate: addNotice } = usePostNotice();
 
   // const { addNotice, updateNotice } = useNoticeStore();
   // const { addEvent, updateEvent } = useEventStore();
@@ -40,32 +44,39 @@ function UploadContent({ title, data }: UploadContentProps) {
 
   const isValid = inputValue.length > 0 && stripHtmlTags(editorValue).trim().length > 0;
 
-  const today = new Date();
+  const getRequestName = () => {
+    if (pathname.includes('notice')) return 'notice';
+    if (pathname.includes('event')) return 'event';
+    if (pathname.includes('faq')) return 'faq';
+    return '';
+  };
 
-  const year = today.getFullYear();
-  const month = `0${today.getMonth() + 1}`.slice(-2);
-  const day = `0${today.getDate()}`.slice(-2);
+  const requestName = getRequestName();
 
-  const dateString = `${year}-${month}-${day}`;
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setSelectedFile(event.target.files[0]);
+    }
+  };
 
   const handleButtonClick = () => {
     // if (isValid) {
     //   if (isEditing) {
-    //     if (pathname.includes('notice')) {
+    //     if (requestName==='notice') {
     //       updateNotice(data!.id!, {
     //         title: inputValue,
     //         content: editorValue,
     //         edit_date: dateString,
     //       });
     //     }
-    //     if (pathname.includes('event')) {
+    //     if (requestName==='event') {
     //       updateEvent(data!.id!, {
     //         title: inputValue,
     //         content: editorValue,
     //         edit_date: dateString,
     //       });
     //     }
-    //     if (pathname.includes('faq')) {
+    //     if (requestName==='faq') {
     //       updateFaq(data!.id!, {
     //         title: inputValue,
     //         content: editorValue,
@@ -78,26 +89,41 @@ function UploadContent({ title, data }: UploadContentProps) {
     //       description: '성공적으로 수정되었습니다.',
     //     });
     //   } else {
-    //     const newData: DataType = {
-    //       key: `${Date.now()}`,
-    //       id: `${Date.now()}`,
-    //       title: inputValue,
-    //       upload_date: dateString,
-    //       edit_date: dateString,
-    //       content: editorValue,
-    //     };
-    //     if (pathname.includes('notice')) addNotice(newData as Notice);
-    //     if (pathname.includes('event')) addEvent(newData as Event);
-    //     if (pathname.includes('faq')) addFaq(newData as FAQ);
-    //     notification.success({
-    //       message: '업로드 완료',
-    //       description: '성공적으로 업로드되었습니다.',
-    //     });
-    //   }
-    //   setInputValue('');
-    //   setEditorValue('');
-    // }
+    // const newData: PostType = {
+    //   noticeRegisterRequest: {
+    //     title: inputValue,
+    //     content: editorValue,
+    //     affiliationId: 1, // 현재 총학으로 되어있음 수정필요
+    //   },
+    //   file: [],
+    // };
+
+    const newData = {
+      [`${requestName}RegisterRequest`]: {
+        title: inputValue,
+        content: editorValue,
+        affiliationId: 1,
+      },
+    } as unknown as PostType;
+
+    if (selectedFile) {
+      // 선택한 파일이 있으면 업로드
+      newData.file = [selectedFile];
+    }
+
+    if (requestName === 'notice') addNotice(newData);
+    // if (requestName === 'notice') addNotice(formData);
+    // if (requestName==='event') addEvent(newData as Event);
+    // if (requestName==='faq') addFaq(newData as FAQ);
+
+    notification.success({
+      message: '업로드 완료',
+      description: '성공적으로 업로드되었습니다.',
+    });
+    setInputValue('');
+    setEditorValue('');
   };
+  // }
 
   return (
     <div className="flex flex-col space-y-5 p-10">
@@ -115,6 +141,7 @@ function UploadContent({ title, data }: UploadContentProps) {
           maxLength={50}
           showCount
         />
+        <input type="file" onChange={handleFileChange} />
         <Editor value={editorValue} onChange={setEditorValue} />
       </div>
       <Button className="mx-auto w-52" disabled={!isValid} onClick={handleButtonClick}>

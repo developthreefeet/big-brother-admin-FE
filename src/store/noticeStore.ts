@@ -1,8 +1,9 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import contentService from '@/api/services/contentService';
+import { PostRes, PostType } from '@/api/types';
 
 export const useGetNotices = (affiliation: string) => {
   return useInfiniteQuery({
@@ -30,6 +31,22 @@ export const useGetNoticeDetail = (noticeId: number) => {
     queryFn: async () => {
       const data = await contentService.getNoticeDetail(noticeId);
       return data;
+    },
+  });
+};
+
+export const usePostNotice = () => {
+  return useMutation<PostRes, Error, PostType>({
+    mutationKey: ['postNotice'],
+    mutationFn: async (newNotice: PostType) => {
+      const data = await contentService.postNotice(newNotice);
+      return data;
+    },
+    onSuccess: (data) => {
+      console.log('Notice posted successfully:', data);
+    },
+    onError: (error) => {
+      console.error('Error posting notice:', error);
     },
   });
 };
