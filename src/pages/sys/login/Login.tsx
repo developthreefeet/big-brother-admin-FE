@@ -1,10 +1,10 @@
 import { Layout } from 'antd';
 import Color from 'color';
+import { Cookies } from 'react-cookie';
 import { Navigate } from 'react-router-dom';
 
 import DashboardImg from '@/assets/images/background/dashboard.png';
 import Overlay2 from '@/assets/images/background/overlay_2.jpg';
-import { useUserToken } from '@/store/userStore';
 import { useThemeToken } from '@/theme/hooks';
 
 import LoginForm from './LoginForm';
@@ -13,11 +13,12 @@ import { LoginStateProvider } from './providers/LoginStateProvider';
 const { VITE_APP_HOMEPAGE: HOMEPAGE } = import.meta.env;
 
 function Login() {
-  const token = useUserToken();
+  const cookies = new Cookies();
+  const accessToken = cookies.get('accessToken');
   const { colorBgElevated } = useThemeToken();
 
   // 判断用户是否有权限
-  if (token.accessToken) {
+  if (accessToken) {
     // 如果有授权，则跳转到首页
     return <Navigate to={HOMEPAGE} replace />;
   }

@@ -52,7 +52,6 @@ export const useUserActions = () => useUserStore((state) => state.actions);
 export const useSignIn = () => {
   const navigatge = useNavigate();
   const { message } = App.useApp();
-  const { setUserToken /* , setUserInfo */ } = useUserActions();
 
   const cookies = new Cookies();
 
@@ -65,8 +64,6 @@ export const useSignIn = () => {
       const res = await signInMutation.mutateAsync(data);
 
       const { /* user, */ accessToken, refreshToken } = res;
-      console.log(accessToken);
-      setUserToken({ accessToken, refreshToken });
       cookies.set('accessToken', accessToken, { maxAge: 60 * 60 * 24 * 30 });
       cookies.set('refreshToken', refreshToken, { maxAge: 60 * 60 * 24 * 30 });
       // setUserInfo(user);
