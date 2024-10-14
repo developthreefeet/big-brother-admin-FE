@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import contentService from '@/api/services/contentService';
-import { PostRes, PostType } from '@/api/types';
+import { PostRes } from '@/api/types';
 
 export const useGetNotices = (affiliation: string) => {
   return useInfiniteQuery({
@@ -36,9 +36,9 @@ export const useGetNoticeDetail = (noticeId: number) => {
 };
 
 export const usePostNotice = () => {
-  return useMutation<PostRes, Error, PostType>({
+  return useMutation<PostRes, Error, FormData>({
     mutationKey: ['postNotice'],
-    mutationFn: async (newNotice: PostType) => {
+    mutationFn: async (newNotice: FormData) => {
       const data = await contentService.postNotice(newNotice);
       return data;
     },

@@ -2,7 +2,7 @@ import { Button, Input, notification } from 'antd';
 import { useEffect, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 
-import { CommonDetailType, PostType } from '@/api/types';
+import { CommonDetailType, CommonRegisterRequest, EventRegisterRequest } from '@/api/types';
 import { usePathname } from '@/router/hooks';
 import editStore from '@/store/editStore';
 import { usePostNotice } from '@/store/noticeStore';
@@ -98,20 +98,37 @@ function UploadContent({ title, data }: UploadContentProps) {
     //   file: [],
     // };
 
-    const newData = {
-      [`${requestName}RegisterRequest`]: {
+    let newData: CommonRegisterRequest | EventRegisterRequest;
+
+    if (requestName === 'event') {
+      newData = {
+        title: inputValue,
+        content: editorValue,
+        target: '',
+        startDateTime: '',
+        endDateTime: '',
+        affiliationId: 1,
+      } as EventRegisterRequest;
+    } else {
+      newData = {
         title: inputValue,
         content: editorValue,
         affiliationId: 1,
-      },
-    } as unknown as PostType;
+      } as CommonRegisterRequest;
+    }
+
+    const formData = new FormData();
+    formData.append(
+      `${requestName}RegisterRequest`,
+      new Blob([JSON.stringify(newData)], { type: 'application/json' }),
+    );
 
     if (selectedFile) {
       // 선택한 파일이 있으면 업로드
-      newData.file = [selectedFile];
+      formData.append('file', selectedFile);
     }
 
-    if (requestName === 'notice') addNotice(newData);
+    if (requestName === 'notice') addNotice(formData);
     // if (requestName === 'notice') addNotice(formData);
     // if (requestName==='event') addEvent(newData as Event);
     // if (requestName==='faq') addFaq(newData as FAQ);
