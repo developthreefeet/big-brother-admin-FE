@@ -1,5 +1,3 @@
-import { formatContentType } from '@/utils/format-contentType';
-
 import apiClient from '../apiClient';
 import {
   GetProceedingResData,
@@ -14,7 +12,6 @@ import {
   GetEventResData,
   GetEventDetailResData,
   PostRes,
-  NewNotice,
 } from '../types';
 
 export interface GetContentParams {
@@ -57,17 +54,14 @@ const getNotices = (params: GetContentParams): Promise<GetNoticeResData> =>
 const getNoticeDetail = (noticeId: number): Promise<GetNoticeDetailResData> =>
   apiClient.get({ url: `/admin/notice/${noticeId}` });
 
-const postNotice = (newNotice: NewNotice): Promise<PostRes> => {
-  const { data, boundary } = formatContentType(newNotice);
-
-  return apiClient.post({
+const postNotice = (newNotice: FormData): Promise<PostRes> =>
+  apiClient.post({
     url: '/admin/notice',
-    data,
+    data: newNotice,
     headers: {
-      'Content-Type': `multipart/form-data; boundary=${boundary}`,
+      'Content-Type': 'multipart/form-data',
     },
   });
-};
 
 const getEvents = (params: GetContentParams): Promise<GetEventResData> =>
   apiClient.get({ url: '/admin/event', params });
