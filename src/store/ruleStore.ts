@@ -1,8 +1,9 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import contentService from '@/api/services/contentService';
+import { PostRes } from '@/api/types';
 
 export const useGetRules = (affiliation: string) => {
   return useInfiniteQuery({
@@ -30,6 +31,22 @@ export const useGetRuleDetail = (ruleId: number) => {
     queryFn: async () => {
       const data = await contentService.getRuleDetail(ruleId);
       return data;
+    },
+  });
+};
+
+export const usePostRule = () => {
+  return useMutation<PostRes, Error, FormData>({
+    mutationKey: ['postRule'],
+    mutationFn: async (newRule: FormData) => {
+      const data = await contentService.postRule(newRule);
+      return data;
+    },
+    onSuccess: (data) => {
+      console.log('Notice posted successfully:', data);
+    },
+    onError: (error) => {
+      console.error('Error posting notice:', error);
     },
   });
 };

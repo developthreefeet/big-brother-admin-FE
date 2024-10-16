@@ -1,4 +1,4 @@
-import { Button, Checkbox, Input, message } from 'antd';
+import { Button, Checkbox, Input, message, notification } from 'antd';
 import { UploadFile } from 'antd/es/upload/interface';
 import { useState, useEffect } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
@@ -7,8 +7,7 @@ import { DetailDataType } from '@/api/types';
 import { Upload } from '@/components/upload';
 import { usePathname } from '@/router/hooks';
 import editStore from '@/store/editStore';
-// Make sure to adjust the import path
-// Make sure to adjust the import path
+import { usePostRule } from '@/store/ruleStore';
 
 interface UploadFileComponentProps {
   title: string;
@@ -24,34 +23,22 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
   const isProceedingUploadPage = pathname.includes('proceeding');
 
   const { isEditing, stopEditing } = editStore();
-  // const { addProceeding, updateProceeding } = useProceedingStore();
-  // const { addRule, updateRule } = useRuleStore();
+  const { mutate: addRule } = usePostRule();
 
   const today = new Date();
   const year = today.getFullYear();
   const month = `0${today.getMonth() + 1}`.slice(-2);
   const day = `0${today.getDate()}`.slice(-2);
 
-  // const dateString = `${year}-${month}-${day}`;
-
   useEffect(() => {
     if (data) {
       setInputValue(data.title);
-      // Update file list if data.file is not empty
-      /* if (data.file) {
-        setFileList([{ uid: '0', name: 'uploaded-file.pdf', status: 'done', url: data.file }]);
-      }
-      setIsPublic(data.public || false); */
+      // 파일 리스트 초기화 코드가 필요하면 여기에 추가할 수 있음
     }
   }, [data]);
 
   useEffect(() => {
     setIsButtonDisabled(!(inputValue && fileList.length > 0));
-  }, [inputValue, fileList]);
-
-  useEffect(() => {
-    console.log(inputValue);
-    console.log(fileList);
   }, [inputValue, fileList]);
 
   const beforeUpload = (file: File) => {
@@ -65,35 +52,29 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
   const handleFileChange = ({ fileList }: { fileList: UploadFile[] }) => setFileList(fileList);
 
   const handleSubmit = () => {
-    // const fileUrl = '/static/test.pdf';
-    /*
-    const proceedingData = {
-      key: new Date().getTime().toString(),
-      id: data ? data.id : new Date().getTime().toString(),
+    const ruleData = {
       title: inputValue,
-      upload_date: dateString,
-      edit_date: dateString,
-      content: '',
-      file: fileUrl,
-      public: isPublic,
+      affiliationId: 10,
     };
 
-   if (isEditing) {
-      if (isProceedingUploadPage) {
-        updateProceeding(data?.id as number, proceedingData);
-      } else {
-        updateRule(data?.id as string, proceedingData);
-      }
-      notification.success({ message: '수정이 완료되었습니다.' });
-    } else if (isProceedingUploadPage) {
-      addProceeding(proceedingData);
-      notification.success({ message: '업로드가 완료되었습니다.' });
-    } else {
-      addRule(proceedingData);
-      notification.success({ message: '업로드가 완료되었습니다.' });
-    } */
+    const formData = new FormData();
+    formData.append(
+      `${getRequestName()}RegisterRequest`,
+      new Blob([JSON.stringify(ruleData)], { type: 'application/json' }),
+    );
 
-    // Clear input values
+    // 선택한 파일이 있으면 업로드 (File로 변환)
+    if (fileList[0].originFileObj) {
+      formData.append('file', fileList[0].originFileObj as File);
+    }
+
+    if (isProceedingUploadPage) {
+      // 진행 관련 로직 추가
+    } else {
+      addRule(formData);
+    }
+
+    notification.success({ message: '업로드가 완료되었습니다.' });
     setInputValue('');
     setFileList([]);
     setIsPublic(false);
@@ -101,6 +82,13 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
     if (isEditing) {
       stopEditing();
     }
+  };
+
+  const getRequestName = () => {
+    if (pathname.includes('proceeding')) return 'proceeding';
+    if (pathname.includes('rule')) return 'rule';
+    if (pathname.includes('transaction')) return 'transaction';
+    return '';
   };
 
   return (

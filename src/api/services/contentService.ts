@@ -39,6 +39,15 @@ const getRules = (params: GetContentParams): Promise<GetRuleResData> =>
 const getRuleDetail = (ruleId: number): Promise<GetRuleDetailResData> =>
   apiClient.get({ url: `/admin/rule/${ruleId}` });
 
+const postRule = (newRule: FormData) =>
+  apiClient.post({
+    url: '/admin/rule',
+    data: newRule,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
 const getTransactions = (params: GetTransactionParams): Promise<GetTransactionResData[]> =>
   apiClient.get({ url: '/admin/transactions', params });
 
@@ -72,6 +81,7 @@ const getEventDetail = (eventId: number): Promise<GetEventDetailResData> =>
 export default {
   getProceedings,
   getProceedingDetail,
+  postRule,
   getRules,
   getRuleDetail,
   getTransactions,
