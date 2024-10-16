@@ -1,10 +1,14 @@
-import { Button, Input, notification } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import { Button, Input, notification, DatePicker, Upload } from 'antd';
+import { Dayjs } from 'dayjs';
 import { useEffect, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 
 import { CommonDetailType, CommonRegisterRequest, EventRegisterRequest } from '@/api/types';
 import { usePathname } from '@/router/hooks';
 import editStore from '@/store/editStore';
+import { usePostEvent } from '@/store/eventStore';
+import { usePostFAQ } from '@/store/faqStore';
 import { usePostNotice } from '@/store/noticeStore';
 
 import Editor from '../editor';
@@ -14,20 +18,27 @@ interface UploadContentProps {
   data?: CommonDetailType;
 }
 
+type RangeValue = [Dayjs | null, Dayjs | null] | null;
+
 function UploadContent({ title, data }: UploadContentProps) {
   const [editorValue, setEditorValue] = useState('');
   const [inputValue, setInputValue] = useState('');
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [targetValue, setTargetValue] = useState('');
+  const [dateRange, setDateRange] = useState<RangeValue | null>(null);
+  const [fileList, setFileList] = useState<any[]>([]);
 
   const { isEditing, stopEditing } = editStore();
 
   const { mutate: addNotice } = usePostNotice();
+  const { mutate: addEvent } = usePostEvent();
+  const { mutate: addFaq } = usePostFAQ();
 
   // const { addNotice, updateNotice } = useNoticeStore();
   // const { addEvent, updateEvent } = useEventStore();
   // const { addFaq, updateFaq } = useFaqStore();
 
   const pathname = usePathname();
+  const { RangePicker } = DatePicker;
 
   useEffect(() => {
     if (data) {
@@ -42,8 +53,6 @@ function UploadContent({ title, data }: UploadContentProps) {
     return tmp.textContent || tmp.innerText || '';
   };
 
-  const isValid = inputValue.length > 0 && stripHtmlTags(editorValue).trim().length > 0;
-
   const getRequestName = () => {
     if (pathname.includes('notice')) return 'notice';
     if (pathname.includes('event')) return 'event';
@@ -53,10 +62,13 @@ function UploadContent({ title, data }: UploadContentProps) {
 
   const requestName = getRequestName();
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      setSelectedFile(event.target.files[0]);
-    }
+  const isValid =
+    inputValue.length > 0 &&
+    stripHtmlTags(editorValue).trim().length > 0 &&
+    (requestName === 'event' ? targetValue.length > 0 && dateRange : true);
+
+  const handleRangePickerChange = (date: RangeValue | null) => {
+    setDateRange(date);
   };
 
   const handleButtonClick = () => {
@@ -104,9 +116,9 @@ function UploadContent({ title, data }: UploadContentProps) {
       newData = {
         title: inputValue,
         content: editorValue,
-        target: '',
-        startDateTime: '',
-        endDateTime: '',
+        target: targetValue,
+        startDateTime: dateRange?.[0]?.format('YYYY-MM-DDTHH:mm:ss'),
+        endDateTime: dateRange?.[1]?.format('YYYY-MM-DDTHH:mm:ss'),
         affiliationId: 1,
       } as EventRegisterRequest;
     } else {
@@ -118,20 +130,22 @@ function UploadContent({ title, data }: UploadContentProps) {
     }
 
     const formData = new FormData();
+    console.log(newData);
     formData.append(
       `${requestName}RegisterRequest`,
       new Blob([JSON.stringify(newData)], { type: 'application/json' }),
     );
 
-    if (selectedFile) {
+    if (fileList.length > 0) {
       // 선택한 파일이 있으면 업로드
-      formData.append('file', selectedFile);
+      fileList.forEach((file) => {
+        formData.append('file', file.originFileObj);
+      });
     }
 
     if (requestName === 'notice') addNotice(formData);
-    // if (requestName === 'notice') addNotice(formData);
-    // if (requestName==='event') addEvent(newData as Event);
-    // if (requestName==='faq') addFaq(newData as FAQ);
+    if (requestName === 'event') addEvent(formData);
+    if (requestName === 'faq') addFaq(formData);
 
     notification.success({
       message: '업로드 완료',
@@ -139,6 +153,9 @@ function UploadContent({ title, data }: UploadContentProps) {
     });
     setInputValue('');
     setEditorValue('');
+    setFileList([]);
+    setDateRange(null);
+    setTargetValue('');
   };
   // }
 
@@ -158,7 +175,29 @@ function UploadContent({ title, data }: UploadContentProps) {
           maxLength={50}
           showCount
         />
-        <input type="file" onChange={handleFileChange} />
+        <Upload
+          multiple
+          beforeUpload={() => false}
+          fileList={fileList}
+          onChange={(info: any) => {
+            setFileList(info.fileList);
+          }}
+          onRemove={(file: any) => {
+            setFileList((prevList) => prevList.filter((item) => item.uid !== file.uid));
+          }}
+        >
+          <Button icon={<UploadOutlined />}>파일 선택</Button>
+        </Upload>
+        {requestName === 'event' && (
+          <>
+            <RangePicker showTime value={dateRange} onChange={handleRangePickerChange} />
+            <Input
+              placeholder="대상을 입력해주세요."
+              value={targetValue}
+              onChange={(e) => setTargetValue(e.target.value)}
+            />
+          </>
+        )}
         <Editor value={editorValue} onChange={setEditorValue} />
       </div>
       <Button className="mx-auto w-52" disabled={!isValid} onClick={handleButtonClick}>
