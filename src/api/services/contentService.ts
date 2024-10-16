@@ -51,6 +51,18 @@ const postRule = (newRule: FormData) =>
 const getTransactions = (params: GetTransactionParams): Promise<GetTransactionResData[]> =>
   apiClient.get({ url: '/admin/transactions', params });
 
+const postTransaction = (affiliationId: number, newTransaction: FormData) =>
+  apiClient.post({
+    url: `/admin/transactions`,
+    data: newTransaction,
+    params: {
+      affiliationId,
+    },
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
 const getFAQs = (params: GetContentParams): Promise<GetFAQResData> =>
   apiClient.get({ url: '/admin/faq', params });
 
@@ -85,6 +97,7 @@ export default {
   getRules,
   getRuleDetail,
   getTransactions,
+  postTransaction,
   getFAQs,
   getFAQDetail,
   getNotices,
