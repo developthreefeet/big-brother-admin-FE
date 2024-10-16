@@ -42,12 +42,6 @@ export const usePostRule = () => {
       const data = await contentService.postRule(newRule);
       return data;
     },
-    onSuccess: (data) => {
-      console.log('Notice posted successfully:', data);
-    },
-    onError: (error) => {
-      console.error('Error posting notice:', error);
-    },
   });
 };
 
