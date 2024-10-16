@@ -181,7 +181,19 @@ function UploadContent({ title, data }: UploadContentProps) {
         />
         <Upload
           multiple
-          beforeUpload={() => false}
+          beforeUpload={(file: any) => {
+            if (requestName === 'event') {
+              const isImage = file.type.startsWith('image/');
+              if (!isImage) {
+                notification.error({
+                  message: '파일 오류',
+                  description: '이미지 파일만 업로드할 수 있습니다.',
+                });
+                return Upload.LIST_IGNORE;
+              }
+            }
+            return false;
+          }}
           fileList={fileList}
           onChange={(info: any) => {
             setFileList(info.fileList);
@@ -189,6 +201,7 @@ function UploadContent({ title, data }: UploadContentProps) {
           onRemove={(file: any) => {
             setFileList((prevList) => prevList.filter((item) => item.uid !== file.uid));
           }}
+          accept={requestName === 'event' ? 'image/*' : undefined}
         >
           <Button icon={<UploadOutlined />}>파일 선택</Button>
         </Upload>
