@@ -32,7 +32,7 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
   const month = `0${today.getMonth() + 1}`.slice(-2);
   const day = `0${today.getDate()}`.slice(-2);
 
-  const dateString = `${year}-${month}-${day}`;
+  // const dateString = `${year}-${month}-${day}`;
 
   useEffect(() => {
     if (data) {
@@ -65,7 +65,7 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
   const handleFileChange = ({ fileList }: { fileList: UploadFile[] }) => setFileList(fileList);
 
   const handleSubmit = () => {
-    const fileUrl = '/static/test.pdf';
+    // const fileUrl = '/static/test.pdf';
     /*
     const proceedingData = {
       key: new Date().getTime().toString(),
