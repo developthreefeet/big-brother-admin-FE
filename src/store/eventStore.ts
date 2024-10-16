@@ -1,8 +1,9 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import contentService from '@/api/services/contentService';
+import { PostRes } from '@/api/types';
 
 export const useGetEvents = (affiliation: string) => {
   return useInfiniteQuery({
@@ -30,6 +31,24 @@ export const useGetEventDetail = (eventId: number) => {
     queryFn: async () => {
       const data = await contentService.getEventDetail(eventId);
       return data;
+    },
+  });
+};
+
+export const usePostEvent = () => {
+  const queryClient = useQueryClient();
+  return useMutation<PostRes, Error, FormData>({
+    mutationKey: ['postNotice'],
+    mutationFn: async (newEvent: FormData) => {
+      const data = await contentService.postEvent(newEvent);
+      return data;
+    },
+    onSuccess: (data) => {
+      console.log('Event posted successfully:', data);
+      queryClient.invalidateQueries({ queryKey: ['event'] });
+    },
+    onError: (error) => {
+      console.error('Error posting event:', error);
     },
   });
 };

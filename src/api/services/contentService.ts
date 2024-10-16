@@ -48,6 +48,15 @@ const getFAQs = (params: GetContentParams): Promise<GetFAQResData> =>
 const getFAQDetail = (faqId: number): Promise<GetFAQDetailResData> =>
   apiClient.get({ url: `/admin/faq/${faqId}` });
 
+const postFAQ = (newFAQ: FormData): Promise<PostRes> =>
+  apiClient.post({
+    url: '/admin/faq',
+    data: newFAQ,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
 const getNotices = (params: GetContentParams): Promise<GetNoticeResData> =>
   apiClient.get({ url: '/admin/notice', params });
 
@@ -69,6 +78,15 @@ const getEvents = (params: GetContentParams): Promise<GetEventResData> =>
 const getEventDetail = (eventId: number): Promise<GetEventDetailResData> =>
   apiClient.get({ url: `/admin/event/${eventId}` });
 
+const postEvent = (newEvent: FormData): Promise<PostRes> =>
+  apiClient.post({
+    url: '/admin/event',
+    data: newEvent,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
 export default {
   getProceedings,
   getProceedingDetail,
@@ -82,4 +100,6 @@ export default {
   getEvents,
   getEventDetail,
   postNotice,
+  postEvent,
+  postFAQ,
 };
