@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -36,6 +36,7 @@ export const useGetEventDetail = (eventId: number) => {
 };
 
 export const usePostEvent = () => {
+  const queryClient = useQueryClient();
   return useMutation<PostRes, Error, FormData>({
     mutationKey: ['postNotice'],
     mutationFn: async (newEvent: FormData) => {
@@ -44,6 +45,7 @@ export const usePostEvent = () => {
     },
     onSuccess: (data) => {
       console.log('Event posted successfully:', data);
+      queryClient.invalidateQueries({ queryKey: ['event'] });
     },
     onError: (error) => {
       console.error('Error posting event:', error);

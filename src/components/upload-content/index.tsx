@@ -10,6 +10,7 @@ import editStore from '@/store/editStore';
 import { usePostEvent } from '@/store/eventStore';
 import { usePostFAQ } from '@/store/faqStore';
 import { usePostNotice } from '@/store/noticeStore';
+import { returnPathname } from '@/utils/return-pathname';
 
 import Editor from '../editor';
 
@@ -156,6 +157,9 @@ function UploadContent({ title, data }: UploadContentProps) {
     setFileList([]);
     setDateRange(null);
     setTargetValue('');
+    const baseUrl = returnPathname();
+    const recordUrl = `${baseUrl}/management`;
+    window.location.href = recordUrl;
   };
   // }
 

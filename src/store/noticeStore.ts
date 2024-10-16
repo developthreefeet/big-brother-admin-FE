@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useMutation, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -36,6 +36,7 @@ export const useGetNoticeDetail = (noticeId: number) => {
 };
 
 export const usePostNotice = () => {
+  const queryClient = useQueryClient();
   return useMutation<PostRes, Error, FormData>({
     mutationKey: ['postNotice'],
     mutationFn: async (newNotice: FormData) => {
@@ -44,6 +45,7 @@ export const usePostNotice = () => {
     },
     onSuccess: (data) => {
       console.log('Notice posted successfully:', data);
+      queryClient.invalidateQueries({ queryKey: ['notice'] });
     },
     onError: (error) => {
       console.error('Error posting notice:', error);
