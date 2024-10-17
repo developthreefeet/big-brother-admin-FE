@@ -50,6 +50,10 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
   }, [data, requestPage]);
 
   useEffect(() => {
+    console.log(requestPage);
+  }, [requestPage]);
+
+  useEffect(() => {
     if (requestPage !== 'transaction') {
       setIsButtonDisabled(!(inputValue && fileList.length > 0));
     } else {
@@ -70,11 +74,7 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
   const handleSubmit = () => {
     const ruleData = {
       title: inputValue,
-      affiliationId: 10,
-    };
-
-    const transactionData = {
-      affiliation: 10,
+      affiliationId: 2,
     };
 
     const formData = new FormData();
@@ -93,11 +93,7 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
       );
       addRule(formData);
     } else if (requestPage === 'transaction') {
-      formData.append(
-        `${requestPage}RegisterRequest`,
-        new Blob([JSON.stringify(transactionData)], { type: 'application/json' }),
-      );
-      addTransaction(formData);
+      addTransaction({ affiliationId: 26, newTransaction: formData });
     }
 
     notification.success({ message: '업로드가 완료되었습니다.' });

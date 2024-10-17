@@ -14,10 +14,10 @@ export const useGetTransaction = (affiliation: string, year: number, month: numb
 };
 
 export const usePostTransaction = () => {
-  return useMutation<PostRes, Error, FormData>({
+  return useMutation<PostRes, Error, { affiliationId: number; newTransaction: FormData }>({
     mutationKey: ['postTransaction'],
-    mutationFn: async (newTransaction: FormData) => {
-      const data = await contentService.postRule(newTransaction);
+    mutationFn: async ({ affiliationId, newTransaction }) => {
+      const data = await contentService.postTransaction(affiliationId, newTransaction);
       return data;
     },
   });
