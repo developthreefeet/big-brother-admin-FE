@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 import contentService from '@/api/services/contentService';
-import { ProceedingContent } from '@/components/list-table/types';
+import { ProceedingContent } from '@/api/types';
 
 export const useGetProceedings = (affiliation: string) => {
   return useInfiniteQuery({

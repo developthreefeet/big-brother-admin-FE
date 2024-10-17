@@ -1,4 +1,4 @@
-import { Button, Checkbox, Input, message } from 'antd';
+import { Button, Checkbox, Input, message, notification } from 'antd';
 import { UploadFile } from 'antd/es/upload/interface';
 import { useState, useEffect } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
@@ -7,8 +7,8 @@ import { DetailDataType } from '@/api/types';
 import { Upload } from '@/components/upload';
 import { usePathname } from '@/router/hooks';
 import editStore from '@/store/editStore';
-// Make sure to adjust the import path
-// Make sure to adjust the import path
+import { usePostRule } from '@/store/ruleStore';
+import { usePostTransaction } from '@/store/transactionStore';
 
 interface UploadFileComponentProps {
   title: string;
@@ -21,38 +21,45 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
   const [isPublic, setIsPublic] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const pathname = usePathname();
-  const isProceedingUploadPage = pathname.includes('proceeding');
+
+  const getRequestName = () => {
+    if (pathname.includes('proceeding')) return 'proceeding';
+    if (pathname.includes('rule')) return 'rule';
+    if (pathname.includes('transaction')) return 'transaction';
+    return '';
+  };
+
+  const requestPage = getRequestName();
 
   const { isEditing, stopEditing } = editStore();
-  // const { addProceeding, updateProceeding } = useProceedingStore();
-  // const { addRule, updateRule } = useRuleStore();
+  const { mutate: addRule } = usePostRule();
+  const { mutate: addTransaction } = usePostTransaction();
 
+  /*
   const today = new Date();
   const year = today.getFullYear();
   const month = `0${today.getMonth() + 1}`.slice(-2);
-  const day = `0${today.getDate()}`.slice(-2);
+  const day = `0${today.getDate()}`.slice(-2); */
 
-  const dateString = `${year}-${month}-${day}`;
+  // 나중에 수정 관련 useEffect임
 
   useEffect(() => {
-    if (data) {
+    if (data && requestPage !== 'transaction') {
       setInputValue(data.title);
-      // Update file list if data.file is not empty
-      /* if (data.file) {
-        setFileList([{ uid: '0', name: 'uploaded-file.pdf', status: 'done', url: data.file }]);
-      }
-      setIsPublic(data.public || false); */
     }
-  }, [data]);
+  }, [data, requestPage]);
 
   useEffect(() => {
-    setIsButtonDisabled(!(inputValue && fileList.length > 0));
-  }, [inputValue, fileList]);
+    console.log(requestPage);
+  }, [requestPage]);
 
   useEffect(() => {
-    console.log(inputValue);
-    console.log(fileList);
-  }, [inputValue, fileList]);
+    if (requestPage !== 'transaction') {
+      setIsButtonDisabled(!(inputValue && fileList.length > 0));
+    } else {
+      setIsButtonDisabled(fileList.length === 0);
+    }
+  }, [inputValue, fileList, requestPage]);
 
   const beforeUpload = (file: File) => {
     const isPdf = file.type === 'application/pdf';
@@ -65,35 +72,31 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
   const handleFileChange = ({ fileList }: { fileList: UploadFile[] }) => setFileList(fileList);
 
   const handleSubmit = () => {
-    const fileUrl = '/static/test.pdf';
-    /*
-    const proceedingData = {
-      key: new Date().getTime().toString(),
-      id: data ? data.id : new Date().getTime().toString(),
+    const ruleData = {
       title: inputValue,
-      upload_date: dateString,
-      edit_date: dateString,
-      content: '',
-      file: fileUrl,
-      public: isPublic,
+      affiliationId: 26,
     };
 
-   if (isEditing) {
-      if (isProceedingUploadPage) {
-        updateProceeding(data?.id as number, proceedingData);
-      } else {
-        updateRule(data?.id as string, proceedingData);
-      }
-      notification.success({ message: '수정이 완료되었습니다.' });
-    } else if (isProceedingUploadPage) {
-      addProceeding(proceedingData);
-      notification.success({ message: '업로드가 완료되었습니다.' });
-    } else {
-      addRule(proceedingData);
-      notification.success({ message: '업로드가 완료되었습니다.' });
-    } */
+    const formData = new FormData();
 
-    // Clear input values
+    // 선택한 파일이 있으면 업로드 (File로 변환)
+    if (fileList[0].originFileObj) {
+      formData.append('file', fileList[0].originFileObj as File);
+    }
+
+    if (requestPage === 'proceeding') {
+      // 진행 관련 로직 추가
+    } else if (requestPage === 'rule') {
+      formData.append(
+        `${requestPage}RegisterRequest`,
+        new Blob([JSON.stringify(ruleData)], { type: 'application/json' }),
+      );
+      addRule(formData);
+    } else if (requestPage === 'transaction') {
+      addTransaction({ affiliationId: 26, newTransaction: formData });
+    }
+
+    notification.success({ message: '업로드가 완료되었습니다.' });
     setInputValue('');
     setFileList([]);
     setIsPublic(false);
@@ -112,14 +115,16 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
       )}
       <h1 className="mb-5 text-2xl font-bold">{title}</h1>
       <div className="flex flex-col space-y-5">
-        <Input
-          maxLength={50}
-          showCount
-          placeholder="제목을 입력해주세요."
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-        />
-        {isProceedingUploadPage && (
+        {requestPage !== 'transaction' && (
+          <Input
+            maxLength={50}
+            showCount
+            placeholder="제목을 입력해주세요."
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+        )}
+        {requestPage === 'proceeding' && (
           <Checkbox checked={isPublic} onChange={(e) => setIsPublic(e.target.checked)}>
             공개
           </Checkbox>
