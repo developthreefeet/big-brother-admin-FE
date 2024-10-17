@@ -74,7 +74,7 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
   const handleSubmit = () => {
     const ruleData = {
       title: inputValue,
-      affiliationId: 2,
+      affiliationId: 26,
     };
 
     const formData = new FormData();
