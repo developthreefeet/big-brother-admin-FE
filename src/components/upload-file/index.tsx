@@ -35,23 +35,12 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
   const { mutate: addRule } = usePostRule();
   const { mutate: addTransaction } = usePostTransaction();
 
-  /*
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = `0${today.getMonth() + 1}`.slice(-2);
-  const day = `0${today.getDate()}`.slice(-2); */
-
-  // 나중에 수정 관련 useEffect임
-
   useEffect(() => {
-    if (data && requestPage !== 'transaction') {
+    if (data && requestPage === 'proceeding') {
       setInputValue(data.title);
+      setFileList(data.fileInfo as UploadFile[]);
     }
   }, [data, requestPage]);
-
-  useEffect(() => {
-    console.log(requestPage);
-  }, [requestPage]);
 
   useEffect(() => {
     if (requestPage !== 'transaction') {
@@ -122,6 +111,7 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
             placeholder="제목을 입력해주세요."
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
+            disabled={isEditing}
           />
         )}
         {requestPage === 'proceeding' && (
@@ -135,6 +125,7 @@ function UploadFileComponent({ title, data }: UploadFileComponentProps) {
           beforeUpload={beforeUpload}
           onChange={handleFileChange}
           fileList={fileList}
+          disabled={isEditing}
         />
       </div>
       <div className="flex justify-center">
