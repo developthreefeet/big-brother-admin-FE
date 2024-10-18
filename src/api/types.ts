@@ -91,12 +91,13 @@ export interface GetProceedingResData {
 }
 
 export interface GetProceedingDetailResData {
-  proceedingId: number;
+  meetingsId: number;
   title: string;
   createAt: string;
   updateAt: string;
   affiliationId: number;
   fileInfo: DetailFileInfo[];
+  public: boolean;
 }
 
 export interface RuleContent {
