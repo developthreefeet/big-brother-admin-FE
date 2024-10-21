@@ -93,6 +93,11 @@ const postNotice = (newNotice: FormData): Promise<ApiResponseType> =>
     },
   });
 
+const deleteNotice = (noticeIds: React.Key[]): Promise<ApiResponseType[]> => {
+  const deleteRequests = noticeIds.map((id) => apiClient.delete({ url: `/admin/notice/${id}` }));
+  return Promise.all(deleteRequests);
+};
+
 const getEvents = (params: GetContentParams): Promise<GetEventResData> =>
   apiClient.get({ url: '/admin/event', params });
 
@@ -125,4 +130,5 @@ export default {
   postNotice,
   postEvent,
   postFAQ,
+  deleteNotice,
 };
