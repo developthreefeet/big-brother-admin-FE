@@ -11,7 +11,7 @@ import {
   GetNoticeDetailResData,
   GetEventResData,
   GetEventDetailResData,
-  PostRes,
+  ApiResponseType,
 } from '../types';
 
 export interface GetContentParams {
@@ -69,7 +69,7 @@ const getFAQs = (params: GetContentParams): Promise<GetFAQResData> =>
 const getFAQDetail = (faqId: number): Promise<GetFAQDetailResData> =>
   apiClient.get({ url: `/admin/faq/${faqId}` });
 
-const postFAQ = (newFAQ: FormData): Promise<PostRes> =>
+const postFAQ = (newFAQ: FormData): Promise<ApiResponseType> =>
   apiClient.post({
     url: '/admin/faq',
     data: newFAQ,
@@ -84,7 +84,7 @@ const getNotices = (params: GetContentParams): Promise<GetNoticeResData> =>
 const getNoticeDetail = (noticeId: number): Promise<GetNoticeDetailResData> =>
   apiClient.get({ url: `/admin/notice/${noticeId}` });
 
-const postNotice = (newNotice: FormData): Promise<PostRes> =>
+const postNotice = (newNotice: FormData): Promise<ApiResponseType> =>
   apiClient.post({
     url: '/admin/notice',
     data: newNotice,
@@ -99,7 +99,7 @@ const getEvents = (params: GetContentParams): Promise<GetEventResData> =>
 const getEventDetail = (eventId: number): Promise<GetEventDetailResData> =>
   apiClient.get({ url: `/admin/event/${eventId}` });
 
-const postEvent = (newEvent: FormData): Promise<PostRes> =>
+const postEvent = (newEvent: FormData): Promise<ApiResponseType> =>
   apiClient.post({
     url: '/admin/event',
     data: newEvent,
