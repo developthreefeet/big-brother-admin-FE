@@ -299,7 +299,7 @@ export interface GetEventDetailResData {
   fileInfo: DetailFileInfo[];
 }
 
-export interface PostRes {
+export interface ApiResponseType {
   status: string;
   httpStatusCode: number;
   responseCode: string;
@@ -321,3 +321,13 @@ export interface EventRegisterRequest {
   endDateTime: string;
   affiliationId: number;
 }
+
+export type RequestName =
+  | 'notice'
+  | 'event'
+  | 'faq'
+  | 'rule'
+  | 'proceeding'
+  | 'transaction'
+  | 'user'
+  | '';

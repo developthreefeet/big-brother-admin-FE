@@ -10,6 +10,7 @@ import editStore from '@/store/editStore';
 import { usePostEvent } from '@/store/eventStore';
 import { usePostFAQ } from '@/store/faqStore';
 import { usePostNotice } from '@/store/noticeStore';
+import { getRequestName } from '@/utils/getRequestName';
 import { returnPathname } from '@/utils/return-pathname';
 
 import Editor from '../editor';
@@ -54,14 +55,7 @@ function UploadContent({ title, data }: UploadContentProps) {
     return tmp.textContent || tmp.innerText || '';
   };
 
-  const getRequestName = () => {
-    if (pathname.includes('notice')) return 'notice';
-    if (pathname.includes('event')) return 'event';
-    if (pathname.includes('faq')) return 'faq';
-    return '';
-  };
-
-  const requestName = getRequestName();
+  const requestName = getRequestName(pathname);
 
   const isValid =
     inputValue.length > 0 &&

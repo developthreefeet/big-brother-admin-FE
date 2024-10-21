@@ -1,10 +1,12 @@
-import { Divider, Table, Button } from 'antd';
+import { Divider, Table, Button, notification } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { DataType, ListTableProps } from '@/api/types';
 import { formatToISOStringDate } from '@/lib/utils';
 import { usePathname } from '@/router/hooks';
+import { useDeleteContent } from '@/store/commonStore';
+import { getRequestName } from '@/utils/getRequestName';
 import { returnPathname } from '@/utils/return-pathname';
 
 import type { TableColumnsType } from 'antd';
@@ -25,7 +27,8 @@ function ListTable({ data, route, title }: ListTableProps) {
   const navigate = useNavigate();
 
   const pathname = usePathname();
-  const isProceedingUploadPage = pathname.includes('proceeding');
+  const requestName = getRequestName(pathname);
+  const { mutate: deleteContent } = useDeleteContent();
 
   useEffect(() => {
     setTableData(data);
@@ -46,7 +49,7 @@ function ListTable({ data, route, title }: ListTableProps) {
         return formatToISOStringDate(value);
       },
     },
-    ...(isProceedingUploadPage
+    ...(requestName === 'proceeding'
       ? [
           {
             title: '공개여부',
@@ -62,9 +65,11 @@ function ListTable({ data, route, title }: ListTableProps) {
   };
 
   const handleDelete = () => {
-    const newData = tableData.filter((item) => !selectedRowKeys.includes(item.id));
-    setTableData(newData);
-    setSelectedRowKeys([]);
+    deleteContent({ ids: selectedRowKeys, requestName });
+    notification.success({
+      message: '삭제 완료',
+      description: '성공적으로 삭제되었습니다.',
+    });
   };
 
   const rowSelectionWithDelete = {
