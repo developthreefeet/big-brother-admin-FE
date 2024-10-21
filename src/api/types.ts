@@ -321,3 +321,13 @@ export interface EventRegisterRequest {
   endDateTime: string;
   affiliationId: number;
 }
+
+export type RequestName =
+  | 'notice'
+  | 'event'
+  | 'faq'
+  | 'rule'
+  | 'proceeding'
+  | 'transaction'
+  | 'user'
+  | '';

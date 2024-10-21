@@ -1,4 +1,6 @@
-export const getRequestName = (pathname: string) => {
+import { RequestName } from '@/api/types';
+
+export const getRequestName = (pathname: string): RequestName => {
   if (pathname.includes('notice')) return 'notice';
   if (pathname.includes('event')) return 'event';
   if (pathname.includes('faq')) return 'faq';
