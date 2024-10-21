@@ -299,7 +299,7 @@ export interface GetEventDetailResData {
   fileInfo: DetailFileInfo[];
 }
 
-export interface PostRes {
+export interface ApiResponseType {
   status: string;
   httpStatusCode: number;
   responseCode: string;
