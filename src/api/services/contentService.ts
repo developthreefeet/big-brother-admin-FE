@@ -93,11 +93,6 @@ const postNotice = (newNotice: FormData): Promise<ApiResponseType> =>
     },
   });
 
-const deleteNotice = (noticeIds: React.Key[]): Promise<ApiResponseType[]> => {
-  const deleteRequests = noticeIds.map((id) => apiClient.delete({ url: `/admin/notice/${id}` }));
-  return Promise.all(deleteRequests);
-};
-
 const getEvents = (params: GetContentParams): Promise<GetEventResData> =>
   apiClient.get({ url: '/admin/event', params });
 
@@ -112,6 +107,11 @@ const postEvent = (newEvent: FormData): Promise<ApiResponseType> =>
       'Content-Type': 'multipart/form-data',
     },
   });
+
+const deleteContent = (ids: React.Key[], requestName: string): Promise<ApiResponseType[]> => {
+  const deleteRequests = ids.map((id) => apiClient.delete({ url: `/admin/${requestName}/${id}` }));
+  return Promise.all(deleteRequests);
+};
 
 export default {
   getProceedings,
@@ -130,5 +130,5 @@ export default {
   postNotice,
   postEvent,
   postFAQ,
-  deleteNotice,
+  deleteContent,
 };

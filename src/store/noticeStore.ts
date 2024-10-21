@@ -53,23 +53,6 @@ export const usePostNotice = () => {
   });
 };
 
-export const useDeleteNotice = () => {
-  const queryClient = useQueryClient();
-  return useMutation<void, Error, React.Key[]>({
-    mutationKey: ['deleteNotice'],
-    mutationFn: async (noticeIds: React.Key[]) => {
-      await contentService.deleteNotice(noticeIds);
-    },
-    onSuccess: () => {
-      console.log('Notice deleted successfully');
-      queryClient.invalidateQueries({ queryKey: ['notice'] });
-    },
-    onError: (error) => {
-      console.error('Error deleting notice:', error);
-    },
-  });
-};
-
 export interface Notice {
   key: string;
   id: string;

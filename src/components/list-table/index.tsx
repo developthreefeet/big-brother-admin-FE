@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { DataType, ListTableProps } from '@/api/types';
 import { formatToISOStringDate } from '@/lib/utils';
 import { usePathname } from '@/router/hooks';
-import { useDeleteNotice } from '@/store/noticeStore';
+import { useDeleteContent } from '@/store/commonStore';
 import { getRequestName } from '@/utils/getRequestName';
 import { returnPathname } from '@/utils/return-pathname';
 
@@ -28,7 +28,7 @@ function ListTable({ data, route, title }: ListTableProps) {
 
   const pathname = usePathname();
   const requestName = getRequestName(pathname);
-  const { mutate: deleteNotice } = useDeleteNotice();
+  const { mutate: deleteContent } = useDeleteContent();
 
   useEffect(() => {
     setTableData(data);
@@ -65,7 +65,7 @@ function ListTable({ data, route, title }: ListTableProps) {
   };
 
   const handleDelete = () => {
-    if (requestName === 'notice') deleteNotice(selectedRowKeys);
+    deleteContent({ ids: selectedRowKeys, requestName });
     notification.success({
       message: '삭제 완료',
       description: '성공적으로 삭제되었습니다.',
